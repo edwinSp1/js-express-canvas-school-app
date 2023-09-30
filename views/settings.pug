@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  a(href='/') cancel
+  form(action = '/settings' method='POST')
+    label(for='minDate') Recent setting(What is considered Recent?)
+    input(type='number' name='minDate')
+    label(for='reduceMovement') Reduce movement
+    input(type='checkbox' name='reduceMovement')
+    input(type='submit' value='save')

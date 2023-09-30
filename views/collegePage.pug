@@ -1,0 +1,48 @@
+extends layout
+
+block content
+
+  ul(class='navbar')
+    li
+      a(href='/') Home
+    li
+      a(href='/college/add') Add College
+
+  h1(style='font-size: 50px;' class='align-center') College Center
+  .college-main
+    .top-right
+      button(id='submitCollege' style='display:inline-block') Find info about college
+      div(class="autocomplete" style="width:300px;") 
+        label(for='collegeSearch') College:
+        input(name='collegeSearch' id='college')
+    .college-list
+      h1(style='font-size:50px') College List
+      each doc in collegeList
+        -var college = doc.college
+        
+        h1 #{college}(#{doc.category})
+        a(href='/college/delete/' + doc._id) #[i(class='fa-solid fa-x FA-icon' style='color:red')]
+        -if(college == 'Harvard University') college = 'Harvard College' 
+        -var dashCase = college.toLowerCase().split(' ').join('-')
+        -var link = 'https://bigfuture.collegeboard.org/colleges/' + dashCase
+        a(href=link target='_blank') Info about #{college}
+    .loan-calc 
+      h1(style='font-size:50px;') Loan Calculator
+      label(for='initialVal') Loan Value
+      input(type='number' name='initialVal' id='initialVal')
+      label(for='interest') Interest
+      input(type='number' name='interest' id='interest')
+      label(for='years') Years
+      input(type='number' name='years' id='years')
+      button(id='calcLoan') Calculate Loan Value
+      h1(id='loanResult')
+      h2(id='perMonth') 
+    .college-resources
+      h1(style='font-size:50px;') College Resources
+      //use college-link for all your links
+      a(href='https://www.collegeboard.org/' class='college-link' target='_blank') College Board
+      a(href='https://studentaid.gov/' class='college-link' target='_blank') Federal Student Aid
+      a(href='https://collegecost.ed.gov/net-price' class='college-link' target='_blank') College Costs
+      a(href='https://www.mappingyourfuture.org/index.cfm' class='college-link' target='_blank') Mapping Your Future
+      a(href='https://summer.harvard.edu/blog/12-strategies-to-writing-the-perfect-college-essay/' class='college-link' target='_blank') College Essay Tips
+  script(src='/javascripts/college.js')

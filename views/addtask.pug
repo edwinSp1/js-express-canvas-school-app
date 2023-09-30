@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 Add Task
+  form(action='/todo/add' method='POST')
+    label(for='task') Task
+    input(name='task' type='text')  
+    label(for='date') Due date
+    input(name='date' type='datetime-local')
+    label(for='other') Other
+    input(name='other' type='text')
+    label(for='priority') Priority
+    input(name='priority' type='checkbox')
+    input(type='submit' value='submit')
+
+  button(onclick='window.history.back()') Back
+  

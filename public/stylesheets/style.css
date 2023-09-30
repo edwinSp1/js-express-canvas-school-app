@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&family=Space+Mono:ital@0;1&display=swap');
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: "Inclusive Sans", cursive;
+  color:white;
+  background-color: #002;
+}
+.menu-button {
+  font-size:50px;
+  margin: 10px;
+}
+#menu-container {
+  position:absolute;
+  top:0px;
+  right:0px;
+}
+#add-task {
+  position:absolute; 
+  top:0px; 
+  right:0px;
+  border: 1px solid white;
+  padding:10px;
+  text-decoration:none;
+  font-size: 30px;
+}
+
+a {
+  color:lightblue !important;
+}
+p {
+  white-space: pre-wrap;
+}
+input {
+  background: transparent;
+  color:white;
+  padding: 10px;
+  font-size:30px;
+  display:block;
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 2px;
+  filter: invert(0.8) sepia(100%) saturate(10000%) hue-rotate(240deg);
+}
+button {
+  font-family: "Inclusive Sans", cursive;
+  background: transparent;
+  color:white;
+  padding: 10px;
+  font-size:30px;
+}
+#quote-container span {
+  font-family: "Space Mono" !important;
+}
+#quote-text{
+  font-size: 20px;
+  color: #ddf;
+}
+#quote-author {
+  font-size: 16px;
+  color: yellow;
+}
+.main-container {
+  width:100vw;
+  display:flex;
+  flex-direction: row;
+}
+
+.main-container > div{
+  margin: 50px;
+}
+
+#overdue-container > h1 {
+  color: red;
+}
+@media (max-width:1100px) {
+  .main-container h1 {
+    font-size:35px;
+  }
+}
+@media (max-width:800px) {
+  .main-container h1 {
+    font-size:25px;
+  }
+  #utils a {
+    font-size:30px;
+  }
+}
+.assignment-header {
+  color:lightblue;
+  font-size:75px;
+}
+.other {
+  opacity:0.5;
+}
+.delete {
+  color:red !important;
+  text-decoration: none;
+}
+label,
+textarea {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+textarea {
+  background-color:black;
+  color:white;
+  padding: 10px;
+  max-width: 100%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.draggable{
+  position:absolute;
+}
+.draggable textarea {
+  display:block
+}
+.draggable h1 {
+  display:inline;
+}
+.FA-icon {
+  border:none;
+  font-size:30px;
+  padding:10px;
+  background-color:transparent;
+}
+.title {
+  font-size:30px;
+}
+
+main {
+  border:none;
+  display:grid;
+  grid-template-areas:
+    "header search-bar search-bar"
+    "doc-title filters filters";
+}
+@media screen and (max-width: 1400px) {
+  main p {
+    font-size:20px !important;
+  }
+  main h1 {
+    font-size:30px !important;
+  }
+  .doc h1 {
+    font-size:30px !important;
+  }
+  #search-bar input {
+    width:200px;
+  }
+  #new-doc {
+    font-size: 20px; 
+  }
+}
+main > div {
+  
+  overflow: hidden; /* this needs to be set so that width respects fit-content */
+
+}
+#doc-container {
+  display:block;
+}
+#header {
+  grid-area:header;
+}
+#search-bar {
+  grid-area:search-bar;
+}
+.grid-center {
+  border:none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  font-size: 3em;
+}
+#filters {
+  padding:30px;
+  overflow:hidden !important;
+  display:block;
+  grid-area:filters;
+}
+.doc-name {
+  color:white !important;
+  text-decoration:none;
+  
+  line-height: 1.6;
+}
+.filter input, .filter label{
+  font-size:30px;
+}
+.top-right {
+  position:absolute;
+  top:0px;
+  right:0px;
+}
+.category {
+  color:red;
+}
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  font-size:25px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+.add-new {
+  background-color: lightgreen;
+  border-radius: 10px;
+  color:black !important;
+}
+select option {
+  margin: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  background-color:black;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+select {
+  background:transparent;
+  font-size:30px;
+  color:white;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: black; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: blue; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+
+.college-main {
+  display:flex;
+  flex-direction:row;
+}
+.college-main > div {
+  padding:20px;
+}
+.college-link {
+  text-decoration: none;
+  font-size:36px;
+  display:block;
+  padding:10px;
+}
+.wellness-link {
+  text-decoration: none;
+  font-size:24px;
+  display:block;
+  padding:5px;
+}
+.cheer-up {
+  text-decoration: none;
+  font-size:16px;
+  display:block;
+  padding:10px;
+  text-align:center;
+  padding: 10px;
+}
+#message-container {
+  width:50vw;
+  height: 1000px;
+  overflow:scroll;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #002; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: white; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: lightblue; 
+}

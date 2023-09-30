@@ -1,0 +1,25 @@
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width,minimum-scale=1")
+    title Login
+    // the form awesome library is used to add icons to our form
+    link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.7.1/css/all.css")
+    // include the stylesheet file
+    link(href="stylesheets/loginform.css", rel="stylesheet", type="text/css")
+  h1(id='create-account') No account? #[a(href='/adduser') Create Account]
+  body
+    div(class='bg-image')
+    .login
+      h1 Login
+      form(action="/login", method="post")
+        label(for="username")
+          // font awesome icon
+          i.fas.fa-user
+        input#username(type="text", name="username", placeholder="Username", required)
+        label(for="password")
+          i.fas.fa-lock
+        input#password(type="password", name="password", placeholder="Password", required)
+        p=msg
+        input(type="submit", value="Login")
+  

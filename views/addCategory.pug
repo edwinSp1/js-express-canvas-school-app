@@ -1,0 +1,9 @@
+extends layout 
+
+block content
+
+  h1 Add new category
+  form(action='/notes/categories/add' method='POST')
+    label(for='category') Category
+    input(name='category')
+    input(type='submit' value='Add')

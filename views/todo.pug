@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  ul(class='navbar')
+    li #[a(href='/') Home]
+  h1 To Do 
+  a(href='/todo/add' id='add-task') Add task
+  each val in tasks
+    div(class='TASK')  
+      if val.priority
+        h1(class='task' style='color:red') #{val.task} #[i(class='fa-solid fa-bell')]
+      else 
+        h1(class='task')=val.task
+      a(href='/todo/remove/' + val._id class='FA-icon') #[i(class='fa-solid fa-x')]
+      a(href='/todo/update/' + val._id class='FA-icon') #[i(class="fa-solid fa-wrench")]
+      p(class='dueDate')=val.dueDate
+      p(class='other')=val.other
+
+  button(onclick = 'window.location = "/"') Back  
+
+  script(src='/javascripts/todo.js')        

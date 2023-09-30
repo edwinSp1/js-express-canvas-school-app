@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  ul(class='navbar')
+    li 
+      a(href='/') Back to home
+    li 
+      a(href='https://chen31.com' target='_blank') Take a Break
+    li 
+      a(href= 'https://www.911.gov/calling-911/' target='_blank') Emergency
+    li
+      a(href='https://www.fcc.gov/988-suicide-and-crisis-lifeline' target='_blank') Suicide Hotline
+  h1 Wellness center
+  h1 Distract yourself: #{activity}
+  div(class='main-container')
+    div(id='help-side')
+      h1 Having Difficult Thoughts?
+      p(class='cheer-up') "Looking forward to the future is more important than reminiscing about the past."
+      a(href='https://www.psychologytoday.com/us/basics/suicide/mental-health-conditions-suicide' class='wellness-link' target='_blank') About Mental Health
+      p(class='cheer-up') "Don't get too anxious thinking about the future, remember to live in the moment."
+      label(for='motivational') Motivational Speech:
+      audio#motivational(controls='' src='../images/motivation.mp3')
+      p(class='cheer-up') "You can never end on a loss 🗣️🔥🔥"
+      a(href='https://www.wikihow.com/Turn-Your-Life-Around' class='wellness-link' target='_blank') Turn your life around
+
+		
+
+    div(id='overdue-container')
+      if overdue.length == 0
+        h1(style='color:lightblue') Congragulations! You are all caught up!
+      else
+        h1(style='font-size:50px;') Missing Assignments
+        p Let's get you back on track! 
+        each val in overdue
+          div(class='assignment-container')
+            h1=val.task
+            p(class='dueDate')=val.dueDate
+            p(class='other')=val.other
+        a(href='https://www.wikihow.com/Catch-Up-on-Missed-Schoolwork-Quickly' class='wellness-link' target='_blank') How to catch up
+
+    div(id='fav-activities')  
+      h1(style='font-size:50px;') Favorite Activities
+      each val in favActivities
+        h1 #{val.activity} #[a(href='/wellness/delete/' + val._id class='delete') X]
+
+      a(href='/wellness/activity/add') Add Activity
+  script(src='javascripts/wellness.js')
+    
+  

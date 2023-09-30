@@ -1,0 +1,12 @@
+extends layout
+
+block content
+ ul(class='navbar')
+  li
+    a(href='/') Home
+  a(href='/notes/categories/add/') #[i(class="fa-solid fa-plus FA-icon")]
+  h1 Categories
+  each category, idx in userData.categories
+    .category
+      h1=category 
+      a(href='/notes/categories/delete/' + category) #[i(class='fa-solid fa-x')]

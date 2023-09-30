@@ -1,0 +1,9 @@
+extends layout
+
+block content
+
+  h1 Add Activity
+  form(action='/wellness/activity/add' method = 'POST')
+    label(for='activity') Activity
+    input(name='activity' type='text')
+    input(type='submit' value='Add Activity')

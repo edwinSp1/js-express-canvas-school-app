@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  form(action='/college/add' method='POST')
+    div(class="autocomplete" style="width:300px;") 
+      label(for='college') College
+      input(name='college' id='college')
+    label(for='category') Category
+    select(name='category')
+      option(value='Highroll') Highroll
+      option(value='Middle') Middle
+      option(value='Safety') Safety
+    input(type='submit' value = 'Add') 
+
+
+  script(src='/javascripts/college.js')
+    

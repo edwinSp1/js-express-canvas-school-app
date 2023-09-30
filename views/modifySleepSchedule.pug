@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+  h1 Change Sleep Schedule
+  form(action='/sleep/schedule/modify' method = 'POST')
+    h1 Sleep Time
+    label Hour
+    input(name='sleepHr' type='number' maxLength='2')
+    label Minute
+    input(name='sleepMin' type='number' maxLength='2')
+    label Am/PM
+    input(name='sleepAmPm' maxLength='2')
+    h1 Wake time
+    label Hour
+    input(name='wakeHr' type='number' maxLength='2')
+    label Minute
+    input(name='wakeMin' type='number' maxLength='2')
+    label Am/PM
+    input(name='wakeAmPm' maxLength='2')
+    input(type='submit' value='Change')

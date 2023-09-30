@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  ul(class='navbar')
+    li
+      a(href='/todo') Todo List
+    li
+      a(href='/wellness') Wellness
+    li
+      a(href='/notes') Notes
+    li 
+      a(href='/college') College
+    li 
+      a(href='/sleep') Sleep
+    li
+      a(href='/canvas') Canvas
+  div(id='reduceMovement' style='display:none;')=reduceMovement
+  div(id='menu-container')
+    a(href='/settings' id='settings' class='menu-button') #[i(class='fa-solid fa-bars')]
+    a(href='/logout' id='logout' class='menu-button') #[i(class='fa-solid fa-right-from-bracket')]
+
+
+
+  h1 Welcome, #{user}!
+    
+
+  br
+  div(id='quote-container')
+    span(id='quote-text') #{quote}
+    span(id='quote-author') ~ #{author}
+
+  div(class='main-container')
+    div(id='recent-container')
+      h1(class='assignment-header') Upcoming assignments
+      each val in recent
+        div(class='task')
+          h1=val.task
+          p(class='dueDate')=val.dueDate
+          p(class='other')=val.other
+    div(id='overdue-container')
+      h1(class='assignment-header') Overdue assignments
+      each val in overdue
+        div(class='task')
+          h1=val.task
+          p(class='dueDate')=val.dueDate
+          p(class='other')=val.other
+  script(src='javascripts/script.js')
+  
+  

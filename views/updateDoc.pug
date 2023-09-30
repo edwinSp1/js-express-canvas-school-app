@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  label(for='textarea-content') Area name
+  input(name='textarea-content' id='textarea-content')
+  button(id='create-new-textarea') Create New Textarea
+  button(id='delete-textarea') Delete textarea
+  form(action='/notes/docs/' + prev._id method='POST' id='form')
+    input(name='metadata' id='metadata' style='display:none')
+    -var metadata = prev.metadata
+    div(class='top-right')
+      h1 Category:
+      select(name="category" class="category-select")
+        each category in categories
+          option(value=category)=category
+    
+
+    for key in Object.keys(metadata)
+      - var obj = metadata[key]
+      div(id=key class='draggable' style='top:' + obj.pos.top + '; left: ' + obj.pos.left)
+        h1(id=key + 'header')=key
+        textarea(name=key class=key style = 'width:' + obj.size.width + '; height:' + obj.size.height)=prev[key] 
+    input(type='submit' value='Save' id='submit-button')
+    
+    
+        
+
+
+
+
+  script(src='/javascripts/updateDoc.js')
