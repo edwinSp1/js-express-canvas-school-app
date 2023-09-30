@@ -31,7 +31,7 @@ async function getMessages() {
       text = text.split('You can see details here:')[0].trim()
     }
     var res = {
-      title: message.title,
+      title: message.title, 
       message: text,
       type: message.type,
       date: dates.formatDate(new Date(message.created_at)),
@@ -50,7 +50,7 @@ async function getCanvasData () {
   var url = 'https://lms.pps.net/api/v1/users/self?access_token=8909~7aaxClQkMQ03UVzssR8uHrOkyO8O9CLOpGoZ0aL7QXWvFJ0mXXgYx11dmt06fWlg'
   var data = await db.getapi(url)
   return {
-    
+
   }
 }
 router.get('/', async (req, res, next) => {
