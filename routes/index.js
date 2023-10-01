@@ -21,31 +21,36 @@ async function getHomePageData(username) {
 }
 const prefix = 'https://lms.pps.net/api/v1/';
 async function getAssignments() {
-  const canvasKey = '8909~7aaxClQkMQ03UVzssR8uHrOkyO8O9CLOpGoZ0aL7QXWvFJ0mXXgYx11dmt06fWlg'
-  var url = `${prefix}courses?access_token=${canvasKey}`
-  var courses = await db.getapi(url)
-  var courseIds = []
-  for(var course of courses) {
-    courseIds.push(course['id'])
-  }
-  var canvasAssignments = []
-  for(var id of courseIds) {
-    url = `${prefix}courses/${id}/assignments?access_token=${canvasKey}`
-    console.log(url)
-    var assignments = await db.getapi(url)
-    for(var task of assignments) {
-      var dueDate = new Date(task.due_at)
-      if(dates.inRange(dueDate.getTime(), 15)) {
-        if(task.has_submitted_submissions || task.submission_types.includes('none')) continue
-        canvasAssignments.push({
-          task: task.name,
-          other: task.description,
-          dueDate: dueDate
-        })
+  try {
+    var userData = await db.getDoc('users', 'userdata', {username: username})
+    const canvasKey = userData.canvasKey ?? 'no key'
+    var url = `${prefix}courses?access_token=${canvasKey}`
+    var courses = await db.getapi(url)
+    var courseIds = []
+    for(var course of courses) {
+      courseIds.push(course['id'])
+    }
+    var canvasAssignments = []
+    for(var id of courseIds) {
+      url = `${prefix}courses/${id}/assignments?access_token=${canvasKey}`
+      console.log(url)
+      var assignments = await db.getapi(url)
+      for(var task of assignments) {
+        var dueDate = new Date(task.due_at)
+        if(dates.inRange(dueDate.getTime(), 15)) {
+          if(task.has_submitted_submissions || task.submission_types.includes('none')) continue
+          canvasAssignments.push({
+            task: task.name,
+            other: task.description,
+            dueDate: dueDate
+          })
+        }
       }
     }
+    return canvasAssignments
+  } catch(e) {
+    return []
   }
-  return canvasAssignments
 }
 
 router.get('/', async function(req, res, next) {
@@ -55,7 +60,6 @@ router.get('/', async function(req, res, next) {
   }
   var username = req.session.user
   var val = await getHomePageData(username)
-  console.log(val)
   var todo = val.todo
   const date = Date.now()
   var overdue = [], newTodo = []
