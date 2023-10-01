@@ -1,5 +1,4 @@
-# cong-app-todo
-Node, express app for the congressional app challenge. 20 hour commitment this time.
+
 
 # How to run:
 
@@ -12,13 +11,12 @@ Mac: nodemon run OR node bin/www
 
 # Features
 
-Document System 📃
-Todo List ✅
-Wellness 🧑‍⚕️
-Sleep Scheduling 😴
-College Info 🎓
-Login page 👤
+Document System
 
-Lightning fast system ⚡️⚡️⚡️
+Canvas integrations
+
+Wellness page
+
+
 
 
