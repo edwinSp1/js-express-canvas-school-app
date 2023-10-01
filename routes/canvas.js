@@ -13,12 +13,15 @@ function auth(req, res, next) {
 }
 
 router.use(auth)
-
+async function getCanvasKey (username) {
+  var userData = await db.getDoc('users', 'userdata', {username: username})
+  const canvasKey = userData.canvasKey ?? 'no key'
+  return canvasKey
+}
 const prefix = 'https://lms.pps.net/api/v1/';
 async function getMessages(username) {
   try {
-    var userData = await db.getDoc('users', 'userdata', {username: username})
-    const canvasKey = userData.canvasKey ?? 'no key'
+    var canvasKey = await getCanvasKey(username)
     
     var stream = []
     var url = `${prefix}users/self/activity_stream?access_token=${canvasKey}`
@@ -55,8 +58,7 @@ async function getMessages(username) {
 }
 async function getCanvasData (username) {
   try {
-    var userData = await db.getDoc('users', 'userdata', {username: username})
-    const canvasKey = userData.canvasKey ?? 'no key'
+    var canvasKey = await getCanvasKey(username)
     var url = `${prefix}users/self?access_token=${canvasKey}`
     var data = await db.getapi(url)
     return {
@@ -67,11 +69,23 @@ async function getCanvasData (username) {
     return {}
   }
 }
+async function getLogins (username) {
+  try {
+    var canvasKey = await getCanvasKey(username)
+    var url = `${prefix}audit/authentication/users/self?access_token=${canvasKey}`
+    var data = await db.getapi(url)
+    return data.events
+  } catch (e) {
+    console.log(e)
+    return []
+  }
+}
 router.get('/', async (req, res, next) => {
   var messages = await getMessages(req.session.user)
   var profile = await getCanvasData(req.session.user)
-  console.log(profile)
-  res.render('canvasindex', {messages: messages, profile:profile})
+  var logins = await getLogins(req.session.user)
+  console.log(messages, profile, logins)
+  res.render('canvasindex', {messages: messages, profile:profile, logins: logins})
 })
 router.get('/add', async (req, res, next) => {
   res.render('addCanvasKey')

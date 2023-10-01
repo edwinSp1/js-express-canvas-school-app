@@ -23,5 +23,13 @@ block content
     div(id='profile')
       h1=profile.name
       img(src=profile.img_url title='prof-image')
+      h1 Logins
+      
+      each val in logins 
+        p ---------
+        p Event Type: #[span(class='event-login') #{val.event_type}]
+        p Login Id: #[span(class='event-login') #{val.id}] 
+        p Time: #[span(class='event-login') #{val.created_at}]
+        p ---------
 
   script(src='javascripts/canvas.js')

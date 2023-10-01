@@ -313,8 +313,13 @@ select {
   padding: 10px;
 }
 #message-container {
-  width:50vw;
-  height: 1000px;
+  width:70vw;
+  height: 100vh;
+  overflow:scroll;
+}
+#profile {
+  width:30vw;
+  height: 100vh;
   overflow:scroll;
 }
 ::-webkit-scrollbar {
@@ -337,4 +342,8 @@ select {
 }
 .canvas-index-container {
   display: flex;
+}
+.event-login {
+  color: lightgreen;
+
 }
