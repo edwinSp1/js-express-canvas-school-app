@@ -23,10 +23,10 @@ async function getHomePageData(username) {
     userData = defaultData
     await db.insert('users', 'userdata', defaultData)
   }
-  var categories = userData.categories
+  var categories = userData.categories 
   return {
     docs: docs,
-    categories: categories
+    categories: categories ?? ['you can create categories here!']
   }
 }
 /* NOTES */

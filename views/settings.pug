@@ -1,7 +1,11 @@
 extends layout
 
 block content
-  a(href='/') cancel
+  ul(class='navbar')
+    li
+      a(href='/') Home
+    li
+      a(href='/changePassword') change password
   form(action = '/settings' method='POST')
     label(for='minDate') Recent setting(What is considered Recent?)
     input(type='number' name='minDate')

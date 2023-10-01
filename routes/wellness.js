@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
     return
   }
   getHomePageData(req.session.user).then((val) => {
+    console.log(val)
     res.render('wellness', val)
   })
 });

@@ -11,7 +11,9 @@ function auth(req, res, next) {
   }
   next()
 }
+
 router.use(auth)
+
 const prefix = 'https://lms.pps.net/api/v1/';
 async function getMessages(username) {
   try {
@@ -51,7 +53,7 @@ async function getMessages(username) {
     return [{title: 'Not Seeing Anything? Link your canvas up.'}]
   }
 }
-async function getCanvasData () {
+async function getCanvasData (username) {
   try {
     var userData = await db.getDoc('users', 'userdata', {username: username})
     const canvasKey = userData.canvasKey ?? 'no key'
@@ -59,7 +61,7 @@ async function getCanvasData () {
     var data = await db.getapi(url)
     return {
       img_url: data.avatar_url,
-      name: `${data.first_name}, ${data.last_name}`
+      name: `${data.first_name} ${data.last_name}`
     }
   } catch (e) {
     return {}
@@ -68,6 +70,7 @@ async function getCanvasData () {
 router.get('/', async (req, res, next) => {
   var messages = await getMessages(req.session.user)
   var profile = await getCanvasData(req.session.user)
+  console.log(profile)
   res.render('canvasindex', {messages: messages, profile:profile})
 })
 router.get('/add', async (req, res, next) => {

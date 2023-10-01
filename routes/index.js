@@ -163,6 +163,33 @@ router.post('/login', function(req, res, next) {
 router.get('/adduser', function(req, res, next) {
   res.render('login/adduser')
 })
+/*
+CHANGE PASSWORD
+*/
+router.get('/changePassword', function(req, res, next) {
+  if(!req.session.loggedin) {
+    res.redirect('/login')
+    return
+  }
+  res.render('changePassword')
+})
+router.post('/changePassword', async function(req, res, next) {
+  if(!req.session.loggedin) {
+    res.redirect('/login')
+    return
+  }
+  console.log(req.session.user)
+  var oldCreds = await db.getDoc('users', 'loginInfo', {username: req.session.user})
+  var form = req.body    
+  console.log(form.oldPassword, oldCreds.password)
+  if(form.oldPassword != oldCreds.password) {
+    res.render('changePassword', {msg: 'Old Password is wrong.'})
+    return 
+  } 
+  await db.updateDoc('users', 'loginInfo', {username: req.session.user}, {password: form.newPassword})
+  res.redirect('/logout')
+  
+})
 router.post('/adduser', function(req, res, next) {
   const info = req.body;
   info.username.trim()
@@ -189,27 +216,4 @@ router.get('/logout', function(req, res, next) {
   res.redirect('/login')
 })
 module.exports = router;
-/*
-// Online Java Compiler
-// Use this editor to write, compile and run your Java code online
-import java.util.Scanner;
-class HelloWorld {
-    public static void main(String[] args) {
-        var scan = new Scanner(System.in);
-        System.out.println("enter shape and params, seperated by commas");
-        String string = scan.nextLine();
-        String after = string.trim().replaceAll(" +", "");
-        String[] data = after.split(",");
-        String shape = data[0];
-        System.out.println(shape);
-        if(shape == "square") {
-            int sideL = Integer.parseInt(data[1]);
-            System.out.println("area: " + sideL * sideL);
-        } else if(shape == "rect") {
-            int w = Integer.parseInt(data[1]);
-            int h = Integer.parseInt(data[2]);
-            System.out.println("area: " + w*h);
-        }
-    }
-}
-*/
+

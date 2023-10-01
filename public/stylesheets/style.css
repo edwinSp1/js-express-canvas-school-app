@@ -335,3 +335,6 @@ select {
 ::-webkit-scrollbar-thumb:hover {
   background: lightblue; 
 }
+.canvas-index-container {
+  display: flex;
+}

@@ -7,16 +7,21 @@ block content
     li 
       a(href='/canvas/add') Set up canvas integrations
   h1(style='font-size: 50px;') Recent
-  div(id='message-container')
-    each message in messages
-      if message.type == 'Submission'
-        h1 
-          a(href=message.url style='text-decoration:none') #{message.title}(#{message.course}) 
-      else 
-        h1
-          a(href=message.url style='text-decoration:none')=message.title
-      p(style='color:blue; ')=message.date
-      p(class='other')=message.message
-      if message.type == 'Submission'
-        p Grade: #{message.grade}
+  div(class='canvas-index-container')
+    div(id='message-container')
+      each message in messages
+        if message.type == 'Submission'
+          h1 
+            a(href=message.url style='text-decoration:none') #{message.title}(#{message.course}) 
+        else 
+          h1
+            a(href=message.url style='text-decoration:none')=message.title
+        p(style='color:blue; ')=message.date
+        p(class='other')=message.message
+        if message.type == 'Submission'
+          p Grade: #{message.grade}
+    div(id='profile')
+      h1=profile.name
+      img(src=profile.img_url title='prof-image')
+
   script(src='javascripts/canvas.js')
