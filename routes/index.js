@@ -42,7 +42,8 @@ async function getAssignments() {
           canvasAssignments.push({
             task: task.name,
             other: task.description,
-            dueDate: dueDate
+            dueDate: dueDate,
+            type: 'canvasAssignment'
           })
         }
       }

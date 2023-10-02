@@ -41,7 +41,11 @@ block content
       h1(class='assignment-header') Overdue assignments
       each val in overdue
         div(class='task')
-          h1=val.task
+          h1(style='display:inline')=val.task
+          if val.type=='canvasAssignment'
+            a(href='/canvasIntegrationInfo') #[i(class="fa-solid fa-circle-exclamation FA-icon")]
+          else 
+            a(href='/todo/remove/'+val._id) #[i(class="fa-solid fa-xmark FA-icon")]
           p(class='dueDate')=val.dueDate
           p(class='other')=val.other
   script(src='javascripts/script.js')
