@@ -3,6 +3,7 @@ var router = express.Router();
 const dates = require('../modules/dates')
 var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db')
+const canvas = require('../modules/canvas')
 
 function auth(req, res, next) {
   if(!req.session.loggedin) {
@@ -13,15 +14,10 @@ function auth(req, res, next) {
 }
 
 router.use(auth)
-async function getCanvasKey (username) {
-  var userData = await db.getDoc('users', 'userdata', {username: username})
-  const canvasKey = userData.canvasKey ?? 'no key'
-  return canvasKey
-}
 const prefix = 'https://lms.pps.net/api/v1/';
 async function getMessages(username) {
   try {
-    var canvasKey = await getCanvasKey(username)
+    var canvasKey = await canvas.getCanvasKey(username)
     
     var stream = []
     var url = `${prefix}users/self/activity_stream?access_token=${canvasKey}`
@@ -58,9 +54,13 @@ async function getMessages(username) {
 }
 async function getCanvasData (username) {
   try {
-    var canvasKey = await getCanvasKey(username)
+    var canvasKey = await canvas.getCanvasKey(username)
     var url = `${prefix}users/self?access_token=${canvasKey}`
     var data = await db.getapi(url)
+    if(!data.avatar_url) return {
+      img_url:'https://www.publicdomainpictures.net/pictures/40000/velka/question-mark.jpg',
+      name: 'Not Set'
+    }
     return {
       img_url: data.avatar_url,
       name: `${data.first_name} ${data.last_name}`
@@ -71,12 +71,12 @@ async function getCanvasData (username) {
 }
 async function getLogins (username) {
   try {
-    var canvasKey = await getCanvasKey(username)
+    var canvasKey = await canvas.getCanvasKey(username)
     var url = `${prefix}audit/authentication/users/self?access_token=${canvasKey}`
     var data = await db.getapi(url)
+    if(!data.events) return []
     return data.events
   } catch (e) {
-    console.log(e)
     return []
   }
 }
@@ -91,7 +91,7 @@ router.get('/add', async (req, res, next) => {
   res.render('addCanvasKey')
 })
 router.post('/add', async function(req, res, next) {
-  await db.updateDoc('users', 'userdata', {username: req.session.user}, {canvasKey: req.body.canvasKey})
+  await db.updateDoc('users', 'userdata', {username: req.session.user}, {canvasKey: canvas.encryptKey(req.body.canvasKey)})
   res.redirect('/canvas')
 })
 

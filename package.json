@@ -12,6 +12,8 @@
   "dependencies": {
     "@types/node": "^20.6.0",
     "cookie-parser": "~1.4.4",
+    "crypto-js": "^4.1.1",
+    "cryptojs": "^2.5.3",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.17.3",

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const dates = require('../modules/dates')
 const db = require('../modules/db')
+const canvas = require('../modules/canvas')
 
 async function getHomePageData(username) {
   try {
@@ -20,10 +21,9 @@ async function getHomePageData(username) {
   }
 }
 const prefix = 'https://lms.pps.net/api/v1/';
-async function getAssignments() {
+async function getAssignments(username) {
   try {
-    var userData = await db.getDoc('users', 'userdata', {username: username})
-    const canvasKey = userData.canvasKey ?? 'no key'
+    const canvasKey = await canvas.getCanvasKey()
     var url = `${prefix}courses?access_token=${canvasKey}`
     var courses = await db.getapi(url)
     var courseIds = []
@@ -73,7 +73,7 @@ router.get('/', async function(req, res, next) {
       if(dates.inRange(time, val.preferences ? val.preferences.recentDateRange : 5)) newTodo.push(task)
     }
   }
-  var canvasAssignments = await getAssignments()
+  var canvasAssignments = await getAssignments(username)
   for(var task of canvasAssignments) {
     const time = task.dueDate.getTime()
     task.dueDate = dates.formatDate(task.dueDate)
