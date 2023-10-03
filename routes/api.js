@@ -9,5 +9,12 @@ router.get('/forumPosts', async function(req, res, next) {
   var posts = await db.getDocs('users', 'forumPosts', {})
   res.json(posts)
 });
+router.get('/likeForumPost/:id', async function(req, res, next) {
+  await db.modifyDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)}, {
+    $inc: {'likes': 1}, 
+    $push: {'likedBy': req.session.user}
+  })
+
+})
 
 module.exports = router;

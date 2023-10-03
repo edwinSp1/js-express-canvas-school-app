@@ -24,6 +24,7 @@ router.post('/createPost', async function(req, res, next) {
     const form = req.body
     form['user'] = req.session.user
     form['likes'] = 0
+    form['likedBy'] = []
     await db.insert('users', 'forumPosts', form)
     res.redirect('/forums')
 })
