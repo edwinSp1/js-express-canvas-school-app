@@ -1,0 +1,10 @@
+extends layout 
+
+block content 
+    ul(class='navbar')
+        li 
+            a(href='/') Home 
+        li 
+            a(href='/forums/createPost') Create Post
+    div(id='forum-posts-container') loading posts...
+    script(src='javascripts/forums.js')
