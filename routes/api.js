@@ -34,9 +34,16 @@ router.get('/likeForumPost/:id', async function(req, res, next) {
 })
 router.get('/unlikeForumPost/:id', async function(req, res, next) {
   try {
-    console.log(req.session.user)
     await db.modifyDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)}, {$pull: {'likedBy': req.session.user}})
   } catch(e) {
+    console.log(e)
+  }
+})
+router.get('/posts/:id/getComments', async function(req, res, next) {
+  try {
+    var comments = await db.getDocs('users', 'comments', {postId: req.params.id})
+    res.json(comments);
+  } catch (e) {
     console.log(e)
   }
 })

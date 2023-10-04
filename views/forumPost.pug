@@ -14,5 +14,6 @@ block content
         if post.likedBy.includes(post.user)
             - className = 'fa-solid'
         p(class='post-likes') #[i(class="fa-heart FA-icon heart-icon like-post " + className)] #[span(class='post-likes')=post.likedBy.length]
+    script(src='javascripts/forumPost.js')
          
     
