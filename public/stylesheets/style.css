@@ -357,7 +357,9 @@ select {
   overflow:hidden;
   grid-template-areas: "user title title"
                        "user content content"
-                       "user content content";
+                       "post-likes content content";
+  grid-template-rows: 33% 33% 33%;
+  grid-template-columns: 33% 33% 33%;
   
 }
 .post-title {
@@ -367,9 +369,18 @@ select {
   grid-area: content
 }
 .post-likes {
-
+  grid-area: post-likes;
 }
 .post-user {
   grid-area:user;
   
+}
+.big-forum-post {
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+  overflow: auto;
+}
+.big-forum-post > h1 {
+  font-size: 5em;
 }

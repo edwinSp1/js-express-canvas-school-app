@@ -23,12 +23,9 @@ async function getMessages(username) {
     var url = `${prefix}users/self/activity_stream?access_token=${canvasKey}`
     var messages = await db.getapi(url)
     for(var message of messages) {
-      //console.log(message)
       var text = message.message
-      if (message.type == 'Message') { 
-        //console.log('MMESSAGE')
+      if (message.type == 'Message') {
         text = text.split('Click here to view the assignment:')[0].trim()
-        // console.log(text)
       }
       if(message.notification_category == 'Grading Policies') {
         text = text.split('You can see details here:')[0].trim()
@@ -84,7 +81,6 @@ router.get('/', async (req, res, next) => {
   var messages = await getMessages(req.session.user)
   var profile = await getCanvasData(req.session.user)
   var logins = await getLogins(req.session.user)
-  console.log(messages, profile, logins)
   res.render('canvasindex', {messages: messages, profile:profile, logins: logins})
 })
 router.get('/add', async (req, res, next) => {

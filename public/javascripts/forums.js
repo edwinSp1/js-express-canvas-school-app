@@ -1,4 +1,4 @@
-
+const maxPostLength = 200;
 var $container = $('#forum-posts-container')
 var user = $('#user').html()
 function search(arr, target) {
@@ -15,7 +15,10 @@ function displayPosts(posts) {
             var solidHeart = `<i class="fa-solid fa-heart FA-icon heart-icon like-post" id-value=${id}></i>`
             var emptyHeart = `<i class="fa-regular fa-heart FA-icon heart-icon like-post" id-value=${id}></i>`
             var heart = post.likedBy.includes(user) ? solidHeart : emptyHeart
-            console.log(post.likedBy)
+            if(post.content.length > maxPostLength) {
+                post.content = post.content.slice(0, maxPostLength)
+                post.content += "..."
+            }
             $('<div>').html(`
                 <h1 class='post-user'>${post.user}</h1>
                 <h1 class='post-title'><a href='/forums/posts/${id}'>${post.title}</a></h1>
@@ -30,7 +33,6 @@ function displayPosts(posts) {
             var classList = button.classList
             var isLiked = search(classList, 'fa-solid')
             var id = button.getAttribute('id-value')
-            console.log(isLiked)
             if(!isLiked) {
                 
                 button.parentNode.children[1].textContent++
