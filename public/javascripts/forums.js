@@ -1,22 +1,24 @@
 var $container = $('#forum-posts-container')
+var user = $('#user').html()
+console.log(user)
 function displayPosts(posts) {
-    $container.html('')
+    //$container.html('')
     
     for(var post of posts) {
         var solidHeart = '<i class="fa-solid fa-heart FA-icon heart-icon"></i>'
         var emptyHeart = `<i class="fa-regular fa-heart FA-icon heart-icon like-post" id-value=${post._id}></i>`
-        var heart = post.likedBy.includes(post.user) ? solidHeart : emptyHeart
+        var heart = post.likedBy.includes(user) ? solidHeart : emptyHeart
         $('<div>').html(`
-            <p class='post-user'>${post.user}</p>
+            <h1 class='post-user'>${post.user}</h1>
             <h1 class='post-title'>${post.title}</h1>
-            <h1 class='post-content'>${post.content}</h1>
-            <p class='post-likes'>${heart}${post.likes}</p>
+            <p class='post-content'>${post.content}</h1>
+            <p class='post-likes'>${heart}<span class='like-num'>${post.likes}</span></p>
         `).addClass('forum-post').appendTo($container)
     }
     var likeButtons = document.querySelectorAll('.like-post') 
-    console.log(likeButtons)
     function likePost(event) {
-        var button = event.target
+        var button = event.target || event.srcElement
+        button.parentNode.children[1].textContent++
         var id = button.getAttribute('id-value')
         $.get('/api/likeForumPost/' + id)
         button.outerHTML = solidHeart

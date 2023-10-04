@@ -23,7 +23,7 @@ async function getHomePageData(username) {
 const prefix = 'https://lms.pps.net/api/v1/';
 async function getAssignments(username) {
   try {
-    const canvasKey = await canvas.getCanvasKey()
+    const canvasKey = await canvas.getCanvasKey(username)
     var url = `${prefix}courses?access_token=${canvasKey}`
     var courses = await db.getapi(url)
     var courseIds = []
@@ -33,7 +33,6 @@ async function getAssignments(username) {
     var canvasAssignments = []
     for(var id of courseIds) {
       url = `${prefix}courses/${id}/assignments?access_token=${canvasKey}`
-      console.log(url)
       var assignments = await db.getapi(url)
       for(var task of assignments) {
         var dueDate = new Date(task.due_at)

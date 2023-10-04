@@ -153,6 +153,9 @@ main {
   main p {
     font-size:20px !important;
   }
+  .navbar li a {
+    font-size:20px !important;
+  }
   main h1 {
     font-size:30px !important;
   }
@@ -347,4 +350,25 @@ select {
 .event-login {
   color: lightgreen;
 
+}
+.forum-post {
+  display:grid;
+  border: 2px solid white;
+  grid-template-areas: "user title title"
+                       "user content content"
+                       "user content content";
+  
+}
+.post-title {
+  grid-area: title
+}
+.post-content {
+  grid-area: content
+}
+.post-likes {
+
+}
+.post-user {
+  grid-area:user;
+  
 }

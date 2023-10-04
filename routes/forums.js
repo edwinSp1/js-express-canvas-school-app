@@ -9,13 +9,14 @@ const req = require('express/lib/request');
 function auth (req, res, next) {
     if(!req.session.loggedin) {
         res.redirect('/login')
+        return 
     }
     next()
 }
 router.use(auth)
 
 router.get('/', function(req, res, next) {
-    res.render('forums')
+    res.render('forums', {user: req.session.user})
 })
 router.get('/createPost', function(req, res, next) {
     res.render('createForumPost')
