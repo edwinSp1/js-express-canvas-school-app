@@ -18,6 +18,10 @@ router.use(auth)
 router.get('/', function(req, res, next) {
     res.render('forums', {user: req.session.user})
 })
+router.get('/posts/:id', async function(req, res, next) {
+    var post = await db.getDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)})
+    res.render('forumPost', {post: post})
+})
 router.get('/createPost', function(req, res, next) {
     res.render('createForumPost')
 })

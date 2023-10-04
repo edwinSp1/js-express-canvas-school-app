@@ -354,6 +354,7 @@ select {
 .forum-post {
   display:grid;
   border: 2px solid white;
+  overflow:hidden;
   grid-template-areas: "user title title"
                        "user content content"
                        "user content content";

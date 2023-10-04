@@ -4,7 +4,7 @@ block content
 
     form(action='/forums/createPost', method='POST')
         label(for='title') Title
-        input(name='title') 
+        input(name='title' max-length="50") 
         label(for='content') Content 
         textarea(name="content")
         input(type='submit' value='Post')
