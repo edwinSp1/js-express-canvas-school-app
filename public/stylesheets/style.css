@@ -358,7 +358,6 @@ select {
   grid-template-areas: "user title title"
                        "user content content"
                        "post-likes content content";
-  grid-template-rows: 33% 33% 33%;
   grid-template-columns: 33% 33% 33%;
   
 }

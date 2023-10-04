@@ -47,5 +47,54 @@ router.get('/posts/:id/getComments', async function(req, res, next) {
     console.log(e)
   }
 })
+const prefix = 'https://lms.pps.net/api/v1/';
+async function getAssignments(username) {
+  try {
+    const canvasKey = await canvas.getCanvasKey(username)
+    var url = `${prefix}courses?access_token=${canvasKey}`
+    var courses = await db.getapi(url)
+    var courseIds = []
+    for(var course of courses) {
+      courseIds.push(course['id'])
+    }
+    var canvasAssignments = []
+    for(var id of courseIds) {
+      url = `${prefix}courses/${id}/assignments?access_token=${canvasKey}`
+      var assignments = await db.getapi(url)
+      for(var task of assignments) {
+        var dueDate = new Date(task.due_at)
+        if(dates.inRange(dueDate.getTime(), 15)) {
+          if(task.has_submitted_submissions || task.submission_types.includes('none')) continue
+          canvasAssignments.push({
+            task: task.name,
+            other: task.description,
+            dueDate: dueDate,
+            type: 'canvasAssignment'
+          })
+        }
+      }
+    }
+    return canvasAssignments
+  } catch(e) {
+    return []
+  }
+}
+
+router.get('/getCanvasAssignments', async function(req, res, next) {
+  var overdue = [], newTodo = []
+  var canvasAssignments = await getAssignments(username)
+  for(var task of canvasAssignments) {
+    const time = task.dueDate.getTime()
+    task.dueDate = dates.formatDate(task.dueDate)
+    if(time < date) overdue.push(task)
+    else {
+      if(dates.inRange(time, val.preferences ? val.preferences.recentDateRange : 5)) newTodo.push(task)
+    }
+  }
+  return {
+    overdue: overdue,
+    todo: newTodo
+  }
+})
 
 module.exports = router;

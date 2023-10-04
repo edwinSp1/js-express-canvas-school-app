@@ -3,8 +3,9 @@ extends layout
 block content 
     ul(class='navbar')
         li  
-            a(href='/forums') back
-
+            a(href='/forums') Back
+        li 
+            a(href='comment') Comment
 
     div(class='forum-post big-forum-post')
         h1(class='post-user') #{post.user}
@@ -13,7 +14,8 @@ block content
         -var className = 'fa-regular' 
         if post.likedBy.includes(post.user)
             - className = 'fa-solid'
-        p(class='post-likes') #[i(class="fa-heart FA-icon heart-icon like-post " + className)] #[span(class='post-likes')=post.likedBy.length]
-    script(src='javascripts/forumPost.js')
+        p(class='post-likes') #[i(class="fa-heart FA-icon heart-icon like-post " + className id-value=post._id)] #[span(class='post-likes')=post.likedBy.length]
+
+    script(src='/javascripts/forumPost.js' )
          
-    
+      

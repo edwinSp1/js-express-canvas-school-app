@@ -1,13 +1,14 @@
 const {MongoClient} = require('mongodb')
 var ObjectId = require('mongodb').ObjectId;
-const uriConnect = 'mongodb+srv://admin:bedumble3@cluster0.dcug42s.mongodb.net/?retryWrites=true&w=majority'
-const client = new MongoClient(uriConnect)
+const uriConnect = 'mongodb+srv://admin:bedumble3@cluster0.dcug42s.mongodb.net/test?retryWrites=true&w=majority'
+
 async function getapi(url) {
   const response = await fetch(url);
   var data = await response.json();
   return data
 }
 async function getDoc(db, coll, query) {
+  const client = new MongoClient(uriConnect)
   await client.connect();
   try {
     const collection = client.db(db).collection(coll)
@@ -21,6 +22,7 @@ async function getDoc(db, coll, query) {
   }
 }
 async function getDocs(db, coll, query) {
+  const client = new MongoClient(uriConnect)
   await client.connect();
   try {
     const collection = client.db(db).collection(coll)
@@ -38,6 +40,7 @@ async function getDocs(db, coll, query) {
   }
 }
 async function updateDoc(db, coll, query, update) {
+  const client = new MongoClient(uriConnect)
   await client.connect();
   try {
     const collection = client.db(db).collection(coll)
@@ -58,6 +61,7 @@ async function updateDoc(db, coll, query, update) {
   }
 }
 async function modifyDoc(db, coll, query, update) {
+  const client = new MongoClient(uriConnect)
   await client.connect();
   try {
     const collection = client.db(db).collection(coll)
@@ -76,6 +80,7 @@ async function modifyDoc(db, coll, query, update) {
   }
 }
 async function getSortedDB (db, coll, sortFx, query) {
+  const client = new MongoClient(uriConnect)
   await client.connect();
   try {
     const collection = client.db(db).collection(coll)
@@ -94,6 +99,7 @@ async function getSortedDB (db, coll, sortFx, query) {
   }
 }
 async function deleteDoc(db, coll, id) {
+  const client = new MongoClient(uriConnect)
   await client.connect();
   try {
     const collection = client.db(db).collection(coll)
@@ -107,6 +113,7 @@ async function deleteDoc(db, coll, id) {
   }
 }
 async function insert(db, coll, doc) {
+  const client = new MongoClient(uriConnect)
   await client.connect();
   try {
     const collection = client.db(db).collection(coll)

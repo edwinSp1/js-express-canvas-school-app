@@ -1,3 +1,10 @@
+var id = document.querySelector('.like-post').getAttribute('id-value')
+function search(arr, target) {
+    for(var x of arr) {
+        if(x == target) return true
+    }
+    return false;
+}
 function likePost(event) {
     var button = event.target || event.srcElement
     
@@ -20,3 +27,7 @@ function likePost(event) {
         $.get('/api/unlikeForumPost/'+id)
     }
 }
+document.querySelector('.like-post').addEventListener('click', likePost)
+$.get('/api/posts/' + id + '/getComments', function(data, status) {
+    console.log(data)
+})
