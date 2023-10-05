@@ -66,16 +66,3 @@ $.get('/api/forumPosts', function(data, status) {
     displayPosts(data)
 })
 
-/*
-Update posts every 20 seconds
-*/
-window.setInterval(function() {
-    $.get('/api/forumPosts', function(data, status) {
-        if(status != 'success') {
-            $container.html('error fetching posts.')
-            return;
-        }
-        $container.html('')
-        displayPosts(data)
-    })
-}, 20000)
