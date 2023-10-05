@@ -48,9 +48,6 @@ async function updateDoc(db, coll, query, update) {
       query, 
       {
         $set: update
-      },
-      {
-        upsert: true
       }
     )
     return res
@@ -67,10 +64,7 @@ async function modifyDoc(db, coll, query, update) {
     const collection = client.db(db).collection(coll)
     var res = await collection.updateOne(
       query, 
-      update,
-      {
-        upsert: true
-      }
+      update
     )
     return res
   } catch(e) {

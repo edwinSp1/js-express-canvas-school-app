@@ -19,15 +19,26 @@ router.get('/forumPosts', async function(req, res, next) {
   var posts = await db.getSortedDB('users', 'forumPosts', {likes:-1}, {})
   res.json(posts) 
 });
-router.get('/get/canvasAssignments')
 
 router.get('/likeForumPost/:id', async function(req, res, next) {
   try {
+    /*
+     It could be liking a post or a comment
+    */
     var orig = await db.getDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)})
-    if(orig.likedBy.includes(req.session.user)) return
-    await db.modifyDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)}, {
-      $push: {'likedBy': req.session.user}
-    })
+    if(orig) {
+      if(orig.likedBy.includes(req.session.user)) return
+      await db.modifyDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)}, {
+        $push: {'likedBy': req.session.user}
+      })
+    }
+    var orig = await db.getDoc('users', 'comments', {_id: new ObjectId(req.params.id)})
+    if(orig) {
+      if(orig.likedBy.includes(req.session.user)) return
+      await db.modifyDoc('users', 'comments', {_id: new ObjectId(req.params.id)}, {
+        $push: {'likedBy': req.session.user}
+      })
+    }
   } catch(e) {
     console.log(e)
   }
@@ -35,6 +46,7 @@ router.get('/likeForumPost/:id', async function(req, res, next) {
 router.get('/unlikeForumPost/:id', async function(req, res, next) {
   try {
     await db.modifyDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)}, {$pull: {'likedBy': req.session.user}})
+    await db.modifyDoc('users', 'comments', {_id: new ObjectId(req.params.id)}, {$pull: {'likedBy': req.session.user}})
   } catch(e) {
     console.log(e)
   }

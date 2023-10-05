@@ -49,7 +49,6 @@ cancelButton.addEventListener('click', function() {
     }
   }
   for(var doc of docs) {
-
     var category = doc.childNodes[1].lastElementChild.textContent
     if(!checked.includes(category)) {
       doc.style.display = 'none'
