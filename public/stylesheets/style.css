@@ -33,12 +33,22 @@ a {
 p {
   white-space: pre-wrap;
 }
+@keyframes changeBorder {
+  from {
+    border: 1px solid red;
+  }
+  to {
+    border: none;
+  }
+}
 input {
   background: transparent;
   color:white;
   padding: 10px;
   font-size:30px;
   display:block;
+  animation: fadein 1s linear;
+  animation: changeBorder 1s linear;
 }
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
@@ -69,11 +79,24 @@ button {
   display:flex;
   flex-direction: row;
 }
-
+@keyframes fadein {
+  from {
+    opacity: 0;
+  } 
+  to {
+    opacity: 1;
+  }
+}
 .main-container > div{
+  animation: fadein 1s linear;
   margin: 50px;
 }
-
+.task {  
+  animation: fadein 1s linear;
+}
+main > div {
+  animation: fadein 1s linear;
+}
 #overdue-container > h1 {
   color: red;
 }
@@ -215,6 +238,7 @@ main > div {
 .category {
   color:red;
 }
+
 .navbar {
   list-style-type: none;
   margin: 0;
@@ -398,4 +422,5 @@ select {
 .comment {
   border-radius: 10px;
   border: 2px solid blue;
+  animation: fadein 1s linear;
 }
