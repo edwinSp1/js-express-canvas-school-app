@@ -116,6 +116,7 @@ textarea {
   border-radius: 5px;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px #999;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 label {
@@ -351,8 +352,19 @@ select {
   color: lightgreen;
 
 }
+@keyframes slidein {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
 .forum-post {
+  animation: slidein 1s ease-in;
   display:grid;
+  border-radius: 10px;
   border: 2px solid white;
   overflow:hidden;
   grid-template-areas: "user title title"
@@ -382,4 +394,8 @@ select {
 }
 .big-forum-post > h1 {
   font-size: 5em;
+}
+.comment {
+  border-radius: 10px;
+  border: 2px solid blue;
 }

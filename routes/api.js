@@ -82,18 +82,22 @@ async function getAssignments(username) {
 
 router.get('/getCanvasAssignments', async function(req, res, next) {
   var overdue = [], newTodo = []
-  var canvasAssignments = await getAssignments(username)
-  for(var task of canvasAssignments) {
-    const time = task.dueDate.getTime()
-    task.dueDate = dates.formatDate(task.dueDate)
-    if(time < date) overdue.push(task)
-    else {
-      if(dates.inRange(time, val.preferences ? val.preferences.recentDateRange : 5)) newTodo.push(task)
+  try {
+    var date = new Date()
+    var canvasAssignments = await getAssignments(req.session.user)
+    for(var task of canvasAssignments) {
+      const time = task.dueDate.getTime()
+      task.dueDate = dates.formatDate(task.dueDate)
+      if(time < date) overdue.push(task)
+      else newTodo.push(task)
     }
-  }
-  return {
-    overdue: overdue,
-    todo: newTodo
+    res.json({
+      overdue: overdue,
+      todo: newTodo
+    })
+  } catch(e) {
+    console.log(e)
+    res.json([])
   }
 })
 

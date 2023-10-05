@@ -1,0 +1,9 @@
+extends layout 
+
+block content 
+
+    h1 Comment on post
+    form(action='/forums/posts/'+postId+'/comment' method='POST')
+        label(for="content") Comment 
+        textarea(name="content", cols="30", rows="10") 
+        input(type="submit" value='Comment') 

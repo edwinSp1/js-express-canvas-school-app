@@ -28,6 +28,13 @@ function likePost(event) {
     }
 }
 document.querySelector('.like-post').addEventListener('click', likePost)
+
+var $commentContainer = $('#comment-container')
 $.get('/api/posts/' + id + '/getComments', function(data, status) {
-    console.log(data)
+    for(var comment of data) {
+        $('<div>').html(`
+            <h1>${comment.user}</h1>
+            <p>${comment.content}</p>
+        `).addClass('comment').appendTo($commentContainer)
+    }
 })

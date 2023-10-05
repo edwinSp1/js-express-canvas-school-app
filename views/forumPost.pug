@@ -5,7 +5,7 @@ block content
         li  
             a(href='/forums') Back
         li 
-            a(href='comment') Comment
+            a(href=post._id + '/comment') Comment
 
     div(class='forum-post big-forum-post')
         h1(class='post-user') #{post.user}
@@ -15,6 +15,8 @@ block content
         if post.likedBy.includes(post.user)
             - className = 'fa-solid'
         p(class='post-likes') #[i(class="fa-heart FA-icon heart-icon like-post " + className id-value=post._id)] #[span(class='post-likes')=post.likedBy.length]
+    h1 Comments
+    div(id='comment-container')
 
     script(src='/javascripts/forumPost.js' )
          

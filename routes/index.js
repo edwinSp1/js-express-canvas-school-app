@@ -28,7 +28,6 @@ router.get('/', async function(req, res, next) {
   }
   var username = req.session.user
   var val = await getHomePageData(username)
-  console.log(val)
   var todo = val.todo
   const date = Date.now()
   var overdue = [], newTodo = []
@@ -56,7 +55,9 @@ router.get('/', async function(req, res, next) {
 })
 
   
-
+router.get('/canvasIntegrationInfo', function(req, res, next) {
+  res.send('Canvas assignments are taken using your canvas token. For security reasons, this app does not access your assignments and cannot mark them complete.')
+})
 /* PREFERENCES/SETTINGS */
 
 router.get('/settings', function(req, res, next) {
@@ -111,7 +112,6 @@ router.post('/login', function(req, res, next) {
   info.username.trim()
   info.password.trim()
   db.getDocs('users', 'loginInfo', {'username': info.username, 'password': info.password}).then((val) => {
-    console.log('new Login:' + JSON.stringify(val, null, 2))
     if(val.length == 0) {
       res.render('login/login', {msg: 'Wrong username or password'})
     } else {
@@ -139,10 +139,8 @@ router.post('/changePassword', async function(req, res, next) {
     res.redirect('/login')
     return
   }
-  console.log(req.session.user)
   var oldCreds = await db.getDoc('users', 'loginInfo', {username: req.session.user})
   var form = req.body    
-  console.log(form.oldPassword, oldCreds.password)
   if(form.oldPassword != oldCreds.password) {
     res.render('changePassword', {msg: 'Old Password is wrong.'})
     return 
