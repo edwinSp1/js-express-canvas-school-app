@@ -1,7 +1,9 @@
 extends layout 
 
 block content
-
+  ul(class='navbar')
+    li  
+      a(href='/notes') cancel
   h1 Add new category
   form(action='/notes/categories/add' method='POST')
     label(for='category') Category

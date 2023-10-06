@@ -1,6 +1,9 @@
 extends layout
 
 block content
+  ul(class='navbar')
+    li  
+      a(href='/todo') cancel
   h1 Add Task
   form(action='/todo/add' method='POST')
     label(for='task') Task

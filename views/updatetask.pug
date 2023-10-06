@@ -1,7 +1,9 @@
 extends layout
 
 block content
-
+  ul(class='navbar')
+        li  
+            a(href='/todo') cancel
   form(action='/todo/update/' + id  method='POST')
     label(for='task') Task
     input(name='task' type='text' value=prev.task)  

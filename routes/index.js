@@ -113,7 +113,7 @@ router.post('/login', function(req, res, next) {
   info.password.trim()
   db.getDocs('users', 'loginInfo', {'username': info.username, 'password': info.password}).then((val) => {
     if(val.length == 0) {
-      res.render('login/login', {msg: 'Wrong username or password'})
+      res.render('login/login', {msg: 'Wrong username or password', username: info.username, password: info.password})
     } else {
       req.session.loggedin = true
       req.session.user = info.username
@@ -123,6 +123,26 @@ router.post('/login', function(req, res, next) {
 })
 router.get('/adduser', function(req, res, next) {
   res.render('login/adduser')
+})
+router.post('/adduser', function(req, res, next) {
+  const info = req.body;
+  info.username.trim()
+  info.password.trim()
+  const username = info.username, password = info.password;
+  const doc = {username:username}
+  db.getDocs('users', 'loginInfo', doc).then((val) => {
+    if(val.length == 1) res.render('login/adduser', {msg: 'User Already Exists', username: info.username, password: info.password})
+    else {
+      var defaultSettings = {
+        username: username,
+        reduceMovement: false,
+        minDateRange: '5'
+      }
+      db.insert('users', 'loginInfo', {username:username, password: password})
+      db.insert('users', 'preferences', defaultSettings)
+      res.redirect('/')
+    }
+  })
 })
 /*
 CHANGE PASSWORD
@@ -149,26 +169,7 @@ router.post('/changePassword', async function(req, res, next) {
   res.redirect('/logout')
   
 })
-router.post('/adduser', function(req, res, next) {
-  const info = req.body;
-  info.username.trim()
-  info.password.trim()
-  const username = info.username, password = info.password;
-  const doc = {username:username}
-  db.getDocs('users', 'loginInfo', doc).then((val) => {
-    if(val.length == 1) res.render('login/adduser', {msg: 'User Already Exists'})
-    else {
-      var defaultSettings = {
-        username: username,
-        reduceMovement: false,
-        minDateRange: '5'
-      }
-      db.insert('users', 'loginInfo', {username:username, password: password})
-      db.insert('users', 'preferences', defaultSettings)
-      res.redirect('/')
-    }
-  })
-})
+
 router.get('/logout', function(req, res, next) {
   req.session.loggedin = false;
   req.session.user = null;

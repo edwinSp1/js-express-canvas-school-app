@@ -1,6 +1,9 @@
 extends layout
 
 block content
+  ul(class='navbar')
+    li  
+      a(href='/college') cancel
   form(action='/college/add' method='POST')
     div(class="autocomplete" style="width:300px;") 
       label(for='college') College

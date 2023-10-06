@@ -1,7 +1,9 @@
 extends layout
 
 block content
-
+  ul(class='navbar')
+    li  
+      a(href='/sleep') cancel
   h1 Add Sleep
   form(action='/sleep/add' method = 'POST')
     h1 Sleep Time

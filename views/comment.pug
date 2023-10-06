@@ -1,7 +1,9 @@
 extends layout 
 
 block content 
-
+    ul(class='navbar')
+        li  
+            a(href='/forums/posts/' + postId) cancel
     h1 Comment on post
     form(action='/forums/posts/'+postId+'/comment' method='POST')
         label(for="content") Comment 

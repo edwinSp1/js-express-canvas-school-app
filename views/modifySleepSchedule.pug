@@ -1,7 +1,9 @@
 extends layout
 
 block content
-
+  ul(class='navbar')
+        li  
+            a(href='/sleep') cancel
   h1 Change Sleep Schedule
   form(action='/sleep/schedule/modify' method = 'POST')
     h1 Sleep Time

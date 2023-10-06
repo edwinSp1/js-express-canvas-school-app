@@ -1,7 +1,9 @@
 extends layout
 
 block content
-
+  ul(class='navbar')
+    li  
+      a(href='/wellness') cancel
   h1 Add Activity
   form(action='/wellness/activity/add' method = 'POST')
     label(for='activity') Activity

@@ -1,7 +1,9 @@
 extends layout 
 
 block content 
-
+    ul(class='navbar')
+        li  
+            a(href='/forums') cancel
     form(action='/forums/createPost', method='POST')
         label(for='title') Title
         input(name='title' max-length="50") 

@@ -1,7 +1,9 @@
 extends layout 
 
 block content 
-
+  ul(class='navbar')
+      li  
+        a(href='/canvas') cancel
   h1 Enter your canvas key 
   p To find your canvas key, log into canvas, the go to Account / Settings / New Access Token. Enter application for purpose and leave expires blank. Finally copypaste the token here.
   form(action='/canvas/add' method='POST')
