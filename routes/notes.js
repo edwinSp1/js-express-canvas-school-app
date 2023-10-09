@@ -78,9 +78,9 @@ router.get('/docs/delete/:id', function(req, res, next) {
   })
 }) 
 router.get('/add', function(req, res, next) {
-
+  console.log('accessed /add')
   db.getDoc('users', 'userdata', {username:req.session.user}).then((val) => {
-    res.render('newdoc', {link: `/notes/add`, categories: val.categories})
+    res.render('newdoc', {link: `/notes/add`, categories: val.categories ?? []})
   })
 }); 
 
