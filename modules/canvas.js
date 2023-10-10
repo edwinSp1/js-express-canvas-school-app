@@ -6,7 +6,7 @@ async function getCanvasKey (username) {
   return decrypt(canvasKey)
 }
 // Implement encryption
-var secretKey = 'helloworld'
+var secretKey = 'helloworld' //NOT the real encryption key
 function decrypt (key) {
   let decryptedBytes = CryptoJS.AES.decrypt(key, secretKey);
   let decryptedMessage = decryptedBytes.toString(CryptoJS.enc.Utf8);
