@@ -1,6 +1,6 @@
 const {MongoClient} = require('mongodb')
 var ObjectId = require('mongodb').ObjectId;
-const uriConnect = process.env['DB_KEY']
+const uriConnect = 'mongodb+srv://admin:bedumble3@cluster0.dcug42s.mongodb.net/test?retryWrites=true&w=majority'
 
 async function getapi(url) {
   const response = await fetch(url);

@@ -66,3 +66,26 @@ $.get('/api/forumPosts', function(data, status) {
     displayPosts(data)
 })
 
+const searchButton = document.getElementById('search')
+var searchBar = document.getElementById('search-query')
+var cancelButton = document.getElementById('cancel')
+cancelButton.addEventListener('click', function () {
+    const posts = document.querySelectorAll('.forum-post')
+    for(var post of posts) post.style.display = 'block'
+})
+
+searchButton.addEventListener('click', check)
+function check() {
+  const posts = document.querySelectorAll('.forum-post')
+  var query = searchBar.value
+  query = query.trim().toUpperCase()
+  
+  console.log(posts)
+  for(var post of posts) {
+    var title = post.children[1].textContent.toUpperCase()
+    if(title.indexOf(query) == -1) {
+      console.log('does not match')
+      post.style.display = 'none';
+    }
+  }
+}

@@ -7,7 +7,10 @@ block content
         li 
             a(href='/forums/createPost') Create Post
     h1 Logged in as #[span(id='user')=user]
-    input(id='search-bar') 
-    
+    div(id='search-bar' class='grid-center')
+      p(id='search') #[i(class="fa-solid fa-magnifying-glass FA-icon")]
+      input(name='query' id='search-query') 
+      p(id='cancel') #[i(class="fa-solid fa-x FA-icon")]
+
     div(id='forum-posts-container')
     script(src='javascripts/forums.js')  
