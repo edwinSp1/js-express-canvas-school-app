@@ -11,14 +11,17 @@ block content
 
   h1(style='font-size:50px;') Sleep
   h1 Your Schedule: #[span(id='sleep')=schedule[0]] Sleep,  #[span(id='wake')=schedule[1]] Wake
-  each val in sleepData
-    if val.breakDay
-      h1 #{val.date}(break day):
-        h4 Sleep Time: #[span(style='color:green') #{val.sleepTime}]
-        h4 Waking Time:#[span(style='color:green') #{val.wakeTime}]
-    else 
-      .sleepData
-        h1 #{val.date}:
-        h4 Sleep Time: #[span(class='sleepTime') #{val.sleepTime}]
-        h4 Waking Time:#[span(class='wakeTime') #{val.wakeTime}]
+  if schedule.length == 0
+    h1 No sleep data yet! 
+  else 
+    each val in sleepData
+      if val.breakDay
+        h1 #{val.date}(break day):
+          h4 Sleep Time: #[span(style='color:green') #{val.sleepTime}]
+          h4 Waking Time:#[span(style='color:green') #{val.wakeTime}]
+      else 
+        .sleepData
+          h1 #{val.date}:
+          h4 Sleep Time: #[span(class='sleepTime') #{val.sleepTime}]
+          h4 Waking Time:#[span(class='wakeTime') #{val.wakeTime}]
   script(src='javascripts/sleep.js')

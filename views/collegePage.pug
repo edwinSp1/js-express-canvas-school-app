@@ -17,15 +17,18 @@ block content
         input(name='collegeSearch' id='college')
     .college-list
       h1(style='font-size:50px') College List
-      each doc in collegeList
-        -var college = doc.college
-        
-        h1 #{college}(#{doc.category})
-        a(href='/college/delete/' + doc._id) #[i(class='fa-solid fa-x FA-icon' style='color:red')]
-        -if(college == 'Harvard University') college = 'Harvard College' 
-        -var dashCase = college.toLowerCase().split(' ').join('-')
-        -var link = 'https://bigfuture.collegeboard.org/colleges/' + dashCase
-        a(href=link target='_blank') Info about #{college}
+      if collegeList.length == 0
+        h1 Add colleges here
+      else 
+        each doc in collegeList
+          -var college = doc.college
+          
+          h1 #{college}(#{doc.category})
+          a(href='/college/delete/' + doc._id) #[i(class='fa-solid fa-x FA-icon' style='color:red')]
+          -if(college == 'Harvard University') college = 'Harvard College' 
+          -var dashCase = college.toLowerCase().split(' ').join('-')
+          -var link = 'https://bigfuture.collegeboard.org/colleges/' + dashCase
+          a(href=link target='_blank') Info about #{college}
     .loan-calc 
       h1(style='font-size:50px;') Loan Calculator
       label(for='initialVal') Loan Value

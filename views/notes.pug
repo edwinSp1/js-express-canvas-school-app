@@ -28,15 +28,18 @@ value='none')
       input(name='query' id='search-query') 
       p(id='cancel') #[i(class="fa-solid fa-x FA-icon")]
     div(id='doc-container' class='grid-center')
-      each doc in docs
-        .doc
-          a(href='/notes/docs/delete/' + doc._id) #[i(class="fa-solid fa-x FA-icon" style='color:red')]
-          -var category = doc.category ? `${doc.category}` : 'none'
-          if doc.title != ""
-            span #[a(class='doc-name' href='/notes/docs/' + doc._id style='font-size:50px;') #{doc.title}] #[span(class='category') #{category}]
-          else 
-            span #[a(class='doc-name' href='/notes/docs/' + doc._id style='font-size:50px;') Untitled Document] #[span(class='category') #{category}] 
-          
-          p(class='other' style='font-size:30px')=doc.EQ
+      if docs.length == 0
+        h1 No docs yet!
+      else 
+        each doc in docs
+          .doc
+            a(href='/notes/docs/delete/' + doc._id) #[i(class="fa-solid fa-x FA-icon" style='color:red')]
+            -var category = doc.category ? `${doc.category}` : 'none'
+            if doc.title != ""
+              span #[a(class='doc-name' href='/notes/docs/' + doc._id style='font-size:50px;') #{doc.title}] #[span(class='category') #{category}]
+            else 
+              span #[a(class='doc-name' href='/notes/docs/' + doc._id style='font-size:50px;') Untitled Document] #[span(class='category') #{category}] 
+            
+            p(class='other' style='font-size:30px')=doc.EQ
   script(src='javascripts/notes.js')
   

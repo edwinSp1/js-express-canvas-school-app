@@ -24,6 +24,7 @@ block content
           a(href='https://docs.google.com/' target="_blank") Docs
           a(href='https://mail.google.com/' target="_blank") Gmail 
           a(href='https://lms.pps.net/' target="_blank") Canvas
+          a(href='https://my.pps.net/' target="_blank") My.pps
 
   div(id='reduceMovement' style='display:none;')=reduceMovement
   div(id='menu-container')
@@ -43,22 +44,28 @@ block content
   div(class='main-container')
     div(id='recent-container')
       h1(class='assignment-header') Upcoming assignments
-      each val in recent
-        div(class='task')
-          h1=val.task
-          p(class='dueDate')=val.dueDate
-          p(class='other')=val.other
+      if recent.length == 0
+        h1 Nothing to do.
+      else 
+        each val in recent
+          div(class='task')
+            h1=val.task
+            p(class='dueDate')=val.dueDate
+            p(class='other')=val.other
     div(id='overdue-container')
       h1(class='assignment-header') Overdue assignments
-      each val in overdue
-        div(class='task')
-          h1(style='display:inline')=val.task
-          if val.type=='canvasAssignment'
-            a(href='/canvasIntegrationInfo') #[i(class="fa-solid fa-circle-exclamation FA-icon")]
-          else 
-            a(href='/todo/remove/'+val._id) #[i(class="fa-solid fa-xmark FA-icon")]
-          p(class='dueDate')=val.dueDate
-          p(class='other')=val.other
+      if overdue.length == 0
+        h1(style='color:green') No overdue assignments! 
+      else
+        each val in overdue
+          div(class='task')
+            h1(style='display:inline')=val.task
+            if val.type=='canvasAssignment'
+              a(href='/canvasIntegrationInfo') #[i(class="fa-solid fa-circle-exclamation FA-icon")]
+            else 
+              a(href='/todo/remove/'+val._id) #[i(class="fa-solid fa-xmark FA-icon")]
+            p(class='dueDate')=val.dueDate
+            p(class='other')=val.other
   script(src='javascripts/script.js')
   
   
