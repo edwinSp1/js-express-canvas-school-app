@@ -140,6 +140,7 @@ router.post('/adduser', function(req, res, next) {
       }
       db.insert('users', 'loginInfo', {username:username, password: password})
       db.insert('users', 'preferences', defaultSettings)
+      db.insert('users', 'userdata', {username:username})
       res.redirect('/')
     }
   })
