@@ -19,7 +19,7 @@ router.get('/', async function(req, res, next) {
   
   const schedule = userData.schedule ?? ['9:30PM', '7:00AM'] //default
   
-  res.render('sleep', {sleepData:sleepData, schedule:schedule})
+  res.render('sleep', {sleepData:sleepData.reverse(), schedule:schedule})
 })
 function handleUserDate(doc, username) {
   doc.sleepMin = doc.sleepMin == '0' ? '00' : doc.sleepMin
