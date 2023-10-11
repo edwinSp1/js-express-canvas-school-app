@@ -12,7 +12,7 @@ block content
       each message in messages
         if message.type == 'Submission'
           h1 
-            a(href=message.url style='text-decoration:none') #{message.title}(#{message.course}) 
+            a(href=message.url target='_blank' style='text-decoration:none') #{message.title}(#{message.course}) 
         else 
           h1
             a(href=message.url style='text-decoration:none')=message.title

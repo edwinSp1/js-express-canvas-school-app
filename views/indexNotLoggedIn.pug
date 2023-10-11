@@ -4,23 +4,52 @@ html
         meta(name="viewport", content="width=device-width,minimum-scale=1")
         title Land
         // the form awesome library is used to add icons to our form
+        script(src="https://kit.fontawesome.com/9cabf86516.js" crossorigin="anonymous")  
+
         link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.7.1/css/all.css")
         // include the stylesheet file
         link(href="stylesheets/landingpage.css", rel="stylesheet", type="text/css")
     body
+    
+        div(class='background-image')
+        div(id='header')
+            h1(style='display:inline' id='title') Mercury
+            h1(style='font-size:30px;') For The Next Generation of #[br] #[span(id='statement') Schools.]
+            h1(id='down-arrows') Explore #[br] #[i(class="fa-solid fa-up-down")] #[i(class="fa-solid fa-up-down")]
         div(class='navbar')
-            h1(style='display:inline') Mercury
             a(href='/adduser' style='float:right') Create Account
             a(href='/login' style='float:right') Login 
         div(id='main-container')
-            h1(id='statement') For The Next Generation of Schools.
-            h1(id='teacher-apply') Are you a teacher? Email echen5503@student.pps.net with your desired username.
-            ul(id='announcements') 
+            h1(id='teacher-apply' class='reveal') Are you a teacher? Email echen5503@student.pps.net with your desired username.
+            ul(id='announcements' class='reveal') 
                 li Debut of the site scheduled for October 20th.
                 li Admins will be red.
                 li I will be blue.
-            img(src='../public/images/assignments.png')
-        
-        div(class='background-image')
+            div(class='reveal' id='examples')
+                h1(class='underscore-flash reveal' id='homepage-text' data-value='Show me all of my tasks in one place') 
+                img(class='example-image reveal' src='../images/homepage.png')
+                h1(class='underscore-flash reveal' id='notes-docs' data-value='Show me my notes in a visual document style')
+                img(class='example-image reveal' src='../images/notes.png')
+                h1(class='underscore-flash reveal' id='forums' data-value='Help me with my homework')
+                img(class='example-image reveal' src='../images/forums.png')
+                h1(class='underscore-flash reveal' id='college' data-value='Help me plan for college')
+                img(class='example-image reveal' src='../images/college.png')
+                h1(class='underscore-flash reveal' id='college' data-value='Make sure I never miss another assignment')
+                img(class='example-image reveal' src='../images/canvas.png')
+                h1(class='underscore-flash reveal' id='college' data-value='Manage all my tasks for me')
+                img(class='example-image reveal' src='../images/todo.png')
+        div(id='links' class='reveal')
+            div(id='login-signup-container')
+                h1
+                    a(href='/login') Login
+                    a(href='/adduser') Sign Up
+            #github 
+                h1 View The Project On 
+                    a(href='https://github.com/edwinSp1/js-express-canvas-school-app') #[i(class="fa-brands fa-github")]
+            div#socials
+                h1 Socials 
+                p I like grass ok 
+            
+
         script(src='javascripts/landingpage.js') 
     

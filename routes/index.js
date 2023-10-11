@@ -20,10 +20,12 @@ async function getHomePageData(username) {
     console.log(e)
   }
 }
-
+router.get('/home', function(req, res, next) {
+  res.render('indexNotLoggedIn')
+})
 router.get('/', async function(req, res, next) {
   if(!req.session.loggedin) {
-    res.render('indexNotLoggedIn')
+    res.redirect('/home')
     return
   }
   

@@ -1,4 +1,6 @@
-const delay = 0.3;
+const delay = 0.05;
+
+
 const wait = (sec) => {
     return new Promise(resolve => setTimeout(resolve, sec*1000));
 };
@@ -28,4 +30,40 @@ async function morphText () {
         await addTo(statement, ' Schools.')
     }
 }
+
 morphText()
+var hasEle = (arr, ele) => {
+    for(var x of arr) if(x == ele) return true
+    return false
+}
+function textType() {
+    var reveals = document.querySelectorAll(".underscore-flash");
+    for (var i = 0; i < reveals.length; i++) {
+        if(hasEle(reveals[i].classList, 'active')) continue
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 150;
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+            addTo(reveals[i], reveals[i].getAttribute('data-value'))
+        } 
+    }
+}
+window.addEventListener('scroll', textType)
+
+function reveal () {
+    var reveals = document.querySelectorAll('.reveal')
+    for(var ele of reveals) {
+        var windowHeight = window.innerHeight;
+        var elementTop = ele.getBoundingClientRect().top;
+        var elementVisible = 150;
+        if (elementTop < windowHeight - elementVisible) {
+            ele.classList.add('active')
+            ele.classList.remove('reveal')
+        }
+    }
+}
+window.addEventListener('scroll', reveal)
+//call it incase it's already in view
+textType()
+reveal() 

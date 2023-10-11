@@ -3,8 +3,30 @@
 * {
   box-sizing: border-box;
 }
+#header {
+  font-size:75px;
+  color:white;
+  position: absolute;
+  top:100px;
+  left:50%;
+  transform: translateX(-50%);
+  animation: fadein 3s ease-out;
+}
+@keyframes slidein {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%)
+  }
+}
+#down-arrows {
+  text-align: center;
+  font-size:40px;
+  animation: slidein 2s linear;
+}
 html {
-  font-family: "Inclusive Sans", cursive;
+  font-family: "Inclusive Sans", cursive; 
   color:white;
   background-color: #002;
   
@@ -20,7 +42,6 @@ a {
 }
 #statement {
     background-color:green;
-    display:block;
     grid-area: statement;
 }
 @keyframes fadeinout {
@@ -54,10 +75,10 @@ a {
   height: 100%; 
   width: 100%;
   /* Center and scale the image nicely */
-  background-position: center;
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  position: absolute;
+  position: sticky;
 }
 #announcements {
   grid-area: announcements;
@@ -65,11 +86,59 @@ a {
 #teacher-apply {
   grid-area: teacher-signup;
 }
+#examples {
+  grid-area: examples;
+}
 #main-container {
   display: grid;
+  width: 100vw;
   grid-template-columns: repeat(3, 33%);
   grid-template-areas: 
   "statement statement statement"
   "teacher-signup examples examples"
   "announcements examples examples";
+}
+#main-container > div, #main-container h1 {
+  overflow: break-word;
+}
+.underscore-flash::after {
+  font-weight: 100;
+  color: black;
+  animation: fadeinout 1s linear 0s infinite;
+  content: '_'
+}
+.example-image {
+  width:66vw;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  } 
+  to {
+    opacity: 1 !important;
+  }
+}
+.active {
+  
+  transition: 0.5s;
+  opacity: 1;
+
+}
+.reveal {
+  opacity: 0;
+}
+#login-signup-container {
+  position:relative;
+  left:50%;
+  transform: translateX(-50%)
+}
+#links h1, #links p, #github a {
+  display:block;
+  text-align: center;
+}
+#login-signup-container a {
+  font-size:90px;
+  padding:10px;
+  margin: 3rem;
+  border-radius: 10px;
 }
