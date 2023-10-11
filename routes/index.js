@@ -23,9 +23,10 @@ async function getHomePageData(username) {
 
 router.get('/', async function(req, res, next) {
   if(!req.session.loggedin) {
-    res.redirect('/login')
+    res.render('indexNotLoggedIn')
     return
   }
+  
   var username = req.session.user
   var val = await getHomePageData(username)
   var todo = val.todo
