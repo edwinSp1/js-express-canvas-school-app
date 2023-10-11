@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&family=Space+Mono:ital@0;1&display=swap');
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: "Inclusive Sans", cursive;
+  color:white;
+  background-color: #002;
+  
+}
+a {
+    text-decoration: none;
+    color: lightblue
+}
+.navbar a {
+    padding: 10px;
+    text-decoration: none;
+    font-size: 20px;
+}
+#statement {
+    background-color:green;
+    display:block;
+    grid-area: statement;
+}
+@keyframes fadeinout {
+  0% {
+    opacity: 0;
+  } 
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+#statement::after {
+  font-weight: 100;
+  color: black;
+  animation: fadeinout 1s linear 0s infinite;
+  content: '|'
+}
+.background-image {
+  top:0px;
+  z-index: -1;
+  background-color: #002;
+  background-image: url('https://www.pbs.org/wgbh/nova/media/images/JWST_hero.width-1500.jpg');
+  
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  
+  /* Full height */
+  height: 100%; 
+  width: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+}
+#announcements {
+  grid-area: announcements;
+}
+#teacher-apply {
+  grid-area: teacher-signup;
+}
+#main-container {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  grid-template-areas: 
+  "statement statement statement"
+  "teacher-signup examples examples"
+  "announcements examples examples";
+}
