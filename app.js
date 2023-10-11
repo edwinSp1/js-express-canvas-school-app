@@ -1,5 +1,5 @@
+var cookieSession = require('cookie-session')
 
-const session = require('express-session')
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -17,7 +17,7 @@ var forumsRouter = require('./routes/forums')
 var app = express();
 // view engine setup
 app.set('trust proxy', 1);
-app.use(session({
+app.use(cookieSession({
 	secret: 'secret',
 	resave: true,
 	saveUninitialized: true

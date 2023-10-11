@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/node": "^20.6.0",
     "cookie-parser": "~1.4.4",
+    "cookie-session": "^2.0.0",
     "crypto-js": "^4.1.1",
     "cryptojs": "^2.5.3",
     "debug": "~2.6.9",
