@@ -16,9 +16,16 @@ router.use(auth)
 
 router.get('/forumPosts', async function(req, res, next) {
   //sort in descending order by likes
-  var posts = await db.getSortedDB('users', 'forumPosts', {likes:-1}, {})
+  var posts = await db.getDocsWithLimit('users', 'forumPosts', {}, 20)
   res.json(posts) 
 });
+router.get('/forumPosts/query/:query', async function(req, res, next) {
+  var query = req.params.query;
+  var regex = query+'.*'
+  console.log(regex)
+  var posts = await db.getDocsWithLimit('users', 'forumPosts', {title: {$regex:regex, $options:'i'}}, 20)
+  res.json(posts)
+})
 
 router.get('/likeForumPost/:id', async function(req, res, next) {
   try {

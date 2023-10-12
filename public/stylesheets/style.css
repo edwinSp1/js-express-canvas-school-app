@@ -437,3 +437,6 @@ select {
   border: 2px solid blue;
   animation: fadein 1s linear;
 }
+dialog button {
+  color:black;
+}

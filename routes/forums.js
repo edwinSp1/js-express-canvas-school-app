@@ -31,6 +31,7 @@ router.get('/createPost', function(req, res, next) {
 router.post('/createPost', async function(req, res, next) {
     const form = req.body
     form['user'] = req.session.user
+    form['specialRole'] = req.session.specialRole
     form['likedBy'] = []
     await db.insert('users', 'forumPosts', form)
     res.redirect('/forums')
@@ -44,6 +45,7 @@ router.post('/posts/:id/comment', async function(req, res, next) {
     var form = req.body
     form['user'] = req.session.user
     form['postId'] = req.params.id
+    form['specialRole'] = req.session.specialRole
     form['likedBy'] = []
     await db.insert('users', 'comments', form)
     res.redirect('/forums/posts/' + req.params.id)

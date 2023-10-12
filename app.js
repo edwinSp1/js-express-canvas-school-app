@@ -14,6 +14,7 @@ var sleepRouter = require('./routes/sleep');
 var collegeRouter = require('./routes/college')
 var canvasRouter = require('./routes/canvas')
 var forumsRouter = require('./routes/forums')
+var announcementRouter = require('./routes/announcements')
 var app = express();
 // view engine setup
 app.set('trust proxy', 1);
@@ -38,6 +39,7 @@ app.use('/sleep', sleepRouter);
 app.use('/college', collegeRouter);
 app.use('/canvas', canvasRouter)
 app.use('/forums', forumsRouter)
+app.use('/announcements', announcementRouter)
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));

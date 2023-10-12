@@ -127,6 +127,9 @@ router.post('/login', function(req, res, next) {
     } else {
       req.session.loggedin = true
       req.session.user = info.username
+      console.log(val, val[0].specialRole)
+      req.session.specialRole = val[0].specialRole
+
       res.redirect('/') //success
     }
   })
@@ -184,7 +187,7 @@ router.post('/changePassword', async function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   req.session.loggedin = false;
   req.session.user = null;
-  res.redirect('/login')
+  res.redirect('/home')
 })
 module.exports = router;
 

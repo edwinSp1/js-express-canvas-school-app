@@ -21,6 +21,24 @@ async function getDoc(db, coll, query) {
     await client.close();
   }
 }
+async function getDocsWithLimit(db, coll, query, lim) {
+  const client = new MongoClient(uriConnect)
+  await client.connect();
+  try {
+    const collection = client.db(db).collection(coll)
+    var cursor = collection.find(query).limit(lim)
+    var res = []
+    for await(const doc of cursor) {
+      res.push(doc)
+    }
+    return res
+  } catch (e) {
+    console.log(e)
+    return e
+  } finally {
+    await client.close();
+  }
+}
 async function getDocs(db, coll, query) {
   const client = new MongoClient(uriConnect)
   await client.connect();
@@ -131,3 +149,4 @@ exports.insert = insert
 exports.getapi = getapi
 exports.getDoc = getDoc
 exports.modifyDoc = modifyDoc
+exports.getDocsWithLimit = getDocsWithLimit

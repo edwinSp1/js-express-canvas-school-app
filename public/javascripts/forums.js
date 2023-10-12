@@ -19,6 +19,40 @@ function displayPosts(posts) {
                 post.content = post.content.slice(0, maxPostLength)
                 post.content += "..."
             }
+            
+            var color = 'white'
+            var postFix = ''
+            if(post.specialRole) {
+                switch (post.specialRole) {
+                    case 'Creator':
+                        color = 'blue';
+                        postFix = `<i class="fa-solid fa-code special-icon" 
+                        modal=${dashCase(post.specialRole)}></i>`
+                        break;
+                    case 'Beta Tester':
+                        color = 'green';
+                        postFix = `<i class="fa-solid fa-screwdriver-wrench special-icon" 
+                        modal=${dashCase(post.specialRole)} ></i>`
+                        break;
+                    case 'Admin':
+                        color = 'red';
+                        postFix = `<i class="fa-solid fa-star special-icon" 
+                        modal=${dashCase(post.specialRole)} ></i>`
+                        break;
+                    case 'Teacher':
+                        color = 'yellow';
+                        postFix = `<i class="fa-solid fa-chalkboard-user special-icon" 
+                        modal=${dashCase(post.specialRole)} ></i>`
+                        break;
+                }
+                
+                function dashCase (str) {
+                    return str.toLowerCase().split(' ').join('-')
+                }
+                post.user += `<span 
+                                style='color:${color};'>
+                                ${postFix}</span>`
+            }
             $('<div>').html(`
                 <h1 class='post-user'>${post.user}</h1>
                 <h1 class='post-title'><a href='/forums/posts/${id}'>${post.title}</a></h1>
@@ -52,17 +86,32 @@ function displayPosts(posts) {
         for(var likeButton of likeButtons) {
             likeButton.addEventListener('click', likePost)
         }
+                /*
+        MODALS FOR SPECIAL ROLES
+        */
+        var icons = document.querySelectorAll('.special-icon')
+        for(var icon of icons) {
+            icon.onclick = function(e) {
+                ele = e.target || e.srcElement 
+                var id = ele.getAttribute('modal')
+                var modal = document.getElementById(id)
+                modal.showModal()
+                modal.firstElementChild.onclick = () => modal.close()
+            }
+        }
     } catch(e) {
         console.log(e)
         $container.html('error fetching posts. Retrying in 20 seconds.')
     }
 }
-
+//store it so we don't need to make more unneccessary queries
+var origData;
 $.get('/api/forumPosts', function(data, status) {
     if(status != 'success') {
         $container.html('error fetching posts.')
         return;
     }
+    origData = data;
     displayPosts(data)
 })
 
@@ -70,22 +119,19 @@ const searchButton = document.getElementById('search')
 var searchBar = document.getElementById('search-query')
 var cancelButton = document.getElementById('cancel')
 cancelButton.addEventListener('click', function () {
-    const posts = document.querySelectorAll('.forum-post')
-    for(var post of posts) post.style.display = 'block'
+    $container.html('')
+    displayPosts(origData)
 })
 
 searchButton.addEventListener('click', check)
-function check() {
-  const posts = document.querySelectorAll('.forum-post')
+async function check() {
   var query = searchBar.value
-  query = query.trim().toUpperCase()
   
-  console.log(posts)
-  for(var post of posts) {
-    var title = post.children[1].textContent.toUpperCase()
-    if(title.indexOf(query) == -1) {
-      console.log('does not match')
-      post.style.display = 'none';
-    }
-  }
+  $container.html('Searching...')
+  await $.get('/api/forumPosts/query/' + query, async function(data, status) {
+    
+    $container.html('')
+    if(data.length == 0) $container.html('no results found.')
+    else displayPosts(data)
+  })
 }
