@@ -67,3 +67,22 @@ window.addEventListener('scroll', reveal)
 //call it incase it's already in view
 textType()
 reveal() 
+var showModalButtons = document.querySelectorAll('.show-modal')
+var modals = document.querySelectorAll('.modal')
+
+for(var button of showModalButtons) {
+    button.addEventListener('click', function(e) {
+        var ele = e.target ?? e.srcElement //IE
+        var newId = ele.getAttribute('id').slice(5) //show-thing -> thing
+        document.getElementById(newId).showModal()
+    })
+}
+var hideModalButtons = document.querySelectorAll('.close-modal')
+
+for(var button of hideModalButtons) {
+    button.addEventListener('click', function(e) {
+        var ele = e.target ?? e.srcElement //IE
+        var newId = ele.getAttribute('id').slice(6) //close-thing -> thing
+        document.getElementById(newId).close()
+    })
+}

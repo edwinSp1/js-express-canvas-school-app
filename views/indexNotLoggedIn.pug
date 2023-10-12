@@ -49,6 +49,30 @@ html
             div#socials
                 h1 Socials 
                 p I like grass ok 
+            #other 
+                div
+                    button(id='show-privacy-policy' class='show-modal') Privacy Policy
+                    dialog(id='privacy-policy' class='modal')
+                        button(id='close-privacy-policy' class='close-modal') Close
+                        h1 Privacy Policy 
+                        p Well I use some cookies for login and store your password and other data
+                        p Accounts can be deleted upon request --echen5503@student.pps.net 
+                        p thats about it thanks
+                    button(id='show-report-issue' class='show-modal') Report Issue
+                    dialog(id='report-issue' class='modal')
+                        button(id='close-report-issue' class='close-modal') Close
+                        h1 Pretty self explanatory just fill out this form 
+
+                        form(action='/issue' method='POST')
+                            label(for='title') Title
+                            input(name='title')
+                            br
+                            label(for='issue') Describe the issue.
+                            textarea(name="issue" max_length='500')
+                            input(type='submit') 
+                    
+
+                    
             
 
         script(src='javascripts/landingpage.js') 

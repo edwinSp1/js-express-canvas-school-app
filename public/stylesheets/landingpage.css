@@ -136,6 +136,16 @@ a {
   display:block;
   text-align: center;
 }
+#other div {
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%);
+}
+#other div > button {
+  background: transparent;
+  color:white;
+  padding:10px;
+}
 #login-signup-container a {
   font-size:90px;
   padding:10px;

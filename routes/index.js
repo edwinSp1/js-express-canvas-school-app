@@ -23,6 +23,13 @@ async function getHomePageData(username) {
 router.get('/home', function(req, res, next) {
   res.render('indexNotLoggedIn')
 })
+/*
+ISSUE REPORTS
+*/
+router.post('/issue', async function(req, res, next) {
+  await db.insert('users', 'issues', req.body)
+  res.redirect('/home')
+})
 router.get('/', async function(req, res, next) {
   if(!req.session.loggedin) {
     res.redirect('/home')
