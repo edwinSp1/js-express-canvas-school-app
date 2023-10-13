@@ -3,14 +3,14 @@ extends layout
 block content
   ul(class='navbar')
     li 
-      a(href='/') Back to home
+      a(href='/') Home
     li 
       a(href='https://chen31.com' target='_blank') Take a Break
     li 
       a(href= 'https://www.911.gov/calling-911/' target='_blank') Emergency
     li
       a(href='https://www.fcc.gov/988-suicide-and-crisis-lifeline' target='_blank') Suicide Hotline
-  h1 Wellness center
+  h1 Wellness Center
   h1 Distract yourself: #{activity}
   div(class='main-container')
     div(id='help-side')
@@ -27,7 +27,7 @@ block content
 
     div(id='overdue-container')
       if overdue.length == 0
-        h1(style='color:lightblue') Congragulations! You are all caught up!
+        h1(style='color:lightblue') Congragulations! No overdue assignments!
       else
         h1(style='font-size:50px;') Missing Assignments
         p Let's get you back on track! 
