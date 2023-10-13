@@ -32,11 +32,42 @@ document.querySelector('.like-post').addEventListener('click', likePost)
 
 var $commentContainer = $('#comment-container')
 $.get('/api/posts/' + id + '/getComments', function(data, status) {
-    console.log(data)
-    console.log(user)
     for(var comment of data) {
         var className = 'fa-regular'
         if(comment.likedBy.includes(user)) className = 'fa-solid'
+        var color = 'white'
+        var postFix = ''
+        if(comment.specialRole) {
+            switch (comment.specialRole) {
+                case 'Creator':
+                    color = 'blue';
+                    postFix = `<i class="fa-solid fa-code special-icon" 
+                    modal=${dashCase(comment.specialRole)}></i>`
+                    break;
+                case 'Beta Tester':
+                    color = 'green';
+                    postFix = `<i class="fa-solid fa-screwdriver-wrench special-icon" 
+                    modal=${dashCase(comment.specialRole)} ></i>`
+                    break;
+                case 'Admin':
+                    color = 'red';
+                    postFix = `<i class="fa-solid fa-star special-icon" 
+                    modal=${dashCase(comment.specialRole)} ></i>`
+                    break;
+                case 'Teacher':
+                    color = 'yellow';
+                    postFix = `<i class="fa-solid fa-chalkboard-user special-icon" 
+                    modal=${dashCase(comment.specialRole)} ></i>`
+                    break;
+            }
+            
+            function dashCase (str) {
+                return str.toLowerCase().split(' ').join('-')
+            }
+            comment.user += `<span 
+                            style='color:${color};'>
+                            ${postFix}</span>`
+        }
         $('<div>').html(`
             <h1>${comment.user}</h1>
             <p>${comment.content}</p>

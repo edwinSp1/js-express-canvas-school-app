@@ -36,9 +36,11 @@ router.post('/createPost', async function(req, res, next) {
     await db.insert('users', 'forumPosts', form)
     res.redirect('/forums')
 })
-router.get('/posts/:id/comment', function(req, res, next) {
+router.get('/posts/:id/comment', async function(req, res, next) {
+    var post = await db.getDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)})
     res.render('comment', {
-        postId: req.params.id
+        postId: req.params.id,
+        content: post.content
     })
 }) 
 router.post('/posts/:id/comment', async function(req, res, next) {

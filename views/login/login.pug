@@ -22,4 +22,10 @@ html
         input#password(type="password", name="password", placeholder="Password", required value=password)
         p=msg
         input(type="submit", value="Login")
+    script. 
+      document.querySelector('form').onsubmit = function(e) {
+          ele = e.target || e.srcElement 
+          
+          ele.lastElementChild.disabled=true;
+      }
   

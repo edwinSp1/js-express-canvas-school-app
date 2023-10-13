@@ -5,7 +5,15 @@ block content
         li  
             a(href='/forums/posts/' + postId) cancel
     h1 Comment on post
+    p=content
     form(action='/forums/posts/'+postId+'/comment' method='POST')
         label(for="content") Comment 
         textarea(name="content", cols="30", rows="10") 
-        input(type="submit" value='Comment') 
+        input(type="submit" id='submit' value='Comment') 
+    script. 
+        document.querySelector('form').onsubmit = function(e) {
+            ele = e.target || e.srcElement 
+            
+            ele.lastElementChild.disabled=true;
+        }
+    

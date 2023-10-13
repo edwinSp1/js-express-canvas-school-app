@@ -10,3 +10,9 @@ block content
         label(for='content') Content 
         textarea(name="content" style='width: 300px; height: 300px;')
         input(type='submit' value='Post')
+    script. 
+        document.querySelector('form').onsubmit = function(e) {
+            ele = e.target || e.srcElement 
+            
+            ele.lastElementChild.disabled=true;
+        }
