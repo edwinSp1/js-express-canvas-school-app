@@ -95,10 +95,12 @@ router.get('/posts/:id/comment', async function(req, res, next) {
 }) 
 router.post('/posts/:id/comment', async function(req, res, next) {
     var form = req.body
+    var contentRes = await checkBadWords(form.content)
     form['user'] = req.session.user
     form['postId'] = req.params.id
     form['specialRole'] = req.session.specialRole
     form['likedBy'] = []
+    form['content'] = contentRes['censored-content']
     await db.insert('users', 'comments', form)
     res.redirect('/forums/posts/' + req.params.id)
 })
