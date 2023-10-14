@@ -16,7 +16,6 @@ router.use(auth)
 router.get('/', async function(req, res, next) {
   const sleepData = await db.getDocs('users', 'sleep', {username: req.session.user})
   const userData = await db.getDoc('users', 'userdata', {username:req.session.user})
-  
   const schedule = userData.schedule ?? ['9:30PM', '7:00AM'] //default
   
   res.render('sleep', {sleepData:sleepData.reverse(), schedule:schedule})
@@ -29,6 +28,7 @@ function handleUserDate(doc, username) {
     wakeTime: `${doc.wakeHr}:${doc.wakeMin}${doc.wakeAmPm}`,
     username: username,
     date: dates.formatDateNoHour(new Date()),
+    sleepNote: doc.sleepNote,
     breakDay: doc.breakDay== 'on' ? true : false
   }
 }
