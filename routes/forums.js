@@ -13,7 +13,31 @@ function auth (req, res, next) {
     next()
 }
 router.use(auth)
+const axios = require('axios');
 
+
+async function checkBadWords(str) {
+    const encodedParams = new URLSearchParams();
+    encodedParams.set('content', str);
+    encodedParams.set('censor-character', '*');
+
+    const options = {
+        method: 'POST',
+        url: 'https://neutrinoapi-bad-word-filter.p.rapidapi.com/bad-word-filter',
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'X-RapidAPI-Key': 'd2d1d02457msh62eb20ab5040fe8p180b2bjsn8a42e0a56651',
+            'X-RapidAPI-Host': 'neutrinoapi-bad-word-filter.p.rapidapi.com'
+        },
+        data: encodedParams,
+    };
+  try {
+    const response = await axios.request(options);
+    return response.data
+  } catch (error) {
+    console.error(error);
+  }
+}
 router.get('/', function(req, res, next) {
     res.render('forums', {user: req.session.user, specialRole: req.session.specialRole})
 })
@@ -47,12 +71,27 @@ router.get('/createPost', function(req, res, next) {
 })
 router.post('/createPost', async function(req, res, next) {
     const form = req.body
-    form['user'] = req.session.user
-    form['specialRole'] = req.session.specialRole
-    form['likedBy'] = []
-    form['date'] = dates.formatDateNoHour(new Date())
-    await db.insert('users', 'forumPosts', form)
-    res.redirect('/forums')
+    try {
+        console.log(form.content)
+        var badWordRes = await checkBadWords(form.content)
+        console.log(badWordRes)
+        if(badWordRes['is-bad']) {
+            // the backslash is escape character
+            res.send(
+                `\"${form.content}\" contains bad words. 
+                Offending content: ${badWordRes['bad-words-list']}`
+            )
+            return
+        }
+        form['user'] = req.session.user
+        form['specialRole'] = req.session.specialRole
+        form['likedBy'] = []
+        form['date'] = dates.formatDateNoHour(new Date())
+        await db.insert('users', 'forumPosts', form)
+        res.redirect('/forums')
+    } catch(e) {
+        console.error(e)
+    }
 })
 router.get('/posts/:id/comment', async function(req, res, next) {
     var post = await db.getDoc('users', 'forumPosts', {_id: new ObjectId(req.params.id)})
