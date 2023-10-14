@@ -13,7 +13,7 @@ block content
         h1(class='post-user') #{post.user}
         h1(class='post-title')=post.title
         p(class='post-content')=post.content
-        - post.date = post.date ? past.date : 'no date'
+        - post.date = post.date ? post.date : 'no date'
         p(class='post-date')=post.date
         -var className = 'fa-regular' 
         if post.likedBy.includes(post.user)

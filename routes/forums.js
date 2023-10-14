@@ -72,17 +72,10 @@ router.get('/createPost', function(req, res, next) {
 router.post('/createPost', async function(req, res, next) {
     const form = req.body
     try {
-        console.log(form.content)
-        var badWordRes = await checkBadWords(form.content)
-        console.log(badWordRes)
-        if(badWordRes['is-bad']) {
-            // the backslash is escape character
-            res.send(
-                `\"${form.content}\" contains bad words. 
-                Offending content: ${badWordRes['bad-words-list']}`
-            )
-            return
-        }
+        var titleRes = await checkBadWords(form.title)
+        var contentRes = await checkBadWords(form.content)
+        form['title'] = titleRes['censored-content']
+        form['content'] = contentRes['censored-content']
         form['user'] = req.session.user
         form['specialRole'] = req.session.specialRole
         form['likedBy'] = []

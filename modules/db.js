@@ -138,7 +138,25 @@ async function insert(db, coll, doc) {
     await client.close();
   }
 }
+async function upsertDoc(db, coll, query, doc) {
+  const client = new MongoClient(uriConnect)
+  await client.connect();
+  try {
+    const collection = client.db(db).collection(coll)
+    var res = await collection.updateOne(query, {
+      $set: doc
+    }, {
+      $upsert: true
+    })
+    return res
+  } catch(e) {
+    console.log(e);
+    return e
+  } finally {
+    await client.close();
+  }
 
+}
 
 
 exports.getDocs = getDocs
@@ -150,3 +168,4 @@ exports.getapi = getapi
 exports.getDoc = getDoc
 exports.modifyDoc = modifyDoc
 exports.getDocsWithLimit = getDocsWithLimit
+exports.upsertDoc = upsertDoc

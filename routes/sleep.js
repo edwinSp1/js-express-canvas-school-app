@@ -53,7 +53,7 @@ router.post('/schedule/modify', async function(req, res, next) {
   doc['username'] = req.session.user
   doc['schedule'] = [`${doc.sleepHr}:${doc.sleepMin}${doc.sleepAmPm}`,`${doc.wakeHr}:${doc.wakeMin}${doc.wakeAmPm}`]
   doc['wakeTime'] = `${doc.wakeHr}:${doc.wakeMin}${doc.wakeAmPm}`,
-  await db.updateDoc('users', 'userdata',{username:req.session.user}, doc)
+  await db.upsertDoc('users', 'userdata',{username:req.session.user}, doc)
   res.redirect('/sleep')
 })
 module.exports = router;
