@@ -6,7 +6,8 @@ block content
             a(href='/') Home 
         li 
             a(href='/forums/createPost') Create Post
-    h1 Logged in as #[span(id='user')=user]
+    - specialRole = specialRole ? specialRole : 'Student'
+    h1 Logged in as #[span(id='user')=user] (#[span(id='specialRole')=specialRole])
     div(id='search-bar' class='grid-center')
       p(id='search') #[i(class="fa-solid fa-magnifying-glass FA-icon")]
       input(name='query' id='search-query') 
@@ -19,7 +20,7 @@ block content
     dialog(id='admin') 
         button close
         h1 Verified administrator of the school.
-    dialog(id='teacher') 
+    dialog(id='teacher')  
         button close
         h1 Verified teacher.
     dialog(id='beta-tester') 

@@ -1,7 +1,8 @@
 extends layout
 
 block content 
-    div(id='user')=user
+    - specialRole = specialRole ? specialRole : 'Student'
+    div Logged in as #[span(id='user')=user] (#[span(id='specialRole')=specialRole])
     ul(class='navbar')
         li  
             a(href='/forums') Back
@@ -17,7 +18,7 @@ block content
             - className = 'fa-solid'
         p(class='post-likes') #[i(class="fa-heart FA-icon heart-icon like-post " + className id-value=post._id)] #[span(class='post-likes')=post.likedBy.length]
     h1 Comments
-    div(id='comment-container') 
+    div(id='comment-container')  
 
     script(src='/javascripts/forumPost.js' )
          

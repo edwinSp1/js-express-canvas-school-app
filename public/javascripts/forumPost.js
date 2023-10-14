@@ -1,5 +1,7 @@
 var user = document.getElementById('user').innerHTML
+var specialRole = $('#specialRole').html()
 var id = document.querySelector('.like-post').getAttribute('id-value')
+
 function search(arr, target) {
     for(var x of arr) {
         if(x == target) return true
@@ -68,8 +70,13 @@ $.get('/api/posts/' + id + '/getComments', function(data, status) {
                             style='color:${color};'>
                             ${postFix}</span>`
         }
+        var deleteButton = ''
+        var specialRole = $('#specialRole').html()
+        if(specialRole == 'Creator' || specialRole == 'Admin') {
+            deleteButton += `<a href='/forums/comment/${comment._id}/delete?postID=${id}'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
+        }
         $('<div>').html(`
-            <h1>${comment.user}</h1>
+            <h1>${comment.user}${deleteButton}</h1>
             <p>${comment.content}</p>
             <p> <i class="fa-heart FA-icon heart-icon like-post ${className}" id-value = "${comment._id}"></i> <span class='post-likes'>${comment.likedBy.length}</span>
         `).addClass('comment').appendTo($commentContainer)

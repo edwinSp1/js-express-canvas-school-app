@@ -50,8 +50,8 @@ html
                 h1 View The Project On 
                     a(href='https://github.com/edwinSp1/js-express-canvas-school-app') #[i(class="fa-brands fa-github")]
             div#socials
-                h1 Socials 
-                p I like grass ok 
+                h1 Socials(Follow so I can get an intern)
+                a(href='https://twitter.com/EdwinChen995525') Twitter 
             #other 
                 div
                     button(id='show-privacy-policy' class='show-modal') Privacy Policy
@@ -59,13 +59,15 @@ html
                         button(id='close-privacy-policy' class='close-modal') Close
                         h1 Privacy Policy 
                         p Well I use some cookies for login and store your password and other data
-                        p Accounts can be deleted upon request --echen5503@student.pps.net 
+                        p Sensitive data is encryted using AES 
+                        p All of your documents, forum posts, settings, sleep data, colleges, activities are stored but are NOT kept after deletion 
+                        p Insertion: await db.insert(database, collection, data) and the other way around for deletion
+                        p Accounts can be deleted upon request(and their corresponding data *discord*) --echen5503@student.pps.net 
                         p thats about it thanks
                     button(id='show-report-issue' class='show-modal') Report Issue
                     dialog(id='report-issue' class='modal')
                         button(id='close-report-issue' class='close-modal') Close
                         h1 Pretty self explanatory just fill out this form 
-
                         form(action='/issue' method='POST')
                             label(for='title') Title
                             input(name='title')

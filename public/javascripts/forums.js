@@ -1,6 +1,7 @@
 const maxPostLength = 200;
 var $container = $('#forum-posts-container')
 var user = $('#user').html()
+var specialRole = $('#specialRole').html()
 function search(arr, target) {
     for(var x of arr) {
         if(x == target) return true
@@ -53,8 +54,15 @@ function displayPosts(posts) {
                                 style='color:${color};'>
                                 ${postFix}</span>`
             }
+            //if its creator or admin
+            var deleteButton = ''
+            console.log(specialRole)
+            if(specialRole == 'Creator' || specialRole == 'Admin') {
+                deleteButton += `<a href='forums/posts/${post._id}/delete'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
+            }
+            console.log(deleteButton)
             $('<div>').html(`
-                <h1 class='post-user'>${post.user}</h1>
+                <h1 class='post-user'>${post.user}${deleteButton}</h1>
                 <h1 class='post-title'><a href='/forums/posts/${id}'>${post.title}</a></h1>
                 <p class='post-content'>${post.content}</h1>
                 <p class='post-likes'>${heart}<span class='like-num'>${post.likedBy.length}</span></p>
@@ -70,7 +78,7 @@ function displayPosts(posts) {
             if(!isLiked) {
                 
                 button.parentNode.children[1].textContent++
-                classList.remove('fa-regular')
+                classList.remove('fa-regular') 
                 classList.add('fa-solid')
                 
                 $.get('/api/likeForumPost/'+id)
