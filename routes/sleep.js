@@ -40,8 +40,7 @@ router.post('/add', async function(req, res, next) {
 
   var doc = req.body
   var newDoc = handleUserDate(doc, req.session.user)
-  var result = await db.updateDoc('users', 'sleep', {username:req.session.user, date:dates.formatDateNoHour(new Date())}, newDoc)
-  console.log(result)
+  var result = await db.insert('users', 'sleep', newDoc)
   res.redirect('/sleep')
 })
 
