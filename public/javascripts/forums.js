@@ -61,8 +61,10 @@ function displayPosts(posts) {
                 deleteButton += `<a href='forums/posts/${post._id}/delete'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
             }
             console.log(deleteButton)
+            //replace multiple spaces with one to prevent trolling
+            post.content = post.content.replace(/\s+/g, ' ')
             $('<div>').html(`
-                <h1 class='post-user'>${post.user}${deleteButton}</h1>
+                <h1 class='post-user'>${post.user}${deleteButton}</h1><p>${post.date ?? 'no date'}</p>
                 <h1 class='post-title'><a href='/forums/posts/${id}'>${post.title}</a></h1>
                 <p class='post-content'>${post.content}</h1>
                 <p class='post-likes'>${heart}<span class='like-num'>${post.likedBy.length}</span></p>

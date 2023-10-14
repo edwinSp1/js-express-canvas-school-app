@@ -50,6 +50,7 @@ router.post('/createPost', async function(req, res, next) {
     form['user'] = req.session.user
     form['specialRole'] = req.session.specialRole
     form['likedBy'] = []
+    form['date'] = dates.formatDateNoHour(new Date())
     await db.insert('users', 'forumPosts', form)
     res.redirect('/forums')
 })
