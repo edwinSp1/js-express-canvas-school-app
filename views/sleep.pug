@@ -16,7 +16,7 @@ block content
   else 
     each val in sleepData
       if val.breakDay
-        h1 #{val.date}(break day):
+        h1 #{val.date} (break day):
           h4 Sleep Time: #[span(style='color:green') #{val.sleepTime}]
           h4 Waking Time:#[span(style='color:green') #{val.wakeTime}]
       else 
@@ -24,4 +24,5 @@ block content
           h1 #{val.date}:
           h4 Sleep Time: #[span(class='sleepTime') #{val.sleepTime}]
           h4 Waking Time:#[span(class='wakeTime') #{val.wakeTime}]
+      h4 Notes: #{val.sleepNote}
   script(src='javascripts/sleep.js')
