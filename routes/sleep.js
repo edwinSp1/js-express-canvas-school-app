@@ -14,11 +14,16 @@ function auth(req, res, next) {
 router.use(auth)
 
 router.get('/', async function(req, res, next) {
-  const sleepData = await db.getDocs('users', 'sleep', {username: req.session.user})
-  const userData = await db.getDoc('users', 'userdata', {username:req.session.user})
-  const schedule = userData.schedule ?? ['9:30PM', '7:00AM'] //default
-  
-  res.render('sleep', {sleepData:sleepData.reverse(), schedule:schedule})
+  try {
+    const sleepData = await db.getDocs('users', 'sleep', {username: req.session.user})
+    const userData = await db.getDoc('users', 'userdata', {username:req.session.user})
+    const schedule = userData.schedule ? userData.schedule : ['9:30PM', '7:00AM'] //default
+    
+    res.render('sleep', {sleepData:sleepData.reverse(), schedule:schedule})
+  } catch(e) {
+    db.insert('users', 'userdata', {username: req.session.username})
+    res.render('sleep', {sleepData:[], schedule:['9:30PM', '7:30AM']})
+  }
 })
 function handleUserDate(doc, username) {
   doc.sleepMin = doc.sleepMin == '0' ? '00' : doc.sleepMin

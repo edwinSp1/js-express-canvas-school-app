@@ -12,13 +12,12 @@ html
     body
     
         div(class='background-image')
+        a(href='/adduser' class='top-right' style='font-size: 30px;') Create Account
+        a(href='/login' class='top-left' style='font-size:30px;') Login 
         div(id='header')
             h1(style='display:inline' id='title') Mercury
             h1(style='font-size:30px;') For The Next Generation of #[br] #[span(id='statement') Schools.]
             h1(id='down-arrows') Explore #[br] #[i(class="fa-solid fa-up-down")] #[i(class="fa-solid fa-up-down")]
-        div(class='navbar')
-            a(href='/adduser' style='float:right') Create Account
-            a(href='/login' style='float:right') Login 
         div(id='main-container')
             h1(id='teacher-apply' class='reveal') Are you a teacher? Email echen5503@student.pps.net with your desired username.
             div(id='announcements' class='reveal') 
@@ -47,11 +46,11 @@ html
                     a(href='/login') Login
                     a(href='/adduser') Sign Up
             #github 
-                h1 View The Project On 
-                    a(href='https://github.com/edwinSp1/js-express-canvas-school-app') #[i(class="fa-brands fa-github")]
+                h1 Star The Project On 
+                    a(href='https://github.com/edwinSp1/js-express-canvas-school-app') #[i(class="fa-brands fa-github" style='font-size: 50px;')]
             div#socials
                 h1 Socials(Follow so I can get an intern)
-                a(href='https://twitter.com/EdwinChen995525') Twitter 
+                a(href='https://twitter.com/EdwinChen995525') #[i(class="fa-brands fa-twitter FA-icon" style='font-size:30px;')]
             #other 
                 div
                     button(id='show-privacy-policy' class='show-modal') Privacy Policy
@@ -70,7 +69,7 @@ html
                         h1 Pretty self explanatory just fill out this form 
                         form(action='/issue' method='POST')
                             label(for='title') Title
-                            input(name='title')
+                            input(name='title') 
                             br
                             label(for='issue') Describe the issue.
                             textarea(name="issue" max_length='500')

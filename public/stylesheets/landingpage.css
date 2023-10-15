@@ -132,7 +132,7 @@ a {
   left:50%;
   transform: translateX(-50%)
 }
-#links h1, #links p, #github a {
+#links h1, #links p, #github a, #socials a{
   display:block;
   text-align: center;
 }
@@ -151,4 +151,15 @@ a {
   padding:10px;
   margin: 3rem;
   border-radius: 10px;
+}
+.top-right, .top-left {
+  position: absolute;
+  top: 0px;
+  margin: 10px;
+}
+.top-right {
+  right:0px;
+}
+.top-left {
+  left:0px;
 }
