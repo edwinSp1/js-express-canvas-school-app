@@ -58,7 +58,6 @@ router.get('/docs/:id', async function(req, res, next) {
 
   
   const doc = await getDocData(id, req.session.user)
-  console.log(doc)
   res.render('updateDoc', doc)
 })
 
