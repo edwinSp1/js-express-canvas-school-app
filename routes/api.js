@@ -47,6 +47,7 @@ router.get('/forumPosts/:pageNum/', async function(req, res, next) {
   */
   res.json(posts.reverse()) 
 });
+
 router.get('/forumPosts/query/:query', async function(req, res, next) {
   var query = req.params.query;
   var regex = query+'.*'

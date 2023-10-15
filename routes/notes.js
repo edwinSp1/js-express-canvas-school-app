@@ -12,8 +12,8 @@ function auth(req, res, next) {
 }
 
 router.use(auth)
-async function getHomePageData(username) {
-  var docs = await db.getDocs('users', 'notes', {username: username})
+async function getHomePageData(username, pageNum, query) {
+  var docs = await db.getPageData('users', 'notes', {username: username, title: query}, pageNum, 10)
   var userData = await db.getDoc('users', 'userdata', {username:username})
   if(!userData) {
     var defaultData = {
@@ -24,17 +24,29 @@ async function getHomePageData(username) {
     await db.insert('users', 'userdata', defaultData)
   }
   var categories = userData.categories 
+  var rawQuery = query.$regex.slice(0, query.$regex.length-2)
   return {
     docs: docs,
-    categories: categories ?? ['']
+    categories: categories ?? [''],
+    pageNum: pageNum,
+    query: rawQuery
   }
 }
 /* NOTES */
 router.get('/', function(req, res, next) {
-  getHomePageData(req.session.user).then((val) => {
+  res.redirect('/notes/1')
+});
+router.get('/:pageNum', function(req, res, next) {
+  var query = req.query.query ? req.query.query : ''; //req.query: link.com?helloworld=no => {helloworld: no}
+  var regex = query+'.*'
+  query = {
+    $regex: regex,
+    $options: 'i'
+  }
+  getHomePageData(req.session.user, req.params.pageNum, query).then((val) => {
     res.render('notes', val)
   })
-});
+})
 async function getDocData(id, username) {
   var doc = await db.getDoc('users', 'notes', {_id: new ObjectId(id)})
   if(!doc) return null
@@ -78,7 +90,6 @@ router.get('/docs/delete/:id', function(req, res, next) {
   })
 }) 
 router.get('/add', function(req, res, next) {
-  console.log('accessed /add')
   db.getDoc('users', 'userdata', {username:req.session.user}).then((val) => {
     val = val ?? []
     res.render('newdoc', {link: `/notes/add`, categories: val.categories ?? []})

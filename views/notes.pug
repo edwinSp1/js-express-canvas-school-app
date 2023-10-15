@@ -8,9 +8,10 @@ block content
       a(href='/notes/categories') Manage categories
      
   a(href='/notes/add' class='FA-icon add-new top-right') #[i(class="fa-solid fa-plus fa-beat-fade")]
+  h1 You are on page #[span(id='page')=pageNum]
   main
     div(id='header' class='grid-center')
-      h1() Notes
+      h1 Notes
     div(id='filters' class='grid-center') 
       h1 Filters
       #filter-container
@@ -25,7 +26,7 @@ value='none')
       button(id='apply-filters') Apply Filters
     div(id='search-bar' class='grid-center')
       p(id='search') #[i(class="fa-solid fa-magnifying-glass FA-icon")]
-      input(name='query' id='search-query') 
+      input(name='query' id='search-query' value=query) 
       p(id='cancel') #[i(class="fa-solid fa-x FA-icon")]
     div(id='doc-container' class='grid-center')
       if docs.length == 0
@@ -41,5 +42,9 @@ value='none')
               span #[a(class='doc-name' href='/notes/docs/' + doc._id style='font-size:50px;') Untitled Document] #[span(class='category') #{category}] 
             
             p(class='other' style='font-size:30px')=doc.EQ
-  script(src='javascripts/notes.js')
+      div(class='pagination-links')
+        if pageNum > 1
+            button(id='prev') previous
+        button(id='next') next
+  script(src='/javascripts/notes.js')
   
