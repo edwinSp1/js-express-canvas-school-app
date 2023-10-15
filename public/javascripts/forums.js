@@ -2,6 +2,7 @@ const maxPostLength = 200;
 var $container = $('#forum-posts-container')
 var user = $('#user').html()
 var specialRole = $('#specialRole').html()
+var pageNum = $('#page').html()
 function search(arr, target) {
     for(var x of arr) {
         if(x == target) return true
@@ -11,6 +12,10 @@ function search(arr, target) {
 
 function displayPosts(posts) {
     try {
+        if(posts.length == 0) {
+            $container.html('No posts on this page :(')
+            return
+        }
         for(var post of posts) {
             var id = post._id
             var solidHeart = `<i class="fa-solid fa-heart FA-icon heart-icon like-post" id-value=${id}></i>`
@@ -97,7 +102,7 @@ function displayPosts(posts) {
             likeButton.addEventListener('click', likePost)
         }
                 /*
-        MODALS FOR SPECIAL ROLES
+        MODALS FOR SPECIAL ROLES 
         */
         var icons = document.querySelectorAll('.special-icon')
         for(var icon of icons) {
@@ -111,37 +116,43 @@ function displayPosts(posts) {
         }
     } catch(e) {
         console.log(e)
-        $container.html('error fetching posts. Retrying in 20 seconds.')
+        $container.html('error fetching posts. Try reloading.')
     }
 }
-//store it so we don't need to make more unneccessary queries
-var origData;
-$.get('/api/forumPosts', function(data, status) {
-    if(status != 'success') {
-        $container.html('error fetching posts.')
-        return;
-    }
-    origData = data;
-    displayPosts(data)
-})
+
+  
+
 
 const searchButton = document.getElementById('search')
 var searchBar = document.getElementById('search-query')
 var cancelButton = document.getElementById('cancel')
+async function check() {
+    var query = searchBar.value
+
+    $container.html('Searching...')
+    await $.get(`/api/forumPosts/${pageNum}/?query=${query}`, async function(data, status) {
+        
+        $container.html('')
+        if(data.length == 0) $container.html('no results found.')
+        else displayPosts(data)
+    })
+}
+//call it when the page first loads
+check()
+
 cancelButton.addEventListener('click', function () {
-    $container.html('')
-    displayPosts(origData)
+    window.location = '/forums/1'
 })
 
 searchButton.addEventListener('click', check)
-async function check() {
-  var query = searchBar.value
-  
-  $container.html('Searching...')
-  await $.get('/api/forumPosts/query/' + query, async function(data, status) {
-    
-    $container.html('')
-    if(data.length == 0) $container.html('no results found.')
-    else displayPosts(data)
-  })
+
+$('#next').on('click', function(e) {
+    window.location =`/forums/${Number(pageNum)+1}?query=${searchBar.value}`
+})
+var prevButton = $('#prev')
+//the prevButton does not necissarily exist
+if(prevButton) {
+    prevButton.on('click', function() {
+        window.location =`/forums/${pageNum-1}?query=${searchBar.value}`
+    })
 }

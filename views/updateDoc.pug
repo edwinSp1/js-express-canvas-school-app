@@ -19,7 +19,7 @@ block content
       - var obj = metadata[key]
       div(id=key class='draggable' style='top:' + obj.pos.top + '; left: ' + obj.pos.left)
         h1(id=key + 'header')=key
-        textarea(name=key class=key style = 'width:' + obj.size.width + '; height:' + obj.size.height)=prev[key] 
+        textarea(name=key class=key style = 'width:' + obj.size.width + '; height:' + obj.size.height maxlength='10000')=prev[key] 
     input(type='submit' value='Save' id='submit-button')
     
     

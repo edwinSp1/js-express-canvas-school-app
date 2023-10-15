@@ -7,7 +7,7 @@ block content
   h1 Add Task
   form(action='/todo/add' method='POST')
     label(for='task') Task
-    input(name='task' type='text')  
+    input(name='task' type='text' max_length='50')  
     label(for='date') Due date
     input(name='date' type='datetime-local')
     label(for='other') Other

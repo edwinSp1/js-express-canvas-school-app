@@ -157,7 +157,36 @@ async function upsertDoc(db, coll, query, doc) {
 
 }
 
+async function getPageData(db, coll, query, page, docsPerPage) {
+  const client = new MongoClient(uriConnect)
+  await client.connect();
+  try {
+    var res = []
+    const collection = client.db(db).collection(coll)
+    var cursor = collection.aggregate([
+      {
+        $match: query
+      },
+      {
+        $skip: docsPerPage * (page-1) //skip the pages already seen
+      },
+      {
+        $limit: docsPerPage
+      }
+    ])
+    for await (var x of cursor) { 
+      res.push(x)
+    }
+    return res
+  } catch(e) {
+    console.log(e);
+    return e
+  } finally {
+    await client.close();
+  }
+}
 
+exports.getPageData = getPageData
 exports.getDocs = getDocs
 exports.updateDoc = updateDoc
 exports.getSortedDB = getSortedDB

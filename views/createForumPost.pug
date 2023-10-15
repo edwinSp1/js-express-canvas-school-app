@@ -8,7 +8,7 @@ block content
         label(for='title') Title
         input(name='title' max-length="50") 
         label(for='content') Content 
-        textarea(name="content" style='width: 300px; height: 300px;')
+        textarea(name="content" style='width: 300px; height: 300px;'  maxlength='10000')
         input(type='submit' value='Post')
     script. 
         document.querySelector('form').onsubmit = function(e) {

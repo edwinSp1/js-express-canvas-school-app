@@ -26,7 +26,7 @@ async function getHomePageData(username) {
   var categories = userData.categories 
   return {
     docs: docs,
-    categories: categories ?? ['you can create categories here!']
+    categories: categories ?? ['']
   }
 }
 /* NOTES */

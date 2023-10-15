@@ -7,7 +7,7 @@ block content
   form(action='/college/add' method='POST')
     div(class="autocomplete" style="width:300px;") 
       label(for='college') College
-      input(name='college' id='college')
+      input(name='college' id='college' maxlength='50')
     label(for='category') Category
     select(name='category')
       option(value='Highroll') Highroll

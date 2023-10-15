@@ -8,12 +8,20 @@ block content
             a(href='/forums/createPost') Create Post
     - specialRole = specialRole ? specialRole : 'Student'
     h1 Logged in as #[span(id='user')=user] (#[span(id='specialRole')=specialRole])
+    h1 You are on page #[span(id='page')=pageNum]
+    
     div(id='search-bar' class='grid-center')
       p(id='search') #[i(class="fa-solid fa-magnifying-glass FA-icon")]
-      input(name='query' id='search-query') 
+      input(name='query' id='search-query' value=query)  
       p(id='cancel') #[i(class="fa-solid fa-x FA-icon")]
 
     div(id='forum-posts-container')
+    div(class='pagination-links')
+        if pageNum > 1
+            button(id='prev') previous
+        button(id='next') next
+    div(class='footer')
+
     dialog(id='creator') 
         button close
         h1 One of the creators of the site.
@@ -26,4 +34,4 @@ block content
     dialog(id='beta-tester') 
         button close
         h1 One of the betatesters! Thanks for your help!
-    script(src='javascripts/forums.js')  
+    script(src='/javascripts/forums.js')  

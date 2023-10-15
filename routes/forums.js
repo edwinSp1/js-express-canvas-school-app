@@ -25,7 +25,7 @@ async function checkBadWords(str) {
         method: 'POST',
         url: 'https://neutrinoapi-bad-word-filter.p.rapidapi.com/bad-word-filter',
         headers: {
-            'content-type': 'application/x-www-form-urlencoded',
+            'content-type': 'application/x-www-form-urlencoded', 
             'X-RapidAPI-Key': 'd2d1d02457msh62eb20ab5040fe8p180b2bjsn8a42e0a56651',
             'X-RapidAPI-Host': 'neutrinoapi-bad-word-filter.p.rapidapi.com'
         },
@@ -39,7 +39,21 @@ async function checkBadWords(str) {
   }
 }
 router.get('/', function(req, res, next) {
-    res.render('forums', {user: req.session.user, specialRole: req.session.specialRole})
+    //default
+    res.redirect('/forums/1')
+})
+router.get('/:page', function(req, res, next) {
+    if(req.params.page < 1) {
+        res.render('404')
+        return
+    }
+    var query = req.query.query
+    res.render('forums', {
+        user: req.session.user, 
+        specialRole: req.session.specialRole, 
+        pageNum: req.params.page,
+        query: query
+    })
 })
 /*
 Wrap ObjectIds in tryCatch because it throws error if it isn't a correct input(24byte char array)

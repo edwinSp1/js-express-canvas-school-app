@@ -8,7 +8,7 @@ block content
     p=content
     form(action='/forums/posts/'+postId+'/comment' method='POST')
         label(for="content") Comment 
-        textarea(name="content", cols="30", rows="10") 
+        textarea(name="content", cols="30", rows="10"  maxlength='1000') 
         input(type="submit" id='submit' value='Comment') 
     script. 
         document.querySelector('form').onsubmit = function(e) {

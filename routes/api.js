@@ -14,16 +14,44 @@ function auth (req, res, next) {
 }
 router.use(auth)
 
-router.get('/forumPosts', async function(req, res, next) {
+router.get('/forumPosts/:pageNum/', async function(req, res, next) {
   //sort in descending order by likes
-  var posts = await db.getDocsWithLimit('users', 'forumPosts', {}, 20)
-  res.json(posts) 
+  console.log(req.query)
+  var query = req.query.query ? req.query.query : ''; //req.query: link.com?helloworld=no => {helloworld: no}
+  var regex = query+'.*'
+  var regexQuery = {
+    $regex: regex,
+    $options: 'i'
+  }
+  /*
+    @db: String: database
+    @collection: String: collection
+    @query: Object: keyvalue pairs
+    @pageNum: Number: page currently on
+    @docsPerPage: Number: documents per page 
+  */
+  var posts = await db.getPageData('users', 'forumPosts', {
+    title: regexQuery
+  }, req.params.pageNum, 10)
+  /*
+  why reverse? 
+  because objects are inserted into db like this
+  0
+  0
+  0
+  0
+  => new element
+  not the other way around.
+  This means that we need to reverse to result in order to get it sorted in recency order,
+  without having to put date objects on everything.
+  */
+  res.json(posts.reverse()) 
 });
 router.get('/forumPosts/query/:query', async function(req, res, next) {
   var query = req.params.query;
   var regex = query+'.*'
-  console.log(regex)
-  var posts = await db.getDocsWithLimit('users', 'forumPosts', {title: {$regex:regex, $options:'i'}}, 20)
+  var regQuery = {$regex:regex, $options:'i'}
+  var posts = await db.getDocsWithLimit('users', 'forumPosts', {title: regQuery}, 10)
   res.json(posts)
 })
 

@@ -6,11 +6,11 @@ block content
             a(href='/todo') cancel
   form(action='/todo/update/' + id  method='POST')
     label(for='task') Task
-    input(name='task' type='text' value=prev.task)  
+    input(name='task' type='text' value=prev.task maxlength='100')  
     label(for='date') Due date (Last Due Date: #{prev.dueDate})
-    input(name='date' type='datetime-local')
+    input(name='date' type='datetime-local' )
     label(for='other') Other
-    input(name='other' type='text' value=prev.other)
+    input(name='other' type='text' value=prev.other maxlength='100')
     label(for='priority') Priority
     if prev.priority
       input(name='priority' type='checkbox' checked)
