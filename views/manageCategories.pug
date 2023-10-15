@@ -7,6 +7,8 @@ block content
   a(href='/notes/categories/add/') #[i(class="fa-solid fa-plus FA-icon")]
   h1 Categories
   - var categories = userData.categories ? userData.categories : []
+  if categories.length==0
+    h2 You don't have any categories yet. Add them with the + button.
   each category, idx in categories
     .category
       h1=category 

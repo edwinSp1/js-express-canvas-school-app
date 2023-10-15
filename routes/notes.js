@@ -80,6 +80,7 @@ router.get('/docs/delete/:id', function(req, res, next) {
 router.get('/add', function(req, res, next) {
   console.log('accessed /add')
   db.getDoc('users', 'userdata', {username:req.session.user}).then((val) => {
+    val = val ?? []
     res.render('newdoc', {link: `/notes/add`, categories: val.categories ?? []})
   })
 }); 
@@ -97,6 +98,8 @@ router.get('/categories', async function(req, res, next) {
 
   var userData = await db.getDoc('users', 'userdata', {username: req.session.user})
   console.log(userData)
+  userData = userData ?? []
+  userData['categories']  = userData['categories'] ?? []
   res.render('manageCategories', {userData: userData})
 })
 

@@ -10,9 +10,9 @@ block content
     div(class='top-right')
       h1 Category:
       select(name="category" class="category-select")
+        option(value='none') none
         each category in categories
-          option(value=category)=category
-        option(value='none') none 
+          option(value=category)=category 
     input(name='metadata' id='metadata' style='display:none;')
     div(id='questions' class='draggable' style='top:300px; left:0px;' )
       h1(id='questionsheader') questions
