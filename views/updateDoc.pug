@@ -11,8 +11,12 @@ block content
     div(class='top-right')
       h1 Category:
       select(name="category" class="category-select")
+        option(value='none') none
         each category in categories
-          option(value=category)=category
+          if category==prev.category
+            option(value=category selected=true)=category
+          else
+            option(value=category)=category
     
 
     for key in Object.keys(metadata)
