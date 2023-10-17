@@ -45,6 +45,9 @@ value='none')
       div(class='pagination-links')
         if pageNum > 1
             button(id='prev') previous
-        button(id='next') next
+        if totalNotes-(pageNum*10) > 0
+            button(id='next') next
+        else 
+            p You have reached the end of your notes... 
   script(src='/javascripts/notes.js')
   

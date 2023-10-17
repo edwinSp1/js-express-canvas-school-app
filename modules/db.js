@@ -186,7 +186,76 @@ async function getPageData(db, coll, query, page, docsPerPage) {
   }
 }
 
+async function newGetPageData(db, coll, query, page, docsPerPage) {
+  const client = new MongoClient(uriConnect)
+  await client.connect();
+  try {
+    const collection = client.db(db).collection(coll)
+    var out = {
+      res: [],
+      totalNotes: collection.countDocuments(query)
+    }
+    var cursor = collection.aggregate([
+      {
+        $match: query
+      },
+      {
+        $skip: docsPerPage * (page-1) //skip the pages already seen
+      },
+      {
+        $limit: docsPerPage
+      }
+    ])
+    for await (var x of cursor) { 
+      out.res.push(x)
+    }
+    console.log(out)
+    return out
+  } catch(e) {
+    console.log(e);
+    return e
+  } finally {
+    await client.close();
+  }
+}
+
+async function newGetPageData(db, coll, query, page, docsPerPage) {
+  const client = new MongoClient(uriConnect)
+  await client.connect();
+  try {
+    const collection = client.db(db).collection(coll)
+    var totalNotes = await collection.countDocuments(filter=query).then((number)=>{
+      return number
+    })
+    var out = {
+      res: [],
+      totalNotes: totalNotes
+    }
+    var cursor = collection.aggregate([
+      {
+        $match: query
+      },
+      {
+        $skip: docsPerPage * (page-1) //skip the pages already seen
+      },
+      {
+        $limit: docsPerPage
+      }
+    ])
+    for await (var x of cursor) { 
+      out.res.push(x)
+    }
+    return out
+  } catch(e) {
+    console.log(e);
+    return e
+  } finally {
+    await client.close();
+  }
+}
+
 exports.getPageData = getPageData
+exports.newGetPageData = newGetPageData
 exports.getDocs = getDocs
 exports.updateDoc = updateDoc
 exports.getSortedDB = getSortedDB
