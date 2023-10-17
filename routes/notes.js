@@ -13,9 +13,8 @@ function auth(req, res, next) {
 
 router.use(auth)
 async function getHomePageData(username, pageNum, query) {
-  console.log((pageNum-1) * 5)
-  var docs = await db.getPageData('users', 'notes', {username: username, $or: [{title: query}, {college:query}]}, pageNum, 5)
-  console.log(docs)
+  var docs = await db.newGetPageData('users', 'notes', {username: username, title: query}, pageNum, 10)
+
   var userData = await db.getDoc('users', 'userdata', {username:username})
   if(!userData) {
     var defaultData = {
@@ -28,27 +27,17 @@ async function getHomePageData(username, pageNum, query) {
   var categories = userData.categories 
   var rawQuery = query.$regex.slice(0, query.$regex.length-2)
   return {
-    docs: docs,
+    docs: docs.res,
     categories: categories ?? [''],
     pageNum: pageNum,
-    query: rawQuery
+    query: rawQuery,
+    totalNotes: docs.totalNotes
   }
 }
 /* NOTES */
 router.get('/', function(req, res, next) {
   res.redirect('/notes/1')
 });
-router.get('/:pageNum', function(req, res, next) {
-  var query = req.query.query ? req.query.query : ''; //req.query: link.com?helloworld=no => {helloworld: no}
-  var regex = query+'.*'
-  query = {
-    $regex: regex,
-    $options: 'i'
-  }
-  getHomePageData(req.session.user, req.params.pageNum, query).then((val) => {
-    res.render('notes', val)
-  })
-})
 async function getDocData(id, username) {
   var doc = await db.getDoc('users', 'notes', {_id: new ObjectId(id)})
   if(!doc) return null
@@ -71,7 +60,7 @@ router.get('/docs/:id', async function(req, res, next) {
   var id = req.params.id;
 
   
-  const doc = await getDocData(id, req.session.user)
+  const doc = await newGetDocData(id, req.session.user)
   res.render('updateDoc', doc)
 })
 
@@ -186,5 +175,17 @@ router.get('/categories/delete/:category', async function(req, res, next) {
 
   await db.modifyDoc('users', 'userdata', {username:req.session.user}, {$pull: {categories: req.params.category}})
   res.redirect('/notes/categories')
+})
+
+router.get('/:pageNum', function(req, res, next) {
+  var query = req.query.query ? req.query.query : ''; //req.query: link.com?helloworld=no => {helloworld: no}
+  var regex = query+'.*'
+  query = {
+    $regex: regex,
+    $options: 'i'
+  }
+  getHomePageData(req.session.user, req.params.pageNum, query).then((val) => {
+    res.render('notes', val)
+  })
 })
 module.exports = router
