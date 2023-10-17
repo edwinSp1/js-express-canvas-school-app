@@ -22,8 +22,8 @@ block content
       else 
         each doc in collegeList
           -var college = doc.college
-          
-          h1 #{college} (#{doc.category})
+          -var link = 'notes/collegeDoc/add?college=' + doc.college
+          h1 #[a(href=link) #{college}] (#{doc.category})
           a(href='/college/delete/' + doc._id) #[i(class='fa-solid fa-x FA-icon' style='color:red')]
           -if(college == 'Harvard University') college = 'Harvard College' 
           -var dashCase = college.toLowerCase().split(' ').join('-')
