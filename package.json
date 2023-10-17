@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/node": "^20.6.0",
     "axios": "^1.5.1",
+    "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "~1.4.4",
     "cookie-session": "^2.0.0",
     "crypto-js": "^4.1.1",

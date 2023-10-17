@@ -14,6 +14,7 @@ function auth(req, res, next) {
 router.use(auth)
 async function getHomePageData(username, pageNum, query) {
   var docs = await db.newGetPageData('users', 'notes', {username: username, title: query}, pageNum, 10)
+
   var userData = await db.getDoc('users', 'userdata', {username:username})
   if(!userData) {
     var defaultData = {
@@ -85,6 +86,60 @@ router.get('/add', function(req, res, next) {
     res.render('newdoc', {link: `/notes/add`, categories: val.categories ?? []})
   })
 }); 
+const cheerio = require("cheerio")
+const axios = require("axios")
+
+async function performScraping(college) {
+  // downloading the target web page
+  // by performing an HTTP GET request in Axios
+  //college may not be valid
+  try {
+    function dashCase(str) {
+      return str.toLowerCase().replace(/\s+/g, '-')
+    }
+    var dashCased = dashCase(college)
+    console.log('https://bigfuture.collegeboard.org/colleges/' + dashCased)
+    const axiosResponse = await axios.request({
+        method: "GET",
+        url: "https://bigfuture.collegeboard.org/colleges/" + dashCased,
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+        }
+    })
+    const $ = cheerio.load(axiosResponse.data)
+    /*
+      This took way too long to figure out.
+    */
+    var ele = $('.sc-6c2841e-2, .cfFoyV').toArray()[0]
+    var desc = ele.children[0].data
+    var infoEles = $('main div div div div div div .sc-a3223d0f-0 div div .cb-roboto-medium')
+    var corresponding = ['', '% graduation rate', ' average per year after aid', ' SAT']
+    var info = new Array(4)
+    var i = 0
+    for(var ele of infoEles) {
+      info[i] = (ele ? ele.children[0].data : 'Unknown') + corresponding[i]
+      i++
+    }
+    return {
+      college: college,
+      description: desc,
+      stats: info
+    }
+  } catch (e) {
+    return {
+      college: college,
+      description: "No description found.",
+      stats: new Array(4)
+    }
+  }
+}
+router.get('/collegeDoc/add', function(req, res, next) {
+  db.getDoc('users', 'userdata', {username:req.session.user}).then(async (val) => {
+    val = val ?? []
+    var collegeInfo = await performScraping(req.query.college)
+    res.render('newCollegeDoc', {link: `/notes/add`, categories: val.categories ?? [], collegeInfo: collegeInfo})
+  })
+})
 
 router.post('/add', function(req, res, next) {
 

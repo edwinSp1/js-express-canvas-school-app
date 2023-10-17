@@ -54,7 +54,7 @@ temp = temp.replaceAll(/ol>/ig, 'p>')
 }  
 
 var recentContainer = document.getElementById('recent-container'),
-    overdueContainer = document.getElementById('overdueContainer');
+    overdueContainer = document.getElementById('overdue-container');
 
 $.get('/api/getCanvasAssignments', function(data, status) {
   var recent = data.todo

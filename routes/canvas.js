@@ -18,7 +18,6 @@ const prefix = 'https://lms.pps.net/api/v1/';
 async function getMessages(username) {
   try {
     var canvasKey = await canvas.getCanvasKey(username)
-    
     var stream = [] 
     var url = `${prefix}users/self/activity_stream?access_token=${canvasKey}`
     var messages = await db.getapi(url)

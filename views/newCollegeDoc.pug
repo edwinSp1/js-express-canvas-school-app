@@ -1,0 +1,41 @@
+extends layout
+
+block content
+    
+  label(for='textarea-content') Area name
+  input(name='textarea-content' id='textarea-content')
+  button(id='create-new-textarea') New textarea
+  button(id='delete-textarea') Delete textarea
+  form(action=link method='POST' id='form')
+    div(class='top-right')
+      h1 Category:
+      select(name="category" class="category-select")
+        option(value='none') none
+        each category in categories
+          option(value=category)=category 
+    input(name='metadata' id='metadata' style='display:none;')
+    div(id='environment' class='draggable' style='top:300px; left:0px;' )
+      h1(id='environmentheader') Environment
+      textarea(name='environment' maxlength='10000')=collegeInfo.description
+  
+    div(id='Important-info' class='draggable' style='top:300px; left:200px;')
+      h1(id='Important-infoheader') Important-info
+      textarea(name='Important-info' maxlength='10000')=collegeInfo.stats.join('\n')
+  
+    div(id='Application-process' class='draggable' style='top:300px; left:400px;')
+      h1(id='Application-processheader') Application-process
+      textarea(name='Application-process' maxlength='10000')
+
+    div(id='EQ' class='draggable' style='top:300px; left:600px;')
+      h1(id='EQheader') EQ
+      textarea(name='EQ' maxlength='10000')
+    div(id='college' class='draggable' style='top:300px; left:800px;')
+      h1(id='collegeheader') college
+      textarea(name='college' style='font-size: 30px' maxlength='10000')=collegeInfo.college
+
+    input(type='submit' value='Save' id='submit-button')
+
+
+
+
+  script(src='/javascripts/addDoc.js')

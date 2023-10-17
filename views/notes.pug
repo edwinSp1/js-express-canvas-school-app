@@ -36,6 +36,7 @@ value='none')
           .doc
             a(href='/notes/docs/delete/' + doc._id) #[i(class="fa-solid fa-x FA-icon" style='color:red')]
             -var category = doc.category ? `${doc.category}` : 'none'
+            - doc.title = doc.title != null ? doc.title : doc.college //it could be a college doc
             if doc.title != ""
               span #[a(class='doc-name' href='/notes/docs/' + doc._id style='font-size:50px;') #{doc.title}] #[span(class='category') #{category}]
             else 
