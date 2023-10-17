@@ -13,7 +13,7 @@ function auth(req, res, next) {
 
 router.use(auth)
 async function getHomePageData(username, pageNum, query) {
-  var docs = await db.newGetPageData('users', 'notes', {username: username, title: query}, pageNum, 10)
+  var docs = await db.newGetPageData('users', 'notes', {username: username, $or: [{title: query}, {college: query}]}, pageNum, 10)
 
   var userData = await db.getDoc('users', 'userdata', {username:username})
   if(!userData) {
@@ -60,7 +60,7 @@ router.get('/docs/:id', async function(req, res, next) {
   var id = req.params.id;
 
   
-  const doc = await newGetDocData(id, req.session.user)
+  const doc = await getDocData(id, req.session.user)
   res.render('updateDoc', doc)
 })
 
