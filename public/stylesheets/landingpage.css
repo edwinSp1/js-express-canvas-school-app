@@ -82,6 +82,7 @@ a {
 }
 #announcements {
   grid-area: announcements;
+  margin: 0px;
 }
 #teacher-apply {
   grid-area: teacher-signup;
@@ -97,6 +98,14 @@ a {
   "statement statement statement"
   "teacher-signup examples examples"
   "announcements examples examples";
+}
+@media screen and (max-width: 992px) {
+  #main-container {
+    display: block;
+  }
+  .example-image {
+    width: 100vw !important; 
+  }
 }
 #main-container > div, #main-container h1 {
   overflow: break-word;
