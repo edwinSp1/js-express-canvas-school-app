@@ -7,7 +7,10 @@ const filters = filterContainer.childNodes
 searchButton.addEventListener('click', check)
 
 function check() {
-  window.location = `/notes/1?query=${searchBar.value}`
+  var filterStr = Array.from(filters).map((filter) => {
+    return filter.children[1].checked ? filter.textContent : ''
+  }).join(",")
+  window.location = `/notes/1?query=${searchBar.value}&filters=${filterStr}`
 }
 const cancelButton = document.getElementById('cancel')
 cancelButton.addEventListener('click', function() {

@@ -209,7 +209,6 @@ async function newGetPageData(db, coll, query, page, docsPerPage) {
     for await (var x of cursor) { 
       out.res.push(x)
     }
-    console.log(out)
     return out
   } catch(e) {
     console.log(e);

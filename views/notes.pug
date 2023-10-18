@@ -17,12 +17,11 @@ block content
       #filter-container
         each filter in categories
           .filter
-            label(for=filter )=filter
-            input(type='checkbox' checked name=filter value=filter)
-        .filter
-          label(for='none') none
-          input(type='checkbox' checked name='none' 
-value='none')
+            label(for=filter )=filter.category
+            if filter.checked
+              input(type='checkbox' checked name=filter value=filter)
+            else 
+              input(type='checkbox' name=filter value=filter)
       button(id='apply-filters') Apply Filters
     div(id='search-bar' class='grid-center')
       p(id='search') #[i(class="fa-solid fa-magnifying-glass FA-icon")]
@@ -30,7 +29,7 @@ value='none')
       p(id='cancel') #[i(class="fa-solid fa-x FA-icon")]
     div(id='doc-container' class='grid-center')
       if docs.length == 0
-        h4 No documents yet. Try making one by pressing the + button.
+        h4 No documents yet. Try making one by pressing the + button. 
       else 
         each doc in docs
           .doc
