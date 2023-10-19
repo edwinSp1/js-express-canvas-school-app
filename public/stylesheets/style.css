@@ -114,6 +114,22 @@ main > div {
   .main-container h1 {
     font-size:35px;
   }
+  main {
+    display: block !important;
+  }
+  .college-main {
+    display: block !important;
+  }
+  .canvas-index-container {
+    display: block !important
+  }
+  .main-container {
+    display: block !important
+  }
+  .main-container > div {
+
+    border: 2px solid blue;
+  }
 }
 @media (max-width:800px) {
   .main-container h1 {
@@ -187,6 +203,7 @@ main {
     "doc-title filters filters";
 }
 @media screen and (max-width: 1400px) {
+ 
   main p {
     font-size:20px !important;
   }
@@ -422,6 +439,11 @@ select {
 .post-user {
   grid-area:user;
   
+}
+@media screen and (max-width:800px) {
+  .post-title, .post-user {
+    font-size:1em !important
+  }
 }
 .big-forum-post {
   width: 100vw;

@@ -7,14 +7,13 @@ block content
       a(href='/') Home
     li
       a(href='/college/add') Add College
-
-  h1(style='font-size: 50px;' class='align-center') College Center
-  .college-main
-    .top-right
+  #find-college-info
       button(id='submitCollege' style='display:inline-block') Find info about college
       div(class="autocomplete" style="width:300px;") 
         label(for='collegeSearch') College:
         input(name='collegeSearch' id='college')
+  h1(style='font-size: 50px;' class='align-center') College Center
+  .college-main
     .college-list
       h1(style='font-size:50px') College List
       if collegeList.length == 0

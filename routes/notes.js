@@ -32,7 +32,7 @@ async function getHomePageData(username, pageNum, query, filters) {
     userData = defaultData
     await db.insert('users', 'userdata', defaultData)
   }
-  var categories = userData.categories 
+  var categories = userData.categories ?? []
   categories.push('none') //include the default
   categories = categories.map((category) => {
     var res = {}
