@@ -11,3 +11,6 @@
 
 pkg/
 src/
+node_modules/
+replit_zip_error_log.txt
+.cache
