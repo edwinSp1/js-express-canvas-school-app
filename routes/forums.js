@@ -4,6 +4,8 @@ const dates = require('../modules/dates')
 var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db')
 const canvas = require('../modules/canvas');
+const limiters = require('../modules/limiters');
+
 
 function auth (req, res, next) {
     if(!req.session.loggedin) {
@@ -71,7 +73,8 @@ router.get('/posts/:id/delete', async function (req, res, next) {
 router.get('/createPost', function(req, res, next) {
     res.render('createForumPost')
 })
-router.post('/createPost', async function(req, res, next) {
+var postLimiter = limiters.rateLimit(15*60*1000, 10) //10 posts per hour
+router.post('/createPost', postLimiter, async function(req, res, next) {
     const form = req.body
     try {
         var titleRes = await checkBadWords(form.title)

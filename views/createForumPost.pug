@@ -6,9 +6,9 @@ block content
             a(href='/forums') cancel
     form(action='/forums/createPost', method='POST')
         label(for='title') Title
-        input(name='title' max-length="50") 
+        input(name='title' max-length="50" required ) 
         label(for='content') Content 
-        textarea(name="content" style='width: 300px; height: 300px;'  maxlength='10000')
+        textarea(name="content" style='width: 300px; height: 300px;'  maxlength='10000' required)
         input(type='submit' value='Post')
     script. 
         document.querySelector('form').onsubmit = function(e) {
