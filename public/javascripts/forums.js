@@ -136,7 +136,7 @@ async function check() {
         if(data.length == 0) $container.html('no results found.')
         else displayPosts(data)
     })
-}
+} 
 //call it when the page first loads
 check()
 

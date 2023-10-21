@@ -168,6 +168,9 @@ async function getPageData(db, coll, query, page, docsPerPage) {
         $match: query
       },
       {
+        $sort: {_id: -1}
+      },
+      {
         $skip: docsPerPage * (page-1) //skip the pages already seen
       },
       {
@@ -201,6 +204,9 @@ async function newGetPageData(db, coll, query, page, docsPerPage) {
       },
       {
         $skip: docsPerPage * (page-1) //skip the pages already seen
+      },
+      {
+        $sort: {_id: -1}
       },
       {
         $limit: docsPerPage

@@ -33,19 +33,8 @@ router.get('/forumPosts/:pageNum/', async function(req, res, next) {
   var posts = await db.getPageData('users', 'forumPosts', {
     title: regexQuery
   }, req.params.pageNum, 10)
-  /*
-  why reverse? 
-  because objects are inserted into db like this
-  0
-  0
-  0
-  0
-  => new element
-  not the other way around.
-  This means that we need to reverse to result in order to get it sorted in recency order,
-  without having to put date objects on everything.
-  */
-  res.json(posts.reverse()) 
+
+  res.json(posts) 
 });
 
 router.get('/forumPosts/query/:query', async function(req, res, next) {

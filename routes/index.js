@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const dates = require('../modules/dates')
 const db = require('../modules/db')
-const canvas = require('../modules/canvas')
+const canvas = require('../modules/canvas');
+const { access } = require('fs');
 
 async function getHomePageData(username) {
   try {
@@ -135,25 +136,46 @@ router.post('/login', function(req, res, next) {
   })
 })
 router.get('/adduser', function(req, res, next) {
+
+  console.log(req.query)
   res.render('login/adduser')
 })
+router.post('/googleAcc', async function(req, res, next) {
+  var data = req.body
+  var acc = db.getDoc('users', 'loginInfo', {email: req.body.email})
+  //email already exists
+  if(acc != null) return res.redirect('/adduser')
+
+  //else return the user data
+  var accesstoken = data['access_token']
+  var prefix = 'https://openidconnect.googleapis.com/v1/userinfo?access_token='
+  var link = prefix + accesstoken;
+  var userData = await db.getapi(link)
+  res.json(userData)
+})
+
 router.post('/adduser', function(req, res, next) {
+  req.session = null //logout
   const info = req.body;
   info.username.trim()
   info.password.trim()
   const username = info.username, password = info.password;
   const doc = {username:username}
   db.getDocs('users', 'loginInfo', doc).then((val) => {
-    if(val.length == 1) res.render('login/adduser', {msg: 'User Already Exists', username: info.username, password: info.password})
+    if(val.length >= 1) res.render('login/adduser', {msg: 'User Already Exists', username: info.username, password: info.password})
     else {
       var defaultSettings = {
         username: username,
         reduceMovement: false,
         minDateRange: '5'
       }
-      db.insert('users', 'loginInfo', {username:username, password: password})
+      db.insert('users', 'loginInfo', {username:username, password: password, 
+        email: info.email})
       db.insert('users', 'preferences', defaultSettings)
-      db.insert('users', 'userdata', {username:username})
+      db.insert('users', 'userdata', {
+        username:username,
+        realName: info.name
+      })
       res.redirect('/')
     }
   })

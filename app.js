@@ -26,7 +26,6 @@ app.use(cookieSession({
 app.use(limiters.ddosProtection)
 var dbOperationLimit = limiters.rateLimit(15*60*1000, 100)
 app.post('*', function(req, res, next) {
-    console.log('hello world!')
     next()
 }, dbOperationLimit) //100 db operations per 15 min
 app.set('views', path.join(__dirname, 'views'));
