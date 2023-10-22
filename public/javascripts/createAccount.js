@@ -1,6 +1,7 @@
 var googleAccData;
 
 const link = window.location.origin
+
 document.querySelector('form').onsubmit = function(e) {
   e.preventDefault()
   ele = e.target || e.srcElement 

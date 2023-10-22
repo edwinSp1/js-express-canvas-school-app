@@ -14,7 +14,7 @@ var sleepRouter = require('./routes/sleep');
 var collegeRouter = require('./routes/college')
 var canvasRouter = require('./routes/canvas')
 var forumsRouter = require('./routes/forums')
-var announcementRouter = require('./routes/announcements')
+var infoRouter = require('./routes/info')
 var app = express();
 // view engine setup
 app.set('trust proxy', 1);
@@ -28,6 +28,7 @@ var dbOperationLimit = limiters.rateLimit(15*60*1000, 100)
 app.post('*', function(req, res, next) {
     next()
 }, dbOperationLimit) //100 db operations per 15 min
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(logger('dev'));
@@ -44,7 +45,7 @@ app.use('/sleep', sleepRouter);
 app.use('/college', collegeRouter);
 app.use('/canvas', canvasRouter)
 app.use('/forums', forumsRouter)
-app.use('/announcements', announcementRouter)
+app.use('/info', infoRouter)
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));

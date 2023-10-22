@@ -4,6 +4,8 @@ const dates = require('../modules/dates')
 var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db');
 
+
+
 function auth (req, res, next) {
     if(!req.session.loggedin) {
         res.redirect('/home')
@@ -14,9 +16,12 @@ function auth (req, res, next) {
 router.use(auth)
 
 router.get('/', async (req, res, next) => {
-    res.render('announcements')
+    res.render('infoIndex')
 })
-router.get('/create', function(req, res, next) {
-    res.render('createAnnouncement')
+router.get('/trimet', async function(req, res, next) {
+    res.render('trimet')
+})
+router.get('/announcements', function(req, res, next) {
+    res.render('announcements')
 })
 module.exports = router;

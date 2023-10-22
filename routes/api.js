@@ -13,10 +13,33 @@ function auth (req, res, next) {
   next()
 }
 router.use(auth)
+const trimetApiKey = '22B3586E4A6A299799C354A58'
+async function getStopsNear(location, radius) {
+    var prefix = 'https://developer.trimet.org/ws/V1/stops?json=true&appid='+trimetApiKey
+    var link = `${prefix}&ll=${location}&meters=${radius}`
+    var res = await db.getapi(link)
+    return res
+}
+router.get('/stopsnear', async function(req, res, next) {
+  try {
+    var info = req.query
+    var response = await getStopsNear(info.location, info.radius)
+    var stops = response.resultSet.location
+    var result = []
+    for(var i = 0; i < stops.length; i += 10) {
+      var endIdx = i + 10< stops.length ? i + 10 : stops.length
+      var locIds = stops.slice(i, endIdx).map((location) => location.locid).join(',') //trimet api lets you query 10 at a time
+      var stopTimes = await db.getapi(`https://developer.trimet.org/ws/v2/arrivals?appid=22B3586E4A6A299799C354A58&json=true&locIDs=${locIds}&showPosition=true`)
+      result.push(stopTimes.resultSet)
+    }
+    res.json(result)
+  } catch(e) {
+    res.json('error')
+  }
 
+})
 router.get('/forumPosts/:pageNum/', async function(req, res, next) {
   //sort in descending order by likes
-  console.log(req.query)
   var query = req.query.query ? req.query.query : ''; //req.query: link.com?helloworld=no => {helloworld: no}
   var regex = query+'.*'
   var regexQuery = {

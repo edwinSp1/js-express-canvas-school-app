@@ -1,0 +1,19 @@
+extends layout 
+
+block content 
+
+    ul(class='navbar')
+        li 
+            a(href='/') Home 
+    h1 Welcome to the information center!
+    div(class='main-container')
+        div(id='trimet-container' style='border: none;')
+            h1 Bus and Train Information
+            a(href='/info/trimet') 
+                img(src='https://static.vecteezy.com/system/resources/previews/000/420/273/original/vector-school-bus-icon.jpg' class='big-link-icon')
+        div(id='announcements-container' style='border:none')
+            h1 Announcements(IN PROGRESS)
+            a(href='/info/announcements')
+                img(src='https://th.bing.com/th/id/R.f874c3f14b7b95c7d6b507c44d02a25f?rik=wIZNyUPosVPj8g&pid=ImgRaw&r=0' class='big-link-icon')
+
+    

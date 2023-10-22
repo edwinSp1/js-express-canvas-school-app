@@ -3,12 +3,10 @@ var router = express.Router();
 const dates = require('../modules/dates')
 const db = require('../modules/db')
 const canvas = require('../modules/canvas');
-const { access } = require('fs');
 
 async function getHomePageData(username) {
   try {
     var res = await db.getSortedDB('users', 'tasks', {dueDate: 1}, {username:username})
-    
     var preferences = await db.getDocs('users', 'preferences', {username:username})
     var setting = preferences[0]
     var quote = await db.getapi('https://zenquotes.io/api/random')
@@ -128,7 +126,6 @@ router.post('/login', function(req, res, next) {
     } else {
       req.session.loggedin = true
       req.session.user = info.username
-      console.log(val, val[0].specialRole)
       req.session.specialRole = val[0].specialRole
 
       res.redirect('/') //success
@@ -142,15 +139,15 @@ router.get('/adduser', function(req, res, next) {
 })
 router.post('/googleAcc', async function(req, res, next) {
   var data = req.body
-  var acc = db.getDoc('users', 'loginInfo', {email: req.body.email})
-  //email already exists
-  if(acc != null) return res.redirect('/adduser')
-
+  
   //else return the user data
   var accesstoken = data['access_token']
   var prefix = 'https://openidconnect.googleapis.com/v1/userinfo?access_token='
   var link = prefix + accesstoken;
   var userData = await db.getapi(link)
+  var acc = await db.getDoc('users', 'loginInfo', {email: userData.email})
+  //email already exists
+  if(acc != null) return res.redirect('/adduser')
   res.json(userData)
 })
 

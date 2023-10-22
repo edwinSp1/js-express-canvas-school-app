@@ -462,3 +462,35 @@ select {
 dialog button {
   color:black;
 }
+.main-container div h1 {
+  text-align: center;
+}
+.big-link-icon {
+  width:30rem;
+  height: 30rem;
+  border-radius: 10px;
+}
+.location {
+  font-size:30px;
+  color: lightblue;
+
+}
+#msg-container {
+  background-color:lightblue;
+  border-radius: 10px;
+}
+#msg-container p {
+  text-align: center;
+  background-color: #ff8080;
+  color: black;
+  border-radius: 10px;
+}
+#msg-container p::before {
+  content: '❌'
+}
+#gmp-map {
+  height: 100vh;
+  width: 100vw;
+  color:black !important
+}
+

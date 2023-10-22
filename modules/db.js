@@ -1,6 +1,7 @@
 const {MongoClient} = require('mongodb')
 var ObjectId = require('mongodb').ObjectId;
 const uriConnect = process.env['MONGODB_KEY']
+const fetch = require('node-fetch')
 async function getapi(url) {
   const response = await fetch(url);
   var data = await response.json();
@@ -15,7 +16,6 @@ async function getDoc(db, coll, query) {
     return res
   } catch (e) {
     console.log(e)
-    return e
   } finally {
     await client.close();
   }
