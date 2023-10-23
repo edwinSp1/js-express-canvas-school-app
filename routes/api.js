@@ -25,9 +25,13 @@ router.get('/stopsnear', async function(req, res, next) {
     var info = req.query
     var response = await getStopsNear(info.location, info.radius)
     var stops = response.resultSet.location
+    if(!stops) {
+      res.json('no stops found')
+      return
+    }
     var result = []
     for(var i = 0; i < stops.length; i += 10) {
-      var endIdx = i + 10< stops.length ? i + 10 : stops.length
+      var endIdx = i + 10 < stops.length ? i + 10 : stops.length
       var locIds = stops.slice(i, endIdx).map((location) => location.locid).join(',') //trimet api lets you query 10 at a time
       var stopTimes = await db.getapi(`https://developer.trimet.org/ws/v2/arrivals?appid=22B3586E4A6A299799C354A58&json=true&locIDs=${locIds}&showPosition=true`)
       result.push(stopTimes.resultSet)

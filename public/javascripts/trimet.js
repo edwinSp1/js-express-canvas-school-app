@@ -36,6 +36,9 @@ function getStopInfo(location, radius) {
       alert('Error Fetching Data')
       return
     }
+    if(data == 'no stops found') {
+      alert('No Stops near for your location: ' + location)
+    }
     var stopData = data.map((obj) => {
 
       var arrivals = obj.arrival.map((arrival) => {

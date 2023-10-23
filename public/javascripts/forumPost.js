@@ -75,6 +75,7 @@ $.get('/api/posts/' + id + '/getComments', function(data, status) {
         if(specialRole == 'Creator' || specialRole == 'Admin') {
             deleteButton += `<a href='/forums/comment/${comment._id}/delete?postID=${id}'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
         }
+        
         $('<div>').html(`
             <h1>${comment.user}${deleteButton}</h1>
             <p>${comment.content}</p>

@@ -1,4 +1,17 @@
 extends layout 
 
 block content 
+    ul(class='navbar')
+        li 
+            a(href='/') Home 
+        li  
+            a(href='/info') Back
+        li 
+            a(href='/info/announcements/add') Create Announcement
     h1 Announcements
+    each val in announcements
+        if role == 'Admin' || role == 'Creator'
+            a(href='announcements/delete/' + val._id style='display:inline') #[i(class='fa-solid fa-x FA-icon' style='color:red;')] 
+        h1=val.announcement 
+        p=val.desc
+        

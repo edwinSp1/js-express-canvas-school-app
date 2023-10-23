@@ -1,0 +1,10 @@
+extends layout 
+
+block content 
+
+    form(action='/info/announcements/add' method='POST')
+        label(for='announcement') Announcement 
+        input(name='announcement')
+        label(for='desc') Description
+        textarea(name='desc')
+        input(type='submit' value='Create Announcement')

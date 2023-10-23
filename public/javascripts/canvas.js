@@ -20,7 +20,7 @@ $.get('/api/canvas/getRecent', function(data) {
   console.log(data)
   
   var messages = data.map((message) => {
-    var title = `<h1><a href=${message.url} style='text-decoration:none'>${message.title}${message.course ? `(${message.course})` : ''}</a></h1>`
+    var title = `<h1><a href=${message.url} style='text-decoration:none' target = _blank>${message.title}${message.course ? `(${message.course})` : ''}</a></h1>`
     return `
       ${title}
       <p style='color:blue;'>${message.date ? message.date : 'no date'}</p>
