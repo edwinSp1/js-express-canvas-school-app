@@ -20,6 +20,15 @@ async function getStopsNear(location, radius) {
     var res = await db.getapi(link)
     return res
 }
+router.get('/trimet/settings', async function(req, res, next) {
+  var userData = await db.getDoc('users', 'preferences', {username: req.session.user})
+  var radius = userData.radius ?? 1000
+  var useAlerts = userData.includeAlerts ?? true
+  res.json({
+    radius: radius,
+    useAlerts: useAlerts
+  })
+})
 router.get('/stopsnear', async function(req, res, next) {
   try {
     var info = req.query
@@ -30,12 +39,17 @@ router.get('/stopsnear', async function(req, res, next) {
       return
     }
     var result = []
+    /*
     for(var i = 0; i < stops.length; i += 10) {
       var endIdx = i + 10 < stops.length ? i + 10 : stops.length
       var locIds = stops.slice(i, endIdx).map((location) => location.locid).join(',') //trimet api lets you query 10 at a time
       var stopTimes = await db.getapi(`https://developer.trimet.org/ws/v2/arrivals?appid=22B3586E4A6A299799C354A58&json=true&locIDs=${locIds}&showPosition=true`)
       result.push(stopTimes.resultSet)
     }
+    */
+   var locIds = stops.map((location) => location.locid).join(',')
+   var stopTimes = await db.getapi(`https://developer.trimet.org/ws/v2/arrivals?appid=22B3586E4A6A299799C354A58&json=true&locIDs=${locIds}&showPosition=true`)
+   result.push(stopTimes.resultSet)
     res.json(result)
   } catch(e) {
     res.json('error')

@@ -3,8 +3,14 @@ const options = {
   timeout: 5000,
   maximumAge: 0,
 };
+var $alerts = $('#alerts')
 // Check if geolocation is supported by the browser
-if ("geolocation" in navigator) {
+$alerts.html('fetching settings...')
+$.get('/api/trimet/settings', function(data, success) {
+  var radius = data.radius
+  var useAlerts = data.useAlerts
+  $alerts.html(`Radius:${data.radius}, ${data.useAlerts ? 'Alerts are showing' : 'No alerts enabled'}`)
+  if ("geolocation" in navigator) {
     // Prompt user for permission to access their location
     navigator.geolocation.getCurrentPosition(
       // Success callback function
@@ -12,14 +18,14 @@ if ("geolocation" in navigator) {
         // Get the user's latitude and longitude coordinates
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        getStopInfo([lat, lng], 1000)
+        getStopInfo([lat, lng], radius, useAlerts)
         // Do something with the location data, e.g.  display on a map
         console.log(`Latitude: ${lat}, longitude: ${lng}`);
       },
       // Error callback function
       (error) => {
         // Handle errors, e.g. user denied location sharing permissions
-        alert("Error getting user location:", error);
+        alert("Error getting user location:", error, ', Try reloading');
       },
       options
     );
@@ -27,7 +33,10 @@ if ("geolocation" in navigator) {
     // Geolocation is not supported by the browser
     console.error("Geolocation is not supported by this browser.");
   }
-function getStopInfo(location, radius) {
+})
+
+
+function getStopInfo(location, radius, useAlerts) {
   var coords = location
   var allLocations = []
   var allArrivals = []
@@ -54,7 +63,6 @@ function getStopInfo(location, radius) {
       })
       allArrivals.push(...arrivals)
       var msgs = obj.detour.map((detour) => detour.desc)
-
       var locs = obj.location.map(location => {
         return {
           desc: location.desc,
@@ -70,12 +78,13 @@ function getStopInfo(location, radius) {
         msgs:msgs
       }
     })
-    console.log(stopData)
     var $stopContainer = $('#stop-container')
     var $msgContainer = $('#msg-container')
     for(var obj of stopData) {
-      for(var msg of obj.msgs) {
-        $msgContainer.append(`<p>${msg}</p>`)
+      if(useAlerts) {
+        for(var msg of obj.msgs) {
+          $msgContainer.append(`<p>${msg}</p>`)
+        }
       }
 
       for(var location of obj.locations) {
@@ -105,7 +114,8 @@ function getStopInfo(location, radius) {
 }
 function getDateData(date) {
   var months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  var parsedDate = date.getFullYear() + '/' + months[date.getMonth()] + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
+  var minutes = date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes()
+  var parsedDate = date.getFullYear() + '/' + months[date.getMonth()] + '/' + date.getDate() + ' ' + date.getHours() + ':' + minutes
 
   var msFromNow = date - new Date()
   var minutesFromNow = Math.floor(msFromNow / 1000 / 60) 
@@ -127,7 +137,7 @@ async function initMap(lat, long, locations, arrivals) {
   const map = new Map(document.getElementById("gmp-map"), {
     center: { lat: lat, lng: long },
     mapId: "4504f8b37365c3d0",
-    zoom:12
+    zoom:15
   });
   // Set LatLng and title text for the markers. The first marker (Boynton Pass)
   // receives the initial focus when tab is pressed. Use arrow keys to

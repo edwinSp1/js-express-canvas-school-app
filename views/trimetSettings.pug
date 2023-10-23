@@ -1,0 +1,10 @@
+extends layout 
+
+block content 
+
+    form(action='/info/trimet/settings' method='POST')
+        label(for='radius') Radius(m) - Recommended values are 250 - 1000
+        input(name='radius')
+        label(for='includeAlerts') Include Alerts
+        input(type='checkbox' name='includeAlerts')
+        input(type='submit' value='Set Settings')

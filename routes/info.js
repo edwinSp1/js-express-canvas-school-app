@@ -21,6 +21,15 @@ router.get('/', async (req, res, next) => {
 router.get('/trimet', async function(req, res, next) {
     res.render('trimet')
 })
+router.get('/trimet/settings', function(req, res, next) {
+    res.render('trimetSettings')
+})
+router.post('/trimet/settings', async function(req, res, next) {
+    var info = req.body
+    info.includeAlerts = info.includeAlerts == 'on' ? true : false
+    await db.updateDoc('users', 'preferences', {username: req.session.user}, info)
+    res.redirect('/info/trimet')
+})
 router.get('/announcements', async function(req, res, next) {
     var announcements = await db.getDocsWithLimit('users', 'announcements', {}, 15)
     res.render('announcements', {announcements: announcements, role: req.session.specialRole})
@@ -43,4 +52,5 @@ router.get('/announcements/delete/:id', async function(req, res, next) {
     await db.deleteDoc('users','announcements', req.params.id)
     res.redirect('/info/announcements')
 })
+
 module.exports = router;
