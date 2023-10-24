@@ -90,7 +90,6 @@ function getStopInfo(location, radius, useAlerts) {
       }
 
       for(var location of obj.locations) {
-        var isBus = false
 
 
         var arrivals = obj.arrivals.filter((arrival) => arrival.locid == location.id)

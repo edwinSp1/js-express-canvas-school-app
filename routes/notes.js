@@ -12,47 +12,7 @@ function auth(req, res, next) {
 }
 
 router.use(auth)
-async function getHomePageData(username, pageNum, query, filters) {
-  var finalQuery = {
-    username: username, 
-    $or: [{title: query}, {college: query}]
-  }
-  if(filters != 'invalid filters')
-    finalQuery['category'] = {$in: filters}
-  var docs = await db.newGetPageData('users', 'notes', finalQuery, pageNum, 10)
-  //check if the userdata already exists
-  var userData = await db.getDoc('users', 'userdata', {username:username})
-  if(!userData) {
-    var defaultData = {
-      user: username,
-      categories: []
-    }
-    userData = defaultData
-    await db.insert('users', 'userdata', defaultData)
-  }
-  var categories = userData.categories ?? []
-  categories.push('none') //include the default
-  categories = categories.map((category) => {
-    var res = {}
-    res['category'] = category
-    if(filters.includes(category)) 
-      res['checked'] = true;
-    else 
-      res['checked'] = false;
 
-    return res
-      
-  })
-  var rawQuery = query.$regex.slice(0, query.$regex.length-2)
-  
-  return {
-    docs: docs.res,
-    categories: categories ?? [''],
-    pageNum: pageNum,
-    query: rawQuery,
-    totalNotes: docs.totalNotes,
-  }
-}
 /* NOTES */
 router.get('/', function(req, res, next) {
   res.redirect('/notes/1')
@@ -195,7 +155,56 @@ router.get('/categories/delete/:category', async function(req, res, next) {
   await db.modifyDoc('users', 'userdata', {username:req.session.user}, {$pull: {categories: req.params.category}})
   res.redirect('/notes/categories')
 })
+async function getHomePageData(username, pageNum, query, filters) {
+  var finalQuery = {
+    username: username, 
+    $or: [{title: query}, {college: query}]
+  }
+  if(filters != 'invalid filters')
+    finalQuery['category'] = {$in: filters}
+  var docs = await db.newGetPageData('users', 'notes', finalQuery, pageNum, 10)
+  //check if the userdata already exists
+  var userData = await db.getDoc('users', 'userdata', {username:username})
+  if(!userData) {
+    var defaultData = {
+      user: username,
+      categories: []
+    }
+    userData = defaultData
+    await db.insert('users', 'userdata', defaultData)
+  }
+  var categories = userData.categories ?? []
+  categories.push('none') //include the default
+  if(filters == 'invalid filters') {
+    categories = categories.map((category) => {
+      var res = {}
+      res['category'] = category
+      res['checked'] = true;
+      return res
+    })
+  } else {
+    categories = categories.map((category) => {
+      var res = {}
+      res['category'] = category
+      if(filters.includes(category)) 
+        res['checked'] = true;
+      else 
+        res['checked'] = false;
 
+      return res
+        
+    })
+  }
+  var rawQuery = query.$regex.slice(0, query.$regex.length-2)
+  
+  return {
+    docs: docs.res,
+    categories: categories ?? [''],
+    pageNum: pageNum,
+    query: rawQuery,
+    totalNotes: docs.totalNotes,
+  }
+}
 router.get('/:pageNum', function(req, res, next) {
   //Why trycatch? Because query parameters are supplied by user. If req.query.filters is null, then the code will crash.
   try {

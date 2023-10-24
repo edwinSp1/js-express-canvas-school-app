@@ -7,8 +7,9 @@ const filters = filterContainer.childNodes
 searchButton.addEventListener('click', check)
 
 function check() {
+  console.log(filters)
   var filterStr = Array.from(filters).map((filter) => {
-    return filter.children[1].checked ? filter.textContent : ''
+    return filter.children[1].checked ? filter.children[0].textContent : ''
   }).join(",")
   window.location = `/notes/1?query=${searchBar.value}&filters=${filterStr}`
 }
