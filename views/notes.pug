@@ -29,7 +29,11 @@ block content
       p(id='cancel') #[i(class="fa-solid fa-x FA-icon")]
     div(id='doc-container' class='grid-center')
       if docs.length == 0
-        h4 No documents yet. Try making one by pressing the + button. 
+        if query == ''
+          h4 No documents yet. Try making one by pressing the + button. 
+        else
+          h4 No documents found.
+          p=`You searched "` + query + `" and no results were found.`
       else 
         each doc in docs
           .doc
@@ -48,6 +52,6 @@ block content
         if totalNotes-(pageNum*10) > 0
             button(id='next') next
         else 
-            p You have reached the end of your notes... 
+            p Nothing more to see... 
   script(src='/javascripts/notes.js')
   
