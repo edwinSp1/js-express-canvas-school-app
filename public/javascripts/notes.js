@@ -6,6 +6,13 @@ const filters = filterContainer.childNodes
 
 searchButton.addEventListener('click', check)
 
+searchBar.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    searchButton.click();
+  }
+});
+
 function check() {
   console.log(filters)
   var filterStr = Array.from(filters).map((filter) => {
