@@ -15,6 +15,7 @@ document.querySelector('form').onsubmit = function(e) {
   ele.submit()
   ele.lastElementChild.disabled=true;
 }
+/*
 if(!(window.location.hash == '')) { 
   var raw = window.location.hash.slice(1).split('&').map(str => str.split('='))
   var json = {}
@@ -32,6 +33,7 @@ if(!(window.location.hash == '')) {
 } else {
   gAccLogin()
 }
+*/
 /*
 * Create form to request access token from Google's OAuth 2.0 server.
 */

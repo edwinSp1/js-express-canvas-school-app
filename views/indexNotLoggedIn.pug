@@ -16,7 +16,8 @@ html
         a(href='/login' class='top-left' style='font-size:30px;') Login 
         div(id='header')
             h1(style='display:inline' id='title') Mercury
-            h1(style='font-size:30px;') For The Next Generation of #[br] #[span(id='statement') Schools.]
+            p(style='font-size:15px') #{users} Users So far
+            h1(style='font-size:30px;' id='statement-container') For The Next Generation of #[br] #[span(id='statement') Schools.]
             h1(id='down-arrows') Explore #[br] #[i(class="fa-solid fa-up-down")] #[i(class="fa-solid fa-up-down")]
         div(id='main-container')
             h1(id='teacher-apply' class='reveal') Are you a teacher? Email echen5503@student.pps.net with your desired username.
@@ -42,6 +43,8 @@ html
                 img(class='example-image reveal' src='../images/canvas.png')
                 h1(class='underscore-flash reveal' id='college' data-value='Manage all my tasks for me')
                 img(class='example-image reveal' src='../images/todo.png')
+                h1(class='underscore-flash reveal' id='college' data-value='Make sure I never miss the bus again')
+                img(class='example-image reveal' src='../images/bus tracker.png')
         div(id='links' class='reveal')
             div(id='login-signup-container')
                 h1

@@ -123,6 +123,10 @@ main > div {
   .canvas-index-container {
     display: block !important
   }
+  .canvas-index-container > div {
+    width: 100vw !important;
+    margin: 20px;
+  }
   .main-container {
     display: block !important
   }
@@ -202,8 +206,9 @@ main {
     "header search-bar search-bar"
     "doc-title filters filters";
 }
-@media screen and (max-width: 1400px) {
  
+@media screen and (max-width: 1400px) {
+  
   main p {
     font-size:20px !important;
   }
@@ -462,8 +467,8 @@ select {
 dialog button {
   color:black;
 }
-.main-container div h1 {
-  text-align: center;
+.main-container div > h1 {
+  /*text-align: center;*/
 }
 .big-link-icon {
   width:30rem;

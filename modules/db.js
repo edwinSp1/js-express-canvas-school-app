@@ -223,7 +223,23 @@ async function newGetPageData(db, coll, query, page, docsPerPage) {
     await client.close();
   }
 }
+async function countDocuments(db, coll, query) {
 
+  const client = new MongoClient(uriConnect)
+  await client.connect();
+  try {
+    const collection = client.db(db).collection(coll)
+    var docs = await collection.countDocuments(query)
+    return docs
+  } catch(e) {
+    console.log(e);
+    return e
+  } finally {
+    await client.close();
+  }
+
+}
+exports.countDocuments = countDocuments
 exports.getPageData = getPageData
 exports.newGetPageData = newGetPageData
 exports.getDocs = getDocs

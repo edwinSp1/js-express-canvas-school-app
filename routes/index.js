@@ -19,8 +19,9 @@ async function getHomePageData(username) {
     console.log(e)
   }
 }
-router.get('/home', function(req, res, next) {
-  res.render('indexNotLoggedIn')
+router.get('/home', async function(req, res, next) {
+  var users = await db.countDocuments('users', 'loginInfo', {})
+  res.render('indexNotLoggedIn', {users: users})
 })
 /*
 ISSUE REPORTS

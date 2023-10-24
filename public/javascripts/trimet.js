@@ -49,7 +49,9 @@ function getStopInfo(location, radius, useAlerts) {
       alert('No Stops near for your location: ' + location)
     }
     var stopData = data.map((obj) => {
-
+      //avoid crashes
+      obj.arrival = obj.arrival ?? []
+      obj.detour = obj.detour ?? []
       var arrivals = obj.arrival.map((arrival) => {
 
         return {
