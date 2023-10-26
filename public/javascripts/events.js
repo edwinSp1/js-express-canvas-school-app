@@ -42,9 +42,9 @@ $.get('/api/getEvents', (data) => {
 })
 function displayEvents(data) {
 
-  console.log(data)
   var res = {}
   function displayEvents(events) {
+    console.log(events)
     var ele = document.createElement('dialog')
     ele.innerHTML += '<button id="close" style="display:block">close</button>'
     ele.innerHTML += events
@@ -55,27 +55,34 @@ function displayEvents(data) {
     })
   } 
   function getEventData(date) {
-    var event = data.find((event) => processDate(event.date) == date)
+    var event = res[date]
     if(!event) return '<div>No events for lincoln on this day</div>'
-    if(!event.events) {
+    if(!event.html) {
       return '<div>No events for lincoln on this day</div>'
     } 
     
-    return event.events
+    return event.html
   }
-  data.forEach((event) => {
-    var date = processDate(event.date)
-    if(!event.events) {
-      return
-    }
-    res[date] = {
-      modifier: 'bg-red',
-      html: `<span>${event.events}</span>`
-    }
-  })
+  for(var eventList of data) {
+    eventList.forEach((event) => {
+      var date = processDate(event.date)
+      if(!event.events) {
+        return
+      }
+      res[date] = {
+        modifier: 'bg-red',
+        html: `<span>${event.events}</span>`
+      }
+    })
+  }
   console.log(res)
   
   const options = {
+    settings: {
+      visibility: {
+        theme: 'dark',
+      },
+    },
     actions: {
       clickDay(event, dates) {
         //when the user clicks again, it is registered as them disabling it

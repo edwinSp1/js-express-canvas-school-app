@@ -292,8 +292,12 @@ async function performScraping(link) {
 router.get('/getEvents', async function(req, res, next) {
   var today = new Date()
   var serializedDate = '' + today.getFullYear() + ((today.getMonth() + 1) < 10 ? '0' : '') + (today.getMonth() + 1) + ((today.getDate()) < 10 ? '0' : '') + today.getDate()
+  var nextMonth = ((today.getMonth() + 2) < 10 ? '0' : '') + (today.getMonth() + 2 <= 12 ? today.getMonth() + 2 : 1)
+  var nextMonthDate = '' + today.getFullYear() + nextMonth + ((today.getDate()) < 10 ? '0' : '') + today.getDate()
+
   var link = `https://www.pps.net/Page/374#calendar543/${serializedDate}/month`
-  var result = await performScraping(link)
+  var nextMonthLink = `https://www.pps.net/Page/374#calendar543/${nextMonthDate}/month`
+  var result = await Promise.all([performScraping(link), performScraping(nextMonthLink)])
   res.json(result)
 })
 module.exports = router;
