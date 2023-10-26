@@ -1,0 +1,26 @@
+head
+  // Plugin CSS (Calendar)
+
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  meta(name="viewport" content="width=device-width,initial-scale=1")
+
+  link(rel="icon" type="image/x-icon" href="../images/raindrop.ico")
+  link(href='https://cdn.jsdelivr.net/npm/@uvarov.frontend/vanilla-calendar/build/vanilla-calendar.min.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/@uvarov.frontend/vanilla-calendar/build/themes/light.min.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/@uvarov.frontend/vanilla-calendar/build/themes/dark.min.css' rel='stylesheet')
+  // Plugin JS
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js")
+  script(src='https://cdn.jsdelivr.net/npm/@uvarov.frontend/vanilla-calendar/build/vanilla-calendar.min.js' defer='')
+
+  body  
+    ul(class='navbar')
+        li  
+            a(href='/') Home 
+        li 
+            a(href='/info') Back 
+    h1 Upcoming events
+    
+    div(id='calendar' )
+    
+
+    script(src='/javascripts/events.js')

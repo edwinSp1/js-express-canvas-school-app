@@ -504,4 +504,9 @@ dialog button {
   padding: 10px;
   border-radius: 10px;
 }
+.bg-red {
+  background-color: #ff8080 !important;
+  font-weight: bold !important;
+  color:white !important
+}
 

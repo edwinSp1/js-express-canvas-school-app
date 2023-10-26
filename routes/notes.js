@@ -162,9 +162,11 @@ async function getHomePageData(username, pageNum, query, filters) {
   }
   if(filters != 'invalid filters')
     finalQuery['category'] = {$in: filters}
-  var docs = await db.newGetPageData('users', 'notes', finalQuery, pageNum, 10)
+  var data = await Promise.all([db.newGetPageData('users', 'notes', finalQuery, pageNum, 10), 
+                              db.getDoc('users', 'userdata', {username: username})])
+  var docs = data[0]
   //check if the userdata already exists
-  var userData = await db.getDoc('users', 'userdata', {username:username})
+  var userData = data[1]
   if(!userData) {
     var defaultData = {
       user: username,

@@ -53,4 +53,8 @@ router.get('/announcements/delete/:id', async function(req, res, next) {
     res.redirect('/info/announcements')
 })
 
+router.get('/events', function(req, res, next) {
+    res.render('events')
+})
+
 module.exports = router;

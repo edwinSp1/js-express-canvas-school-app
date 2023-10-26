@@ -4,6 +4,8 @@ const dates = require('../modules/dates')
 var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db')
 const canvas = require('../modules/canvas')
+const puppeteer = require('puppeteer')
+const asyncUtils = require('../modules/asyncUtils')
 /* GET users listing. */
 function auth (req, res, next) {
   if(!req.session.loggedin) {
@@ -253,5 +255,45 @@ router.get('/canvas/getUserInfo', async function(req, res, next){
 router.get('/canvas/getLogins', async function(req, res, next) {
   var logins = await getLogins(req.session.user)
   res.json(logins)
+})
+/*
+router.get('/AdayBday/', async function(req, res, next) {
+  var date = new Date()
+  var aDayBdayData = await db.getDoc('users', 'AdayBday', {date: date.toLocaleDateString('en-US')})
+})
+*/
+async function performScraping(link) {
+  // downloading the target web page
+  try {
+    //this code emulates a browser session
+    const browser = await puppeteer.launch({
+      headless:true
+    })
+    const page = await browser.newPage()
+    await page.goto(link)
+    await page.waitForSelector('.wcm-calendar-this-month')
+    const data = await page.evaluate(() => {
+      var list = $('.wcm-calendar-this-month ol li')
+      var res = []
+      for(var x of list) {
+        res.push({
+          date: x.getAttribute('aria-label'),
+          events: x.innerHTML
+        })
+        
+      }
+      return res
+    })
+    return data
+  } catch (e) {
+    console.log(e)
+  }
+}
+router.get('/getEvents', async function(req, res, next) {
+  var today = new Date()
+  var serializedDate = '' + today.getFullYear() + ((today.getMonth() + 1) < 10 ? '0' : '') + (today.getMonth() + 1) + ((today.getDate()) < 10 ? '0' : '') + today.getDate()
+  var link = `https://www.pps.net/Page/374#calendar543/${serializedDate}/month`
+  var result = await performScraping(link)
+  res.json(result)
 })
 module.exports = router;

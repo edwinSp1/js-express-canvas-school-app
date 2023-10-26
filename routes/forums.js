@@ -77,8 +77,9 @@ var postLimiter = limiters.rateLimit(15*60*1000, 10) //10 posts per hour
 router.post('/createPost', postLimiter, async function(req, res, next) {
     const form = req.body
     try {
-        var titleRes = await checkBadWords(form.title)
-        var contentRes = await checkBadWords(form.content)
+        var forumPost = await Promise.all([checkBadWords(form.title), checkBadWords(form.content)]) 
+        var titleRes = forumPost[0]
+        var contentRes = forumPost[1]
         form['title'] = titleRes['censored-content']
         form['content'] = contentRes['censored-content']
         form['user'] = req.session.user

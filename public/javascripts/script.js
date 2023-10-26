@@ -84,3 +84,9 @@ $.get('/api/getCanvasAssignments', function(data, status) {
     `
   }
 })
+/*figure out date*/
+var date = new Date();
+$.get('/api/AdayBday/', function(data) {
+  console.log(data)
+})
+$('#date').text(`Today is ${date.toLocaleDateString('en-US', { weekday: 'long' })}, ${date.toLocaleDateString('en-US')}`);

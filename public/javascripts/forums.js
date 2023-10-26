@@ -63,7 +63,7 @@ function displayPosts(posts) {
             var deleteButton = ''
             console.log(specialRole)
             if(specialRole == 'Creator' || specialRole == 'Admin') {
-                deleteButton += `<a href='forums/posts/${post._id}/delete'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
+                deleteButton += `<a href='/forums/posts/${post._id}/delete'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
             }
             console.log(deleteButton)
             //replace multiple spaces with one to prevent trolling

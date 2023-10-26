@@ -6,10 +6,13 @@ const canvas = require('../modules/canvas');
 
 async function getHomePageData(username) {
   try {
-    var res = await db.getSortedDB('users', 'tasks', {dueDate: 1}, {username:username})
-    var preferences = await db.getDocs('users', 'preferences', {username:username})
+    var data = await Promise.all([db.getSortedDB('users', 'tasks', {dueDate: 1}, {username:username}), 
+                                db.getDocs('users', 'preferences', {username:username}),
+                                db.getapi('https://zenquotes.io/api/random')])
+    var res = data[0]
+    var preferences = data[1]
     var setting = preferences[0]
-    var quote = await db.getapi('https://zenquotes.io/api/random')
+    var quote = data[2]
     return {
       preferences:setting,
       todo:res,
@@ -38,6 +41,7 @@ router.get('/', async function(req, res, next) {
   
   var username = req.session.user
   var val = await getHomePageData(username)
+  if(!val) return res.send('something went wrong. please try again, and if the problem persists, contact me.')
   var todo = val.todo
   const date = Date.now()
   var overdue = [], newTodo = []
