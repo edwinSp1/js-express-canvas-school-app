@@ -4,8 +4,6 @@ const dates = require('../modules/dates')
 var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db')
 const canvas = require('../modules/canvas')
-const puppeteer = require('puppeteer')
-const asyncUtils = require('../modules/asyncUtils')
 /* GET users listing. */
 function auth (req, res, next) {
   if(!req.session.loggedin) {
@@ -128,6 +126,12 @@ router.get('/posts/:id/getComments', async function(req, res, next) {
   }
 })
 const prefix = 'https://lms.pps.net/api/v1/';
+/**
+ * Retrieves the assignments from the Canvas API for a given username.
+ *
+ * @param {string} username - The username of the user.
+ * @return {Array} An array of assignment objects.
+ */
 async function getAssignments(username) {
   try {
     const canvasKey = await canvas.getCanvasKey(username)
@@ -262,42 +266,41 @@ router.get('/AdayBday/', async function(req, res, next) {
   var aDayBdayData = await db.getDoc('users', 'AdayBday', {date: date.toLocaleDateString('en-US')})
 })
 */
-async function performScraping(link) {
-  // downloading the target web page
-  try {
-    //this code emulates a browser session
-    const browser = await puppeteer.launch({
-      headless:true
-    })
-    const page = await browser.newPage()
-    await page.goto(link)
-    await page.waitForSelector('.wcm-calendar-this-month')
-    const data = await page.evaluate(() => {
-      var list = $('.wcm-calendar-this-month ol li')
-      var res = []
-      for(var x of list) {
-        res.push({
-          date: x.getAttribute('aria-label'),
-          events: x.innerHTML
-        })
-        
-      }
-      return res
-    })
-    return data
-  } catch (e) {
-    console.log(e)
-  }
+
+
+async function getTextData () {
+  const axios = require('axios');
+  const cheerio = require('cheerio');
+
+  var response = await axios.get('https://www.pps.net/lincoln')
+  
+  const html = response.data;
+  var $ = cheerio.load(html);
+  const list = $('.upcomingevents .ui-widget-detail .ui-articles').html()
+  var msgList = $('#cs-detail-1492 ul').html()
+
+
+  
+  return {events: list, msgList: msgList}
+ 
+
+}
+/**
+ * Retrieves tasks associated with a user.
+ *
+ * @param {string} username - The username of the user.
+ * @return {Promise<Array>} The tasks associated with the user.
+ */
+async function getUserTasks(username) {
+  var res = await db.getDocs('users', 'tasks', {username: username})
+  res = res.map((task) => {
+    task.dueDate = dates.processDate(task.dueDate)
+    return task
+  })
+  return res
 }
 router.get('/getEvents', async function(req, res, next) {
-  var today = new Date()
-  var serializedDate = '' + today.getFullYear() + ((today.getMonth() + 1) < 10 ? '0' : '') + (today.getMonth() + 1) + ((today.getDate()) < 10 ? '0' : '') + today.getDate()
-  var nextMonth = ((today.getMonth() + 2) < 10 ? '0' : '') + (today.getMonth() + 2 <= 12 ? today.getMonth() + 2 : 1)
-  var nextMonthDate = '' + today.getFullYear() + nextMonth + ((today.getDate()) < 10 ? '0' : '') + today.getDate()
-
-  var link = `https://www.pps.net/Page/374#calendar543/${serializedDate}/month`
-  var nextMonthLink = `https://www.pps.net/Page/374#calendar543/${nextMonthDate}/month`
-  var result = await Promise.all([performScraping(link), performScraping(nextMonthLink)])
-  res.json(result)
+  var [result, tasks] = await Promise.all([getTextData(), getUserTasks(req.session.user)])
+  res.json({eventData: result, tasks: tasks})
 })
 module.exports = router;

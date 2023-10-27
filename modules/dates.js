@@ -43,4 +43,17 @@ function isTomorrow(d1, d2) {
     && d1.getMonth() == d2.getMonth()
     && d1.getDate() == d2.getDate() - 1
 }
-exports.sameDay = sameDay 
+exports.sameDay = sameDay
+/**
+ * Converts a given date into a string in the format "YYYY-MM-DD".
+ *
+ * @param {Date} date - The date to be processed.
+ * @return {string} The processed date string in the format "YYYY-MM-DD".
+ */
+function processDate(date) {
+  var day = date.getDate().toString().padStart(2, '0');
+  var month = (date.getMonth() + 1).toString().padStart(2, '0');
+  var year = date.getFullYear().toString();
+  return year + '-' + month + '-' + day;
+}
+exports.processDate = processDate
