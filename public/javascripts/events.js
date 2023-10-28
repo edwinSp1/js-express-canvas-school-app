@@ -43,6 +43,13 @@ Date.prototype.addDays = function(days) {
 
 var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 function processDate(date) {
+  if(date == 'Tomorrow') {
+    var today = new Date()
+    return formatDate(today.addDays(1))
+  }
+  if(date == 'Today') {
+    return formatDate(new Date())
+  }
   if(daysOfWeek.includes(date)) {
     var today = new Date()
     var idx = daysOfWeek.indexOf(date)

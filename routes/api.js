@@ -268,11 +268,16 @@ router.get('/AdayBday/', async function(req, res, next) {
 */
 
 
-async function getTextData () {
+async function getTextData (school) {
   const axios = require('axios');
   const cheerio = require('cheerio');
-
-  var response = await axios.get('https://www.pps.net/lincoln')
+  var link;
+  if(school == 'lincoln') {
+    link = 'https://www.pps.net/lincoln'
+  } else {
+    link = 'https://www.pps.net/westsylvan'
+  }
+  var response = await axios.get(link)
   
   const html = response.data;
   var $ = cheerio.load(html);
@@ -300,7 +305,11 @@ async function getUserTasks(username) {
   return res
 }
 router.get('/getEvents', async function(req, res, next) {
-  var [result, tasks] = await Promise.all([getTextData(), getUserTasks(req.session.user)])
+  var settings = await db.getDoc('users', 'preferences', {username: req.session.user})
+  console.log(settings)
+  var school = settings.school
+  school = school ?? 'lincoln'
+  var [result, tasks] = await Promise.all([getTextData(school), getUserTasks(req.session.user)])
   res.json({eventData: result, tasks: tasks})
 })
 module.exports = router;

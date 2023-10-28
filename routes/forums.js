@@ -5,8 +5,33 @@ var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db')
 const canvas = require('../modules/canvas');
 const limiters = require('../modules/limiters');
+const xss = require('xss')
+const XSSoptions = {
+    whiteList: {
+      h1: [],
+      h2: [],
+      h3: [],
+      h4: [],
+      h5: [],
+      h6: [],
+      p: [],
+      a: [],
+      span: [],
+      strong: [],
+      em: [],
+      br: [],
+      ul: [],
+    },
+  };
 
+var forumXSS = xss.filterXSS(XSSoptions)
 
+function processXSS(obj) {
+    for(var key of Object.keys(obj)) {
+        obj[key] = forumXSS.process(obj[key])
+    }
+    return obj
+}
 function auth (req, res, next) {
     if(!req.session.loggedin) {
         res.redirect('/login')
@@ -80,12 +105,14 @@ router.post('/createPost', postLimiter, async function(req, res, next) {
         var forumPost = await Promise.all([checkBadWords(form.title), checkBadWords(form.content)]) 
         var titleRes = forumPost[0]
         var contentRes = forumPost[1]
+
         form['title'] = titleRes['censored-content']
         form['content'] = contentRes['censored-content']
         form['user'] = req.session.user
         form['specialRole'] = req.session.specialRole
         form['likedBy'] = []
         form['date'] = dates.formatDateNoHour(new Date())
+        processXSS(form)
         await db.insert('users', 'forumPosts', form)
         res.redirect('/forums')
     } catch(e) {
@@ -102,11 +129,13 @@ router.get('/posts/:id/comment', async function(req, res, next) {
 router.post('/posts/:id/comment', async function(req, res, next) {
     var form = req.body
     var contentRes = await checkBadWords(form.content)
+    
     form['user'] = req.session.user
     form['postId'] = req.params.id
     form['specialRole'] = req.session.specialRole
     form['likedBy'] = []
     form['content'] = contentRes['censored-content']
+    processXSS(form)
     await db.insert('users', 'comments', form)
     res.redirect('/forums/posts/' + req.params.id)
 })

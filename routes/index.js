@@ -101,7 +101,8 @@ router.post('/settings', function(req, res, next) {
     }, {
     username: req.session.user,
     recentDateRange: minDate,
-    reduceMovement: reduceMovement
+    reduceMovement: reduceMovement,
+    school: form.school
   }).then((val) => {
     res.redirect('/')
   })
@@ -214,4 +215,3 @@ router.get('/logout', function(req, res, next) {
   res.redirect('/home')
 })
 module.exports = router;
-
