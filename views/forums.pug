@@ -6,7 +6,7 @@ block content
             a(href='/') Home 
         li 
             a(href='/forums/createPost') Create Post
-    - specialRole = specialRole ? specialRole : 'Student'
+    - specialRole = specialRole[0] ? specialRole : 'Student'
     h1 Logged in as #[span(id='user')=user] (#[span(id='specialRole')=specialRole])
     h1 You are on page #[span(id='page')=pageNum]
     
@@ -34,4 +34,7 @@ block content
     dialog(id='beta-tester') 
         button close
         h1 One of the betatesters! Thanks for your help!
+    dialog(id='bro') 
+        button close
+        h1 Edwin's brother. Certified trash.
     script(src='/javascripts/forums.js')  

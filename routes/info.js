@@ -36,19 +36,19 @@ router.get('/announcements', async function(req, res, next) {
 })
 router.get('/announcements/add', async function(req, res, next) {
     
-    if(!allowed.includes(req.session.specialRole)) {
+    if(!db.isAllowed(req.session.specialRole)) {
         res.send('Unauthorized: Must be creator, admin, or teacher')
         return
     }
     res.render('addAnnouncement')
 })
 router.post('/announcements/add', async function(req, res, next) {
-    if(!allowed.includes(req.session.specialRole)) return res.send('Unauthorized')
+    if(!db.isAllowed(req.session.specialRole)) return res.send('Unauthorized')
     await db.insert('users', 'announcements', req.body)
     res.redirect('/info/announcements')
 })
 router.get('/announcements/delete/:id', async function(req, res, next) {
-    if(!allowed.includes(req.session.specialRole)) return res.send('Unauthorized')
+    if(!db.isAllowed(req.session.specialRole)) return res.send('Unauthorized')
     await db.deleteDoc('users','announcements', req.params.id)
     res.redirect('/info/announcements')
 })

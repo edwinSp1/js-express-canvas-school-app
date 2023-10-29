@@ -1,5 +1,7 @@
+
 var user = document.getElementById('user').innerHTML
-var specialRole = $('#specialRole').html()
+var specialRole = $('#specialRole').html().split(',')
+console.log(specialRole)
 var id = document.querySelector('.like-post').getAttribute('id-value')
 
 function search(arr, target) {
@@ -35,51 +37,44 @@ document.querySelector('.like-post').addEventListener('click', likePost)
 var $commentContainer = $('#comment-container')
 $.get('/api/posts/' + id + '/getComments', function(data, status) {
     for(var comment of data) {
-        var className = 'fa-regular'
-        if(comment.likedBy.includes(user)) className = 'fa-solid'
-        var color = 'white'
+        var id = comment._id
+        var solidHeart = `<i class="fa-solid fa-heart FA-icon heart-icon like-post" id-value=${id}></i>`
+        var emptyHeart = `<i class="fa-regular fa-heart FA-icon heart-icon like-post" id-value=${id}></i>`
+        var heart = comment.likedBy.includes(user) ? solidHeart : emptyHeart
+        
+        
         var postFix = ''
         if(comment.specialRole) {
-            switch (comment.specialRole) {
-                case 'Creator':
-                    color = 'blue';
-                    postFix = `<i class="fa-solid fa-code special-icon" 
-                    modal=${dashCase(comment.specialRole)}></i>`
-                    break;
-                case 'Beta Tester':
-                    color = 'green';
-                    postFix = `<i class="fa-solid fa-screwdriver-wrench special-icon" 
-                    modal=${dashCase(comment.specialRole)} ></i>`
-                    break;
-                case 'Admin':
-                    color = 'red';
-                    postFix = `<i class="fa-solid fa-star special-icon" 
-                    modal=${dashCase(comment.specialRole)} ></i>`
-                    break;
-                case 'Teacher':
-                    color = 'yellow';
-                    postFix = `<i class="fa-solid fa-chalkboard-user special-icon" 
-                    modal=${dashCase(comment.specialRole)} ></i>`
-                    break;
-            }
-            
-            function dashCase (str) {
+            var role = comment.specialRole
+            if(role == 'Creator' || role.includes('Creator'))
+                postFix += `<i class="fa-solid fa-code special-icon" modal=${dashCase("Creator")} style='color:blue'></i>`
+            if(role == 'Beta Tester' || role.includes('Beta Tester'))
+                postFix += `<i class="fa-solid fa-screwdriver-wrench special-icon" modal=${dashCase('Beta Tester')} style='color:green' ></i>`
+            if(role == 'Admin' || role.includes('Admin'))
+                postFix += `<i class="fa-solid fa-star special-icon" modal=${dashCase('Admin')} style='color:red'></i>`
+            if(role =='Teacher' || role.includes('Teacher'))
+                postFix += `<i class="fa-solid fa-chalkboard-user special-icon" modal=${dashCase('Teacher')} style='color:yellow'></i>`
+            if(role =='Bro' || role.includes('Bro'))
+                postFix += `<i class="fa-solid fa-trash special-icon" modal=${dashCase('Bro')} style='color:yellow'></i>`
+        
+            function dashCase (str) {  
                 return str.toLowerCase().split(' ').join('-')
             }
-            comment.user += `<span 
-                            style='color:${color};'>
-                            ${postFix}</span>`
-        }
+        } 
+        
+        
+        comment.user += postFix
+    
         var deleteButton = ''
-        var specialRole = $('#specialRole').html()
-        if(specialRole == 'Creator' || specialRole == 'Admin') {
+        var specialRole = $('#specialRole').html().split(',')
+        if(specialRole == 'Creator' || specialRole == 'Admin' || specialRole.includes('Admin') || specialRole.includes('Creator')) {
             deleteButton += `<a href='/forums/comment/${comment._id}/delete?postID=${id}'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
         }
         
         $('<div>').html(`
             <h1>${comment.user}${deleteButton}</h1>
             <p>${comment.content}</p>
-            <p> <i class="fa-heart FA-icon heart-icon like-post ${className}" id-value = "${comment._id}"></i> <span class='post-likes'>${comment.likedBy.length}</span>
+            <p> ${heart} <span class='post-likes'>${comment.likedBy.length}</span>
         `).addClass('comment').appendTo($commentContainer)
     }
     for(var x of document.querySelectorAll('.like-post')) {

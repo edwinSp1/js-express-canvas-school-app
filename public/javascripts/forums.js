@@ -1,3 +1,4 @@
+
 const maxPostLength = 200;
 var $container = $('#forum-posts-container')
 var user = $('#user').html()
@@ -26,43 +27,30 @@ function displayPosts(posts) {
                 post.content += "..."
             }
             
-            var color = 'white'
             var postFix = ''
             if(post.specialRole) {
-                switch (post.specialRole) {
-                    case 'Creator':
-                        color = 'blue';
-                        postFix = `<i class="fa-solid fa-code special-icon" 
-                        modal=${dashCase(post.specialRole)}></i>`
-                        break;
-                    case 'Beta Tester':
-                        color = 'green';
-                        postFix = `<i class="fa-solid fa-screwdriver-wrench special-icon" 
-                        modal=${dashCase(post.specialRole)} ></i>`
-                        break;
-                    case 'Admin':
-                        color = 'red';
-                        postFix = `<i class="fa-solid fa-star special-icon" 
-                        modal=${dashCase(post.specialRole)} ></i>`
-                        break;
-                    case 'Teacher':
-                        color = 'yellow';
-                        postFix = `<i class="fa-solid fa-chalkboard-user special-icon" 
-                        modal=${dashCase(post.specialRole)} ></i>`
-                        break;
-                }
-                
-                function dashCase (str) {
+                var role = post.specialRole
+                if(role == 'Creator' || role.includes('Creator'))
+                    postFix += `<i class="fa-solid fa-code special-icon" modal=${dashCase("Creator")} style='color:blue'></i>`
+                if(role == 'Beta Tester' || role.includes('Beta Tester'))
+                    postFix += `<i class="fa-solid fa-screwdriver-wrench special-icon" modal=${dashCase('Beta Tester')} style='color:green' ></i>`
+                if(role == 'Admin' || role.includes('Admin'))
+                    postFix += `<i class="fa-solid fa-star special-icon" modal=${dashCase('Admin')} style='color:red'></i>`
+                if(role =='Teacher' || role.includes('Teacher'))
+                    postFix += `<i class="fa-solid fa-chalkboard-user special-icon" modal=${dashCase('Teacher')} style='color:yellow'></i>`
+                if(role =='Bro' || role.includes('Bro'))
+                    postFix += `<i class="fa-solid fa-trash special-icon" modal=${dashCase('Bro')} style='color:yellow'></i>`
+            
+                function dashCase (str) {  
                     return str.toLowerCase().split(' ').join('-')
                 }
-                post.user += `<span 
-                                style='color:${color};'>
-                                ${postFix}</span>`
-            }
+            } 
+            
+            
+            post.user += postFix
             //if its creator or admin
             var deleteButton = ''
-            console.log(specialRole)
-            if(specialRole == 'Creator' || specialRole == 'Admin') {
+            if(specialRole == 'Creator' || specialRole == 'Admin' || specialRole.includes('Admin') || specialRole.includes('Creator')) {
                 deleteButton += `<a href='/forums/posts/${post._id}/delete'><i class="fa-solid fa-x FA-icon" style='color:red'></i></a>`
             }
             console.log(deleteButton)

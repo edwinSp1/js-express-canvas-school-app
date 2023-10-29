@@ -1,6 +1,31 @@
 const {MongoClient} = require('mongodb')
 var ObjectId = require('mongodb').ObjectId;
 const uriConnect = process.env['MONGODB_KEY']
+
+var allowed = ['Creator', 'Admin', 'Teacher']
+/*
+const main = async () => {
+  const client = new MongoClient(uriConnect)
+  await client.connect();
+  const db = client.db('users')
+  const coll = db.collection('loginInfo')
+  var loginInfo = await coll.find().toArray()
+  console.log(res)
+  for(var res of  loginInfo) {
+    if(typeof res.specialRole === 'string' || !res.specialRole)
+    res.specialRole = [res.specialRole]
+    else 
+      res.specialRole = res.specialRole.flat(1000)
+    await coll.updateOne({'username': res.username}, {
+      $set: {
+        'specialRole': res.specialRole
+      }
+    })
+  }
+  await client.close();
+}
+main()
+*/
 const fetch = require('node-fetch')
 const encryption = require('./encrypt')
 async function getapi(url) {
@@ -254,6 +279,13 @@ async function comparePasswords (password, username) {
   }
   return false
 }
+function isAllowed(roles) {
+  for(var role of roles) {
+    if(allowed.includes(role)) return true
+  }
+  return false
+}
+exports.isAllowed = isAllowed
 exports.comparePasswords = comparePasswords
 exports.countDocuments = countDocuments
 exports.getPageData = getPageData

@@ -24,11 +24,12 @@ const XSSoptions = {
     },
   };
 
-var forumXSS = xss.filterXSS(XSSoptions)
+var forumXSS = new xss.FilterXSS(XSSoptions)
 
 function processXSS(obj) {
     for(var key of Object.keys(obj)) {
-        obj[key] = forumXSS.process(obj[key])
+        if(typeof obj[key] == 'string')
+            obj[key] = forumXSS.process(obj[key])
     }
     return obj
 }
@@ -82,10 +83,8 @@ router.get('/posts/:id', async function(req, res, next) {
     }
 })
 router.get('/posts/:id/delete', async function (req, res, next) {
-    var canDelete = ['Creator', 'Admin']
     try {
-        var role = req.session.specialRole
-        if(!canDelete.includes(role)) {
+        if(!db.isAllowed(req.session.specialRole)) {
             res.send('unauthorized')
             return
         }
@@ -141,8 +140,7 @@ router.post('/posts/:id/comment', async function(req, res, next) {
 })
 router.get('/comment/:id/delete', async function(req, res, next) {
     var postID = req.query.postID
-    var allowed = ['Admin', 'Creator']
-    if(!allowed.includes(req.session.specialRole)) {
+    if(!db.isAllowed(req.session.specialRole)) {
         res.send('unauthorized')
         return
     }
