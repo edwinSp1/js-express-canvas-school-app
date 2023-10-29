@@ -2,6 +2,7 @@ const {MongoClient} = require('mongodb')
 var ObjectId = require('mongodb').ObjectId;
 const uriConnect = process.env['MONGODB_KEY']
 const fetch = require('node-fetch')
+const encryption = require('./encrypt')
 async function getapi(url) {
   const response = await fetch(url);
   var data = await response.json();
@@ -239,6 +240,21 @@ async function countDocuments(db, coll, query) {
   }
 
 }
+
+async function comparePasswords (password, username) {
+  var loginInfo = await getDoc('users', 'loginInfo', {username: username})
+  console.log(loginInfo)
+  if(!loginInfo) return false
+  if(loginInfo.isEncrypted) {
+    loginInfo.password = encryption.decrypt(loginInfo.password)
+  }
+  console.log(loginInfo.password)
+  if(loginInfo.password == password) return {
+    specialRole: loginInfo.specialRole
+  }
+  return false
+}
+exports.comparePasswords = comparePasswords
 exports.countDocuments = countDocuments
 exports.getPageData = getPageData
 exports.newGetPageData = newGetPageData

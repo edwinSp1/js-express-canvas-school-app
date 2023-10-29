@@ -3,6 +3,7 @@ var router = express.Router();
 const dates = require('../modules/dates')
 const db = require('../modules/db')
 const canvas = require('../modules/canvas');
+const encryption = require('../modules/encrypt')
 
 async function getHomePageData(username) {
   try {
@@ -122,21 +123,21 @@ router.get('/login', function(req, res, next) {
     res.render('login/login')
   }
 })
-router.post('/login', function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   const info = req.body;
   info.username.trim()
   info.password.trim()
-  db.getDocs('users', 'loginInfo', {'username': info.username, 'password': info.password}).then((val) => {
-    if(val.length == 0) {
-      res.render('login/login', {msg: 'Wrong username or password', username: info.username, password: info.password})
-    } else {
-      req.session.loggedin = true
-      req.session.user = info.username
-      req.session.specialRole = val[0].specialRole
+  var result = await db.comparePasswords(info.password, info.username) 
+  if(result == false) {
+    res.render('login/login', {msg: 'Wrong username or password', username: info.username, password: info.password})
+  } else {
+    req.session.loggedin = true
+    req.session.user = info.username
+    req.session.specialRole = result.specialRole
 
-      res.redirect('/') //success
-    }
-  })
+    res.redirect('/') //success
+  }
+  
 })
 router.get('/adduser', function(req, res, next) {
 
@@ -172,8 +173,9 @@ router.post('/adduser', function(req, res, next) {
         reduceMovement: false,
         minDateRange: '5'
       }
-      db.insert('users', 'loginInfo', {username:username, password: password, 
-        email: info.email})
+      var encryptedPassword = encryption.encrypt(password)
+      db.insert('users', 'loginInfo', {username:username, password: encryptedPassword, 
+        email: info.email, isEncrypted: true})
       db.insert('users', 'preferences', defaultSettings)
       db.insert('users', 'userdata', {
         username:username,

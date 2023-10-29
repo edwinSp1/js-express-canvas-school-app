@@ -14,8 +14,7 @@ function decrypt (key) {
 }
 function encrypt(key) {
   let encryptedMessage = CryptoJS.AES.encrypt(key, secretKey).toString()
-
-  // Implement decryption
+  console.log(encryptedMessage)
   return encryptedMessage
 }
 
