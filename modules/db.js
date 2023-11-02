@@ -1,7 +1,7 @@
 const {MongoClient} = require('mongodb')
 var ObjectId = require('mongodb').ObjectId;
 const uriConnect = process.env['MONGODB_KEY']
-
+console.log(uriConnect)
 var allowed = ['Creator', 'Admin', 'Teacher']
 /*
 const main = async () => {

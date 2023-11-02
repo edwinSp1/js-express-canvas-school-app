@@ -6,7 +6,8 @@ block content
             a(href='/') Home 
         li 
             a(href='/forums/createPost') Create Post
-    - specialRole = specialRole[0] ? specialRole : 'Student'
+    - specialRole = specialRole ? specialRole : 'Student'
+    - specialRole[0] = specialRole[0] ? specialRole : 'Student'
     h1 Logged in as #[span(id='user')=user] (#[span(id='specialRole')=specialRole])
     h1 You are on page #[span(id='page')=pageNum]
     

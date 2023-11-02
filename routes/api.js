@@ -205,7 +205,7 @@ async function getMessages(username) {
         title: message.title, 
         message: text,
         type: message.type,
-        date: dates.formatDate(new Date(message.created_at)),
+        date: new Date(message.created_at),
         url: message.html_url
       }
       if(message.type=='Submission') {
@@ -250,6 +250,10 @@ async function getLogins (username) {
 }
 router.get('/canvas/getRecent', async function(req, res, next) {
   var recent = await getMessages(req.session.user)
+  recent = recent.map((msg) => {
+    msg.date = dates.processDate(msg.date)
+    return msg
+  })
   res.json(recent)
 })
 router.get('/canvas/getUserInfo', async function(req, res, next){
@@ -267,10 +271,10 @@ router.get('/AdayBday/', async function(req, res, next) {
 })
 */
 
-
+const axios = require('axios');
+const cheerio = require('cheerio');
 async function getTextData (school) {
-  const axios = require('axios');
-  const cheerio = require('cheerio');
+
   var link;
   if(school == 'lincoln') {
     link = 'https://www.pps.net/lincoln'
@@ -306,10 +310,58 @@ async function getUserTasks(username) {
 }
 router.get('/getEvents', async function(req, res, next) {
   var settings = await db.getDoc('users', 'preferences', {username: req.session.user})
-  console.log(settings)
   var school = settings.school
   school = school ?? 'lincoln'
   var [result, tasks] = await Promise.all([getTextData(school), getUserTasks(req.session.user)])
   res.json({eventData: result, tasks: tasks})
+})
+async function getUpcomingEvent(school) {
+  var link;
+  if(school == 'lincoln') {
+    link = 'https://www.pps.net/lincoln'
+  } else {
+    link = 'https://www.pps.net/westsylvan'
+  }
+  var response = await axios.get(link)
+  const html = await response.data
+  var $ = cheerio.load(html);
+  const list = $('.upcomingevents .ui-widget-detail .ui-articles li:first').text()
+  return list
+}
+router.get('/getNotifications', async function(req, res, next) {
+  var [tasks, userData] = await Promise.all([
+    db.getDocs('users', 'tasks', {username: req.session.user}), 
+    db.getDoc('users', 'preferences', {username: req.session.user}
+  )])
+  var school = userData.school
+  var dueSoonTasks = tasks.filter((task) => {
+    return task.dueDate > new Date() && task.dueDate < new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)
+  })
+  dueSoonTasks = dueSoonTasks.map((task) => {
+    return `${task.task} - ${dates.formatDate(task.dueDate)}`
+  })
+  var overdueTasks = tasks.filter(task =>{
+    return task.dueDate < new Date()
+  })
+  overdueTasks = overdueTasks.map((task) => {
+    return  `${task.task} - ${dates.formatDate(task.dueDate)}`
+  })
+  var [upcomingEvent, canvasRecent] = await Promise.all([getUpcomingEvent(school), getMessages(req.session.user)])
+  canvasRecent = canvasRecent.filter((msg) => {
+    return msg.date > new Date(Date.now() - 1000 * 60 * 60 * 24 * 1)
+  }).map(msg => msg.title)
+  res.json({
+    dashboardMsg: 'DUE SOON:' + dueSoonTasks.join('\n') + 
+  '\n' + 'OVERDUE:' + overdueTasks.join('\n') + '\n' + upcomingEvent + '\n' + 'Messages Today:' + '\n' + canvasRecent.join('\n'),
+    notification: `You have ${dueSoonTasks.length} tasks due soon and ${overdueTasks.length} overdue tasks. 
+    Today, you have ${canvasRecent.length} messages from canvas. 
+    An event coming up is ${upcomingEvent.trim().split(/\s+/).join(" ")} 
+    (Click To View).`
+  })
+})
+router.get('/notifyTime', async function(req, res, next) {
+  var settings = await db.getDoc('users', 'preferences', {username: req.session.user})
+  var time = settings.notificationTime ?? '8:30'
+  res.send(time)
 })
 module.exports = router;

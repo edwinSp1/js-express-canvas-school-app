@@ -103,7 +103,8 @@ router.post('/settings', function(req, res, next) {
     username: req.session.user,
     recentDateRange: minDate,
     reduceMovement: reduceMovement,
-    school: form.school
+    school: form.school,
+    notificationTime: form.notificationTime
   }).then((val) => {
     res.redirect('/')
   })
@@ -141,7 +142,6 @@ router.post('/login', async function(req, res, next) {
 })
 router.get('/adduser', function(req, res, next) {
 
-  console.log(req.query)
   res.render('login/adduser')
 })
 router.post('/googleAcc', async function(req, res, next) {
@@ -202,11 +202,11 @@ router.post('/changePassword', async function(req, res, next) {
   }
   var oldCreds = await db.getDoc('users', 'loginInfo', {username: req.session.user})
   var form = req.body    
-  if(form.oldPassword != oldCreds.password) {
+  if(db.comparePasswords(form.oldPassword, oldCreds.password) == false) {
     res.render('changePassword', {msg: 'Old Password is wrong.'})
     return 
   } 
-  await db.updateDoc('users', 'loginInfo', {username: req.session.user}, {password: form.newPassword})
+  await db.updateDoc('users', 'loginInfo', {username: req.session.user}, {password: encryption.encrypt(form.newPassword), isEncrypted: true})
   res.redirect('/logout')
   
 })

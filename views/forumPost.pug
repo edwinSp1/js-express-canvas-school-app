@@ -1,7 +1,9 @@
 extends layout
 
 block content 
-    - specialRole = specialRole[0] ? specialRole : 'Student'
+    
+    - specialRole = specialRole ? specialRole : 'Student'
+    - specialRole[0] = specialRole[0] ? specialRole : 'Student'
     div Logged in as #[span(id='user')=user] (#[span(id='specialRole')=specialRole])
     ul(class='navbar')
         li  

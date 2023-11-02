@@ -1,11 +1,11 @@
 
-
 function formatDate(date) {
   var day = date.getDate().toString().padStart(2, '0');
   var month = (date.getMonth() + 1).toString().padStart(2, '0');
   var year = date.getFullYear().toString();
   return year + '-' + month + '-' + day;
 }
+
 var findMonth = (month) => {
   switch (month) {
     case 'January':
@@ -97,6 +97,13 @@ $.get('/api/getEvents', (data) => {
   }
   displayEvents(eventTimes, tasks)
   $('#district-msgs').html(textData['msgList'])
+  for(var link of document.querySelectorAll('a')) {
+    var href = link.getAttribute('href')
+    if(href.startsWith('/')) {
+      var prefix = 'https://pps.net'
+      link.href = prefix + href;
+    }
+  }
 })
 
 
