@@ -1,3 +1,4 @@
+
 var notifyTime;
 var req = new XMLHttpRequest();
 req.open('GET', '/api/notifyTime', true);
@@ -72,3 +73,48 @@ function notifyUser () {
     }
   }
 }
+function taskNotify(task) {
+  var notification = task.task + ' in ' + task.minutesLeft + ' minutes';
+  const options = { 
+    body: notification,
+    data: {
+      url: "https://chen31.com/todo",
+      status: "open",
+    },
+    icon: "https://chen31.com/images/raindrop.ico",
+  };
+  const n = new Notification("Task Very Soon / Overdue", options);
+  n.onclick = function(event) {
+    event.preventDefault();
+    window.open("https://chen31.com/info/events");
+  }
+}
+function notifyEventsSoon() {
+  
+  var res = new XMLHttpRequest();
+  res.open("GET", "/api/getTasks", true);
+  res.send(); 
+  res.onload = function() {
+    const data = JSON.parse(res.responseText);
+    if(data.length == 0) return
+    for(var task of data) {
+      if (!("Notification" in window)) {
+        // Check if the browser supports notifications
+        alert("This browser does not support desktop notification");
+      } else if (Notification.permission === "granted") {
+        // Check whether notification permissions have already been granted;
+        // if so, create a notification
+        taskNotify(task)
+      } else if (Notification.permission !== "denied") {
+        // We need to ask the user for permission
+        Notification.requestPermission().then((permission) => {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+            taskNotify(task)
+          }
+        });
+      }
+    }
+  }
+}
+notifyEventsSoon()

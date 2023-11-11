@@ -308,6 +308,17 @@ async function getUserTasks(username) {
   })
   return res
 }
+router.get('/getTasks', async function(req, res, next) {
+  var tasks = await db.getDocs('users', 'tasks', {username: req.session.user})
+  tasks = tasks.map((task) => {
+    task.minutesLeft = (task.dueDate - Date.now()) / 1000 / 60
+    return task
+  })
+  var tasksVerySoon = tasks.filter((task) => {
+    return task.minutesLeft < 15
+  })
+  res.json(tasksVerySoon)
+})
 router.get('/getEvents', async function(req, res, next) {
   var settings = await db.getDoc('users', 'preferences', {username: req.session.user})
   var school = settings.school
