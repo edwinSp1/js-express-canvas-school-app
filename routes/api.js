@@ -311,7 +311,7 @@ async function getUserTasks(username) {
 router.get('/getTasks', async function(req, res, next) {
   var tasks = await db.getDocs('users', 'tasks', {username: req.session.user})
   tasks = tasks.map((task) => {
-    task.minutesLeft = (task.dueDate - Date.now()) / 1000 / 60
+    task.minutesLeft = Math.floor((task.dueDate - Date.now()) / 1000 / 60)
     return task
   })
   var tasksVerySoon = tasks.filter((task) => {

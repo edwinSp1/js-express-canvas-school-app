@@ -90,7 +90,7 @@ function taskNotify(task) {
   }
 }
 function notifyEventsSoon() {
-  
+  if(window.location.href != 'https://chen31.com' && window.location.href != 'https://psychic-train-jv67vrgwj6qfppx7-3000.app.github.dev/') return
   var res = new XMLHttpRequest();
   res.open("GET", "/api/getTasks", true);
   res.send(); 
@@ -117,4 +117,5 @@ function notifyEventsSoon() {
     }
   }
 }
+window.setInterval(notifyEventsSoon, 1000 * 60 * 15)
 notifyEventsSoon()
