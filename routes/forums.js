@@ -5,6 +5,9 @@ var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db')
 const canvas = require('../modules/canvas');
 const limiters = require('../modules/limiters');
+
+const Filter = require('bad-words'), filter = new Filter();
+
 const xss = require('xss')
 const XSSoptions = {
     whiteList: {
@@ -101,12 +104,8 @@ var postLimiter = limiters.rateLimit(15*60*1000, 10) //10 posts per hour
 router.post('/createPost', postLimiter, async function(req, res, next) {
     const form = req.body
     try {
-        var forumPost = await Promise.all([checkBadWords(form.title), checkBadWords(form.content)]) 
-        var titleRes = forumPost[0]
-        var contentRes = forumPost[1]
-
-        form['title'] = titleRes['censored-content']
-        form['content'] = contentRes['censored-content']
+        form['title'] = filter.clean(form.title)
+        form['content'] = filter.clean(form.content)
         form['user'] = req.session.user
         form['specialRole'] = req.session.specialRole
         form['likedBy'] = []
