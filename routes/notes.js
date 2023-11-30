@@ -40,6 +40,27 @@ router.get('/docs/:id', async function(req, res, next) {
 
   
   const doc = await getDocData(id, req.session.user)
+  var document = doc.prev
+  //if document metadata is corrupted then remake all the metadata
+  if(document.metadata == null || Object.keys(document.metadata).length + 4 < Object.keys(document).length) {
+    
+    var dist = 0;
+    document.metadata = {}
+    for(var header of Object.keys(document)) {
+      if(header == "metadata" || header == "category" || header == "username" || header == "_id") continue;
+      document.metadata[header] = {
+        size: {
+          width: "",
+          height: ""
+        },
+        pos: {
+          top: "300px",
+          left: `${dist}px`
+        }
+      }
+      dist += 200;
+    }
+  }
   res.render('updateDoc', doc)
 })
 
