@@ -215,6 +215,7 @@ function displayEvents(events, tasks) {
   calendar.init();  
   
   document.getElementById('calendar').style.height = window.innerWidth / 1.5 + 'px'
+  document.getElementById('calendar').style.width = window.innerWidth;
 }
 
 /**
