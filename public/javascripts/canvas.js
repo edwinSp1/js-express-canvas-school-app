@@ -41,7 +41,7 @@ $.get('/api/canvas/getRecent', function(data) {
     temp = temp.replaceAll(/<ol>/ig, '<p>')
     temp = temp.replaceAll(/li>/ig, 'p>')
     temp = temp.replaceAll(/ul>/ig, 'p>')
-    temp = temp.replaceAll(/ol>/ig, 'p>')
+    temp = temp.replaceAll(/ol>/ig, 'p>')  
     ele.innerHTML = temp;
   }
   console.timeEnd('recent')

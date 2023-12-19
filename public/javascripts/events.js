@@ -66,20 +66,23 @@ function processDate(date) {
   var year = date[2]
   return `${year}-${month}-${day}`
 }
+const tasks = []
+const eventTimes = {}
+$.get("/api/getCanvasAssignments", (data) => {
+  $("#status").html("All Data Successfully Loaded!")
+  tasks.push(...data["overdue"]) 
+  tasks.push(...data["todo"])
+  displayEvents(eventTimes, tasks)
+})
 $.get('/api/getEvents', (data) => {
-  /*
-  console.log(data)
-  displayEvents(data.slice(0, 2))
-  var textData = data[2]
-  */
+  $("#status").html("Events Loaded, getting canvas assignments...")
   var textData = data['eventData']
   
-  var tasks = data['tasks']
+  tasks.push(...data['tasks'])
   $('#text-view').html(textData['events'])
   var events = document.querySelectorAll('#text-view li div')
   //some events are in different elements but are associated to the same date
   var prevDate;
-  var eventTimes = {}
   for(var ele of events) {
     var date;
     for(var e of ele.children) {
@@ -102,6 +105,13 @@ $.get('/api/getEvents', (data) => {
     if(href.startsWith('/')) {
       var prefix = 'https://pps.net'
       link.href = prefix + href;
+    }
+  }
+  for(var img of document.querySelectorAll('img')) {
+    var src = img.getAttribute('src')
+    if(src.startsWith('/')) {
+      var prefix = 'https://pps.net'
+      img.src = prefix + src;
     }
   }
 })
