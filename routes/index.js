@@ -14,6 +14,7 @@ async function getHomePageData(username) {
     var preferences = data[1]
     var setting = preferences[0]
     var quote = data[2]
+    
     return {
       preferences:setting,
       todo:res,
@@ -56,9 +57,13 @@ router.get('/', async function(req, res, next) {
     }
   }
   
-  const quote = val.quote.q
-  const author = val.quote.a
-  
+  var quote = val.quote.q
+  var author = val.quote.a
+  //WE RAN OUT OF API REQUESTS USE THE RET QUOTE
+  if(author == "zenquotes.io") {
+    quote = "Teenagers these days waste their time trying to live their life according to how their friends will like it and not how they want to live it. Living it according to your friends won't make you money in the future. Live according to your own values."
+    author = "Divyansh Gupta"
+  }
   res.render('index', {
     recent:newTodo,
     overdue:overdue,
@@ -216,4 +221,5 @@ router.get('/logout', function(req, res, next) {
   req.session.user = null;
   res.redirect('/home')
 })
+
 module.exports = router;

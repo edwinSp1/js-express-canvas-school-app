@@ -250,11 +250,17 @@ async function getLogins (username) {
 }
 router.get('/canvas/getRecent', async function(req, res, next) {
   var recent = await getMessages(req.session.user)
-  recent = recent.map((msg) => {
-    msg.date = dates.processDate(msg.date)
-    return msg
-  })
-  res.json(recent)
+  try {
+    recent = recent.map((msg) => {
+      msg.date = dates.processDate(msg.date)
+      return msg
+    })
+
+    res.json(recent)
+  } catch(e) {
+    console.log(e)
+    res.json([])
+  }
 })
 router.get('/canvas/getUserInfo', async function(req, res, next){
   var data = await getCanvasData(req.session.user)
