@@ -1,0 +1,9 @@
+extends layout 
+
+block content 
+
+    ul(class='navbar')
+        li 
+            a(href='/') Home 
+    each val in tutorials 
+        a(href='/tutorials/' + val._id)=val.title

@@ -1,0 +1,21 @@
+extends layout 
+
+block content
+    script(type="text/javascript" src="https://d3eoax9i5htok0.cloudfront.net/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")   
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js" integrity="sha512-SYfDUYPg5xspsG6OOpXU366G8SZsdHOhqk/icdrYJ2E/WKZxPxze7d2HD3AyXpT7U22PZ5y74xRpqZ6A2bJ+kQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
+    label(for='title') Title
+    input(id='title' name='title')
+    div(class='main-container')
+        div(id='markdown-area')
+            h1 Markdown
+            textarea(id="markdown" style='width: 500px; height: 500px;')
+        div(id='html-area')
+            h1 Result
+            div(id='result')
+    button(id='post') Post
+    script(src='/javascripts/tutorial.js')
+
+    

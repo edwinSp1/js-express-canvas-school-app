@@ -510,3 +510,7 @@ dialog button {
   color:white !important
 }
 
+pre {
+  background-color: black;
+}
+
