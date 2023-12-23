@@ -1,5 +1,6 @@
 
 var md;
+
 window.onload = function() {
     md = markdownit({
         // Enable HTML tags in source
@@ -46,7 +47,7 @@ window.onload = function() {
       .use(markdownitContainer, 'warning')
 }
 
-$("#markdown").on("keyup", function(evt) {
+$("#markdown").on("keyup", function(e) {
     var markdown = $(this).val();
     renderMarkdown(markdown);
 });
