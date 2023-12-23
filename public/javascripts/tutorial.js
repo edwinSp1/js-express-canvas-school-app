@@ -1,12 +1,14 @@
 var md;
+
 window.onload = function() {
     md = window.markdownit()
 }
 
-$("#markdown").on("keyup", function() {
+$("#markdown").on("keyup", function(e) {
     var markdown = $(this).val();
     renderMarkdown(markdown);
 });
+
 function renderMarkdown(markdown) {
     var html = md.render(markdown);
 
