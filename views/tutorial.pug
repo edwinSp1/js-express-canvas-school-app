@@ -1,0 +1,8 @@
+extends layout 
+
+block content 
+    h1=tutorial.title
+    div=tutorial.html
+    h1 Markdown
+    pre(style='color:white')=tutorial.markdown
+    script document.querySelector("div").innerHTML = document.querySelector("div").innerText;

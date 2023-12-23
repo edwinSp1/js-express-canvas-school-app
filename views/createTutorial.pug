@@ -1,6 +1,17 @@
 extends layout 
 
 block content
+    
+    script(src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-sup@2.0.0/dist/markdown-it-sup.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-container@2.0.0/dist/markdown-it-container.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-abbr@2.0.0/dist/markdown-it-abbr.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-emoji@2.0.0/dist/markdown-it-emoji.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-deflist@2.0.0/dist/markdown-it-deflist.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-footnote@2.0.0/dist/markdown-it-footnote.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-ins@2.0.0/dist/markdown-it-ins.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-mark@2.0.0/dist/markdown-it-mark.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/markdown-it-sub@2.0.0/dist/markdown-it-sub.min.js")
     script(type="text/javascript" src="https://d3eoax9i5htok0.cloudfront.net/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")   
 
     script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
@@ -11,7 +22,7 @@ block content
     div(class='main-container')
         div(id='markdown-area')
             h1 Markdown
-            textarea(id="markdown" style='width: 500px; height: 500px;')
+            textarea(id="markdown" style='width: 500px;')
         div(id='html-area')
             h1 Result
             div(id='result')

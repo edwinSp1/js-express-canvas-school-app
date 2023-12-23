@@ -5,5 +5,11 @@ block content
     ul(class='navbar')
         li 
             a(href='/') Home 
+        li 
+            a(href='tutorials/create') Create Tutorial
     each val in tutorials 
-        a(href='/tutorials/' + val._id)=val.title
+        div(class='tutorial')
+            h1 
+                a(href='/tutorials/' + val._id class='no-deco-link')=val.title
+            p=val.user
+            p=val.date
