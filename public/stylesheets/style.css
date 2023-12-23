@@ -1,44 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&family=Space+Mono:ital@0;1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Phudu:wght@300&family=Space+Mono:ital@0;1&display=swap");
 * {
   box-sizing: border-box;
 }
 html {
   font-family: "Inclusive Sans", cursive;
-  color:white;
+  color: white;
   background-color: #002;
 }
-.dropdown:hover .dropdown-content {display: block;}
+
+body {
+  margin: 0;
+  padding: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 .dropdown-content {
   display: none;
   position: absolute;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   background-color: darkblue;
 }
 
 .menu-button {
-  font-size:50px;
+  font-size: 50px;
   margin: 10px;
 }
 #menu-container {
-  position:absolute;
-  top:0px;
-  right:0px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 #add-task {
-  position:absolute; 
-  top:0px; 
-  right:0px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
   border: 1px solid white;
-  padding:10px;
-  text-decoration:none;
+  padding: 10px;
+  text-decoration: none;
   font-size: 30px;
 }
 
 a {
-  color:lightblue !important;
+  color: lightblue !important;
 }
 p {
   white-space: pre-wrap;
@@ -48,17 +56,28 @@ p {
     border: 1px solid red;
   }
   to {
-    border: none;
+    border: 1px solid white;
   }
 }
 input {
   background: transparent;
-  color:white;
+  color: white;
   padding: 10px;
-  font-size:30px;
-  display:block;
-  animation: fadein 1s linear;
+  font-size: 30px;
+  border-radius: 5px;
+  display: block;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
   animation: changeBorder 1s linear;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+
 }
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
@@ -68,15 +87,28 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 button {
   font-family: "Inclusive Sans", cursive;
-  background: transparent;
-  color:white;
-  padding: 10px;
-  font-size:30px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 10px 20px;
+  font-size: 25px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  margin-top: 10px;
+}
+button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.74);
 }
 #quote-container span {
   font-family: "Space Mono" !important;
 }
-#quote-text{
+#quote-text {
   font-size: 20px;
   color: #ddf;
 }
@@ -85,23 +117,23 @@ button {
   color: yellow;
 }
 .main-container {
-  width:100vw;
-  display:flex;
+  width: 98vw;
+  display: flex;
   flex-direction: row;
 }
 @keyframes fadein {
   from {
     opacity: 0;
-  } 
+  }
   to {
     opacity: 1;
   }
 }
-.main-container > div{
+.main-container > div {
   animation: fadein 1s linear;
   margin: 50px;
 }
-.task {  
+.task {
   animation: fadein 1s linear;
 }
 main > div {
@@ -110,9 +142,9 @@ main > div {
 #overdue-container > h1 {
   color: red;
 }
-@media (max-width:1100px) {
+@media (max-width: 1100px) {
   .main-container h1 {
-    font-size:35px;
+    font-size: 35px;
   }
   main {
     display: block !important;
@@ -121,40 +153,39 @@ main > div {
     display: block !important;
   }
   .canvas-index-container {
-    display: block !important
+    display: block !important;
   }
   .canvas-index-container > div {
     width: 100vw !important;
     margin: 20px;
   }
   .main-container {
-    display: block !important
+    display: block !important;
   }
   .main-container > div {
-
     border: 2px solid blue;
   }
 }
-@media (max-width:800px) {
+@media (max-width: 800px) {
   .main-container h1 {
-    font-size:25px;
+    font-size: 25px;
   }
   .navbar li {
     float: none !important;
   }
   #utils a {
-    font-size:30px;
+    font-size: 30px;
   }
 }
 .assignment-header {
-  color:lightblue;
-  font-size:75px;
+  color: lightblue;
+  font-size: 75px;
 }
 .other {
-  opacity:0.5;
+  opacity: 0.5;
 }
 .delete {
-  color:red !important;
+  color: red !important;
   text-decoration: none;
 }
 label,
@@ -164,15 +195,15 @@ textarea {
 }
 
 textarea {
-  background-color:black;
-  color:white;
+  background-color: black;
+  color: white;
   padding: 10px;
   max-width: 100%;
   line-height: 1.5;
   border-radius: 5px;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px #999;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 
 label {
@@ -180,70 +211,67 @@ label {
   margin-bottom: 10px;
 }
 
-.draggable{
-  position:absolute;
+.draggable {
+  position: absolute;
 }
 .draggable textarea {
-  display:block
+  display: block;
 }
 .draggable h1 {
-  display:inline;
+  display: inline;
 }
 .FA-icon {
-  border:none;
-  font-size:30px;
-  padding:10px;
-  background-color:transparent;
+  border: none;
+  font-size: 30px;
+  padding: 10px;
+  background-color: transparent;
 }
 .title {
-  font-size:30px;
+  font-size: 30px;
 }
 
 main {
-  border:none;
-  display:grid;
+  border: none;
+  display: grid;
   grid-template-areas:
     "header search-bar search-bar"
     "doc-title filters filters";
 }
- 
+
 @media screen and (max-width: 1400px) {
-  
   main p {
-    font-size:20px !important;
+    font-size: 20px !important;
   }
   .navbar li a {
-    font-size:20px !important;
+    font-size: 20px !important;
   }
   main h1 {
-    font-size:30px !important;
+    font-size: 30px !important;
   }
   .doc h1 {
-    font-size:30px !important;
+    font-size: 30px !important;
   }
   #search-bar input {
-    width:200px;
+    width: 200px;
   }
   #new-doc {
-    font-size: 20px; 
+    font-size: 20px;
   }
 }
 main > div {
-  
   overflow: hidden; /* this needs to be set so that width respects fit-content */
-
 }
 #doc-container {
-  display:block;
+  display: block;
 }
 #header {
-  grid-area:header;
+  grid-area: header;
 }
 #search-bar {
-  grid-area:search-bar;
+  grid-area: search-bar;
 }
 .grid-center {
-  border:none;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -251,27 +279,28 @@ main > div {
   font-size: 3em;
 }
 #filters {
-  padding:30px;
-  overflow:hidden !important;
-  display:block;
-  grid-area:filters;
+  padding: 30px;
+  overflow: hidden !important;
+  display: block;
+  grid-area: filters;
 }
 .doc-name {
-  color:white !important;
-  text-decoration:none;
-  
+  color: white !important;
+  text-decoration: none;
+
   line-height: 1.6;
 }
-.filter input, .filter label{
-  font-size:30px;
+.filter input,
+.filter label {
+  font-size: 30px;
 }
 .top-right {
-  position:absolute;
-  top:0px;
-  right:0px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 .category {
-  color:red;
+  color: red;
 }
 
 .navbar {
@@ -292,7 +321,7 @@ main > div {
   color: white;
   text-align: center;
   padding: 14px 16px;
-  font-size:25px;
+  font-size: 25px;
   text-decoration: none;
 }
 
@@ -302,19 +331,19 @@ main > div {
 .add-new {
   background-color: lightgreen;
   border-radius: 10px;
-  color:black !important;
+  color: black !important;
 }
 select option {
   margin: 40px;
   background: rgba(0, 0, 0, 0.3);
   color: white;
-  background-color:black;
+  background-color: black;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 select {
-  background:transparent;
-  font-size:30px;
-  color:white;
+  background: transparent;
+  font-size: 30px;
+  color: white;
 }
 .autocomplete-items {
   position: absolute;
@@ -331,8 +360,8 @@ select {
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;
-  background-color: black; 
-  border-bottom: 1px solid #d4d4d4; 
+  background-color: black;
+  border-bottom: 1px solid #d4d4d4;
 }
 .autocomplete {
   position: relative;
@@ -340,51 +369,51 @@ select {
 }
 /*when hovering an item:*/
 .autocomplete-items div:hover {
-  background-color: blue; 
+  background-color: blue;
 }
 
 /*when navigating through the items using the arrow keys:*/
 .autocomplete-active {
-  background-color: DodgerBlue !important; 
-  color: #ffffff; 
+  background-color: DodgerBlue !important;
+  color: #ffffff;
 }
 
 .college-main {
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
 }
 .college-main > div {
-  padding:20px;
+  padding: 20px;
 }
 .college-link {
   text-decoration: none;
-  font-size:36px;
-  display:block;
-  padding:10px;
+  font-size: 36px;
+  display: block;
+  padding: 10px;
 }
 .wellness-link {
   text-decoration: none;
-  font-size:24px;
-  display:block;
-  padding:5px;
+  font-size: 24px;
+  display: block;
+  padding: 5px;
 }
 .cheer-up {
   text-decoration: none;
-  font-size:16px;
-  display:block;
-  padding:10px;
-  text-align:center;
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  text-align: center;
   padding: 10px;
 }
 #message-container {
-  width:70vw;
+  width: 70vw;
   height: 100vh;
-  overflow:scroll;
+  overflow: scroll;
 }
 #profile {
-  width:30vw;
+  width: 30vw;
   height: 100vh;
-  overflow:scroll;
+  overflow: scroll;
 }
 ::-webkit-scrollbar {
   width: 10px;
@@ -392,24 +421,23 @@ select {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #002; 
+  background: #002;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: white; 
+  background: white;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: lightblue; 
+  background: lightblue;
 }
 .canvas-index-container {
   display: flex;
 }
 .event-login {
   color: lightgreen;
-
 }
 @keyframes slidein {
   from {
@@ -422,32 +450,32 @@ select {
 }
 .forum-post {
   animation: slidein 1s ease-in;
-  display:grid;
+  display: grid;
   border-radius: 10px;
   border: 2px solid white;
-  overflow:hidden;
-  grid-template-areas: "user title title"
-                       "user content content"
-                       "post-likes content content";
+  overflow: hidden;
+  grid-template-areas:
+    "user title title"
+    "user content content"
+    "post-likes content content";
   grid-template-columns: 1fr 1fr 1fr;
-  
 }
 .post-title {
-  grid-area: title
+  grid-area: title;
 }
 .post-content {
-  grid-area: content
+  grid-area: content;
 }
 .post-likes {
   grid-area: post-likes;
 }
 .post-user {
-  grid-area:user;
-  
+  grid-area: user;
 }
-@media screen and (max-width:1100px) {
-  .post-title, .post-user {
-    font-size:1em !important
+@media screen and (max-width: 1100px) {
+  .post-title,
+  .post-user {
+    font-size: 1em !important;
   }
 }
 .big-forum-post {
@@ -465,23 +493,22 @@ select {
   animation: fadein 1s linear;
 }
 dialog button {
-  color:black;
+  color: black;
 }
 .main-container div > h1 {
   /*text-align: center;*/
 }
 .big-link-icon {
-  width:30rem;
+  width: 30rem;
   height: 30rem;
   border-radius: 10px;
 }
 .location {
-  font-size:30px;
+  font-size: 30px;
   color: lightblue;
-
 }
 #msg-container {
-  background-color:lightblue;
+  background-color: lightblue;
   border-radius: 10px;
 }
 #msg-container p {
@@ -491,12 +518,12 @@ dialog button {
   border-radius: 10px;
 }
 #msg-container p::before {
-  content: '❌'
+  content: "❌";
 }
 #gmp-map {
   height: 100vh;
   width: 100vw;
-  color:black !important
+  color: black !important;
 }
 .stop {
   border: 1px solid blue;
@@ -507,10 +534,24 @@ dialog button {
 .bg-red {
   background-color: #ff8080 !important;
   font-weight: bold !important;
-  color:white !important
+  color: white !important;
 }
 
 pre {
-  background-color: black;
+  background-color: #2b2b2b;
+  padding: 10px;
+  border-radius: 10px;
 }
 
+.creation-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.creation-container #result {
+  overflow: auto;
+}
+
+.create-parent {
+  padding: 25px;
+}
