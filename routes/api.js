@@ -6,9 +6,9 @@ const db = require('../modules/db')
 const canvas = require('../modules/canvas')
 /* GET users listing. */
 async function auth (req, res, next) {
+  if(req.session.loggedin) return next();
   const username = req.query.username;
   const password = req.query.password;
-  console.log(username, password)
   var isCorrentCreds = await db.comparePasswords(password, username)
   if(!isCorrentCreds) return res.send("unauthorized");
   req.session.user = username;

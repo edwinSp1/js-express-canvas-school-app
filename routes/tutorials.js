@@ -25,17 +25,20 @@ router.post('/create', async function(req, res, next) {
     var markdown = data.markdown;
     var html = data.html;
     var title = data.title
+    var categories = data.categories.split(",")
     var user = req.session.user;
     await db.insert('users', 'tutorials', {
         markdown: markdown,
         html: html,
         title: title,
+        categories: categories,
         user:user
     })
     res.send('ok')
 })
 router.get('/:id', async function(req, res, next) {
     var tutorial = await db.getDoc('users', 'tutorials', {_id: new ObjectId(req.params.id)})
+    console.log(tutorial)
     res.render("tutorial", {tutorial: tutorial})
 })
 

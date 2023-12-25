@@ -301,6 +301,11 @@ main > div {
 }
 .category {
   color: red;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  display:inline;
+  margin: 5px;
 }
 
 .navbar {

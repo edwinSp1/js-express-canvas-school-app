@@ -67,7 +67,10 @@ $('#post').click(function() {
     var html = $("#result").html();
     var markdown = $("#markdown").val();
     var title = $("#title").val();
-    $.post("/tutorials/create", {markdown: markdown, html: html, title: title})
+    //comma seperated list
+    var categories = $("#categories").val()
+
+    $.post("/tutorials/create", {markdown: markdown, html: html, title: title, categories: categories})
     .done(function(data) {
         window.location = "/tutorials"
     })
