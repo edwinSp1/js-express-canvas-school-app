@@ -5,6 +5,14 @@ const db = require('../modules/db')
 const canvas = require('../modules/canvas')
 const ObjectId = require("mongodb").ObjectId
 
+function auth (req, res, next) {
+    if(!req.session.loggedin) {
+        res.redirect('/login')
+        return 
+    }
+    next()
+}
+router.use(auth)
 router.get('/', async function(req, res, next) {
     var tutorials = await db.getDocs('users', 'tutorials', {})
     tutorials = tutorials.map((tutorial) => {

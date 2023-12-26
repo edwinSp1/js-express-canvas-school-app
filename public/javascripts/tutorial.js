@@ -11,7 +11,7 @@ window.onload = function() {
         xhtmlOut:     true,
       
         // Convert '\n' in paragraphs into <br>
-        breaks:       false,
+        breaks:       true,
       
         // CSS language prefix for fenced blocks. Can be
         // useful for external highlighters.
@@ -64,8 +64,9 @@ function renderMarkdown(markdown) {
 }
 
 $('#post').click(function() {
-    var html = $("#result").html();
+    var html = $("#result").html() //.replace("\n", "<br>");
     var markdown = $("#markdown").val();
+    console.log(html)
     var title = $("#title").val();
     //comma seperated list
     var categories = $("#categories").val()
