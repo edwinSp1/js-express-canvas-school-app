@@ -3,7 +3,7 @@
 * {
   box-sizing: border-box;
 }
-html {
+body {
   font-family: "Inclusive Sans", cursive;
   color: white;
   background-color: #002;
@@ -301,6 +301,11 @@ main > div {
 }
 .category {
   color: red;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  display:inline;
+  margin: 5px;
 }
 
 .navbar {
@@ -493,10 +498,7 @@ select {
   animation: fadein 1s linear;
 }
 dialog button {
-  color: black;
-}
-.main-container div > h1 {
-  /*text-align: center;*/
+  color:black;
 }
 .big-link-icon {
   width: 30rem;
@@ -534,7 +536,24 @@ dialog button {
 .bg-red {
   background-color: #ff8080 !important;
   font-weight: bold !important;
-  color: white !important;
+  color:white !important
+}
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: scroll;
+}
+code {
+  
+  word-wrap: break-word !important; 
 }
 
 pre {
@@ -551,7 +570,27 @@ pre {
 .creation-container #result {
   overflow: auto;
 }
-
+.warning {
+  background-color: #ff8080;
+  color: white;
+}
+#result {
+  height: 80vh;
+  overflow: scroll
+}
+#markdown {
+  height: 80vh;
+}
+.tutorial {
+  border-radius: 10px;
+  border: 1px solid white;
+  padding: 10px;
+  margin: 10px;
+  background-color: #333;
+}
+.no-deco-link {
+  text-decoration: none;
+}
 .create-parent {
   padding: 25px;
 }

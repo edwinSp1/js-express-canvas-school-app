@@ -5,12 +5,14 @@ var ObjectId = require('mongodb').ObjectId;
 const db = require('../modules/db')
 const canvas = require('../modules/canvas')
 /* GET users listing. */
-function auth (req, res, next) {
-  if(!req.session.loggedin) {
-      res.redirect('/login')
-      return 
-  }
-  next()
+async function auth (req, res, next) {
+  if(req.session.loggedin) return next();
+  const username = req.query.username;
+  const password = req.query.password;
+  var isCorrentCreds = await db.comparePasswords(password, username)
+  if(!isCorrentCreds) return res.send("unauthorized");
+  req.session.user = username;
+  next();
 }
 router.use(auth)
 const trimetApiKey = '22B3586E4A6A299799C354A58'

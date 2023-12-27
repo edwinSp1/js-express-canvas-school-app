@@ -119,7 +119,7 @@ async function check() {
 
     $container.html('Searching...')
     await $.get(`/api/forumPosts/${pageNum}/?query=${query}`, async function(data, status) {
-        
+        console.log(data)
         $container.html('')
         if(data.length == 0) $container.html('no results found.')
         else displayPosts(data)
