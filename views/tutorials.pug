@@ -7,6 +7,8 @@ block content
             a(href='/') Home 
         li 
             a(href='tutorials/create') Create Tutorial
+    if !loggedin
+        p You are not logged in. Create an account to access the full features of mercury!
     input(id='search-bar')
     each val in tutorials 
         div(class='tutorial')

@@ -12,7 +12,7 @@ function auth (req, res, next) {
     }
     next()
 }
-router.use(auth)
+// THESE DONT REQUIRE AUTH
 router.get('/', async function(req, res, next) {
     var tutorials = await db.getDocs('users', 'tutorials', {})
     tutorials = tutorials.map((tutorial) => {
@@ -20,10 +20,16 @@ router.get('/', async function(req, res, next) {
         tutorial.title = tutorial.title ? tutorial.title : 'Untitled'
         return tutorial;
     })
-    res.render("tutorials", {tutorials: tutorials})
+    res.render("tutorials", {tutorials: tutorials, loggedin: req.session.loggedin})
+})
+router.get('/:id', async function(req, res, next) {
+    var tutorial = await db.getDoc('users', 'tutorials', {_id: new ObjectId(req.params.id)})
+    console.log(tutorial)
+    res.render("tutorial", {tutorial: tutorial, loggedin: req.session.loggedin})
 })
 
-
+router.use(auth)
+// THESE DO REQUIRE AUTH
 router.get('/create', async function(req, res, next) {
     res.render("createTutorial")
 })
@@ -43,11 +49,6 @@ router.post('/create', async function(req, res, next) {
         user:user
     })
     res.send('ok')
-})
-router.get('/:id', async function(req, res, next) {
-    var tutorial = await db.getDoc('users', 'tutorials', {_id: new ObjectId(req.params.id)})
-    console.log(tutorial)
-    res.render("tutorial", {tutorial: tutorial})
 })
 
 module.exports = router;

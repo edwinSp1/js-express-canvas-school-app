@@ -1,6 +1,8 @@
 extends layout 
 
 block content 
+    if !loggedin
+        p You are not logged in. Create an account to access the full features of mercury!
     h1=tutorial.title 
     div(style='color:white')!=tutorial.html
     h1 Markdown
