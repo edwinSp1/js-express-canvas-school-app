@@ -14,22 +14,34 @@ function auth (req, res, next) {
 }
 // THESE DONT REQUIRE AUTH
 router.get('/', async function(req, res, next) {
-    var tutorials = await db.getDocs('users', 'tutorials', {})
-    tutorials = tutorials.map((tutorial) => {
-        tutorial.date = dates.formatDate(tutorial._id.getTimestamp())
-        tutorial.title = tutorial.title ? tutorial.title : 'Untitled'
-        return tutorial;
-    })
+    pageNum = req.query.page ?? 1
+    query = req.query.query ?? ''
+    var regex = '.*'+ query+'.*'
+    var regexQuery = {
+        $regex: regex,
+        $options: 'i'
+    }
+    var finalQuery = {
+        title: regexQuery
+    }
+    //console.log(finalQuery, pageNum)
+    var tutorials = await db.newGetPageData('users', 'tutorials', finalQuery, pageNum, 10)
+
+    try {
+        tutorials = tutorials.res
+        tutorials = tutorials.map((tutorial) => {
+            tutorial.date = dates.formatDate(tutorial._id.getTimestamp())
+            tutorial.title = tutorial.title ? tutorial.title : 'Untitled'
+            return tutorial;
+        })
+    } catch(e) {
+        res.send('Wrong Page / Invalid Query')
+        return
+    }
     res.render("tutorials", {tutorials: tutorials, loggedin: req.session.loggedin})
 })
-router.get('/:id', async function(req, res, next) {
-    var tutorial = await db.getDoc('users', 'tutorials', {_id: new ObjectId(req.params.id)})
-    console.log(tutorial)
-    res.render("tutorial", {tutorial: tutorial, loggedin: req.session.loggedin})
-})
 
-router.use(auth)
-// THESE DO REQUIRE AUTH
+
 router.get('/create', async function(req, res, next) {
     res.render("createTutorial")
 })
@@ -49,6 +61,15 @@ router.post('/create', async function(req, res, next) {
         user:user
     })
     res.send('ok')
+})
+router.get('/:id', async function(req, res, next) {
+    try {
+        var tutorial = await db.getDoc('users', 'tutorials', {_id: new ObjectId(req.params.id)})
+        console.log(tutorial)
+        res.render("tutorial", {tutorial: tutorial, loggedin: req.session.loggedin})
+    } catch(e) {
+        res.render('404')
+    }
 })
 
 module.exports = router;

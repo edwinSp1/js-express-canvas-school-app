@@ -45,6 +45,7 @@ window.onload = function() {
       .use(markdownitEmoji)
       .use(markdownitAbbr)
       .use(markdownitContainer, 'warning')
+      .use(markdownitMathjax)
 }
 
 $("#markdown").on("keyup", function(e) {

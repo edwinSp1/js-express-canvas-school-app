@@ -9,7 +9,9 @@ block content
             a(href='tutorials/create') Create Tutorial
     if !loggedin
         p You are not logged in. Create an account to access the full features of mercury!
-    input(id='search-bar')
+    i(class='fa-solid fa-x' style='font-size:35px' id='clear-search')
+    input(id='search-bar' style='display:inline')
+    i(class='fa-solid fa-search' style='font-size:35px' id='search')
     each val in tutorials 
         div(class='tutorial')
             
@@ -20,3 +22,6 @@ block content
                     div(class='category')=category
             p=val.user
             p=val.date
+    button(id='back') Prev
+    button(id='next') Next
+    script(src='/javascripts/tutorialsHome.js')
