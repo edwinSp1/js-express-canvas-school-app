@@ -1,0 +1,93 @@
+style.
+  @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Inclusive+Sans&family=Montserrat:wght@100&family=Open+Sans:wght@300&family=Phudu:wght@300&family=Space+Mono:ital@0;1&display=swap');
+  html {
+  font-family: 'Caveat', cursive;
+  font-family: 'Inclusive Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Phudu', sans-serif;
+  font-family: 'Space Mono', monospace;
+  background-color: black;
+  color: white;
+  }
+  input {
+  display: block;
+  border-radius: 10px;
+  }
+  button {
+  background: transparent;
+  color:white;
+  padding: 5px;
+  margin: 10px;
+  margin-left: 0px;
+  font-size:30px;
+  font-family: 'Caveat', cursive;
+  font-family: 'Inclusive Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Phudu', sans-serif;
+  font-family: 'Space Mono', monospace;
+  }
+  #result, #calculation-area {
+  border: 2px ridge white;
+  padding:10px;
+  margin:10px;
+  }
+  img {
+  display: block;
+  }
+  label {
+  display: inline-block;
+  }
+#calculation-area
+  h1 Grade Calculator
+  img(src='https://th.bing.com/th/id/OIP.0fS6KdzlCHWkcmw6eSef2AHaDt?w=342&h=174&c=7&r=0&o=5&pid=1.7', alt='image of grades')
+  label(for='formative') Formative
+  input#formative(type='text', name='formative')
+  label(for='formative-uncertainty') Formative Uncertainty
+  input#formative-uncertainty(type='text', name='formative-uncertainty')
+  label(for='summative-list') List of Summative Grades(enter as fractions, seperate by commas)
+  input#summative-list(type='text', name='summative-list')
+  button#calculate Calculate
+#result
+  | Grades Appear Here
+script.
+  function getAvg(arr) {
+    sum = 0
+    for(var x of arr) {
+    sum += x
+    }
+    return sum / arr.length
+  }
+  var submitButton = document.getElementById("calculate")
+  submitButton.addEventListener('click', function() {
+    var formativeGrade = parseFloat(document.getElementById("formative").value)
+    var uncertainty = parseFloat(document.getElementById("formative-uncertainty").value)
+    var summativeList = document.getElementById("summative-list").value
+    var summativeNumerator = 0
+    var summativeDenominator = 0
+    summativeList = summativeList.split(",").map(fraction => {
+        let numerator = parseFloat(fraction.split("/")[0]);
+        let denominator = parseFloat(fraction.split("/")[1]);
+        summativeNumerator += numerator
+        summativeDenominator += denominator
+        return fraction
+    })
+    let summativeGrade = (summativeNumerator/summativeDenominator) * 100
+    console.log(summativeGrade)
+    let formativeGradeLow = formativeGrade - uncertainty
+    let formativeGradeHigh = formativeGrade + uncertainty
+    let lowGrade = summativeGrade * 0.80 + formativeGradeLow * 0.2
+    let highGrade = summativeGrade * 0.80 + formativeGradeHigh * 0.2
+    document.getElementById("result").innerHTML = `
+        Low: ${lowGrade.toFixed(3)} <br>
+        High: ${highGrade.toFixed(3)}
+    `
+  })
+
+  // authentication
+  document.body.style.display = 'none'
+
+  var password = prompt("Enter Password")
+  if(password == "csharp") document.body.style.display = 'block'
+  else alert("Wrong Password")

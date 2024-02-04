@@ -16,6 +16,7 @@ var canvasRouter = require('./routes/canvas')
 var forumsRouter = require('./routes/forums')
 var infoRouter = require('./routes/info')
 var tutorialsRouter = require('./routes/tutorials')
+var secretsRouter = require("./routes/secrets")
 var app = express();
 // view engine setup
 app.set('trust proxy', 1);
@@ -48,6 +49,7 @@ app.use('/canvas', canvasRouter)
 app.use('/forums', forumsRouter)
 app.use('/info', infoRouter)
 app.use('/tutorials', tutorialsRouter)
+app.use('/secrets', secretsRouter)
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
