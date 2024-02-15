@@ -45,9 +45,19 @@ style.
   label(for='formative') Formative
   input#formative(type='text', name='formative')
   label(for='formative-uncertainty') Formative Uncertainty
-  input#formative-uncertainty(type='text', name='formative-uncertainty')
+  br
+  select#formative-uncertainty(name='formative-uncertainty')
+    option(value='none') none
+    option(value='low' selected) low (+- 5%)
+    option(value='medium') medium (+- 10%)
+    option(value='high') high (+- 15%)
+  br
   label(for='summative-list') List of Summative Grades(enter as fractions, seperate by commas)
-  input#summative-list(type='text', name='summative-list')
+  input#summative-list(type='text', name='summative-list') 
+  label(for='summative-weight') Summative Weight
+  input#summative-weight(type='text' name='summative-weight' value='80')
+  label(for='formative-weight') Formative Weight
+  input#formative-weight(type='text' name='formative-weight' value='20')
   button#calculate Calculate
 #result
   | Grades Appear Here
@@ -62,10 +72,24 @@ script.
   var submitButton = document.getElementById("calculate")
   submitButton.addEventListener('click', function() {
     var formativeGrade = parseFloat(document.getElementById("formative").value)
-    var uncertainty = parseFloat(document.getElementById("formative-uncertainty").value)
+    var uncertaintyVal = document.getElementById("formative-uncertainty").value
+    var uncertainty = 0
+    switch(uncertaintyVal) {
+      case 'none':
+        uncertainty = 0
+        break 
+      case 'low':
+        uncertainty = 5
+      case 'medium':
+        uncertainty = 10
+      case 'high':
+        uncertainty = 15
+    }
+    console.log(uncertainty)
     var summativeList = document.getElementById("summative-list").value
     var summativeNumerator = 0
     var summativeDenominator = 0
+
     summativeList = summativeList.split(",").map(fraction => {
         let numerator = parseFloat(fraction.split("/")[0]);
         let denominator = parseFloat(fraction.split("/")[1]);
@@ -74,20 +98,29 @@ script.
         return fraction
     })
     let summativeGrade = (summativeNumerator/summativeDenominator) * 100
-    console.log(summativeGrade)
+
     let formativeGradeLow = formativeGrade - uncertainty
     let formativeGradeHigh = formativeGrade + uncertainty
-    let lowGrade = summativeGrade * 0.80 + formativeGradeLow * 0.2
-    let highGrade = summativeGrade * 0.80 + formativeGradeHigh * 0.2
+
+    let formativeWeight = parseFloat(document.getElementById('formative-weight').value) / 100
+    let summativeWeight = parseFloat(document.getElementById('summative-weight').value) / 100
+
+    let lowGrade = summativeGrade * summativeWeight + formativeGradeLow * formativeWeight
+    let highGrade = summativeGrade * summativeWeight + formativeGradeHigh * formativeWeight
+    console.log (lowGrade, highGrade)
+    lowGrade = lowGrade.toFixed(3)
+    highGrade = highGrade.toFixed(3)
     document.getElementById("result").innerHTML = `
-        Low: ${lowGrade.toFixed(3)} <br>
-        High: ${highGrade.toFixed(3)}
+        Low: ${lowGrade} <br>
+        High: ${highGrade} <br>
+        (${lowGrade} <= grade <= ${highGrade})
     `
   })
-
+  /*
   // authentication
   document.body.style.display = 'none'
 
   var password = prompt("Enter Password")
   if(password == "csharp") document.body.style.display = 'block'
   else alert("Wrong Password")
+  */
