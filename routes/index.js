@@ -45,6 +45,7 @@ router.get('/', async function(req, res, next) {
   var val = await getHomePageData(username)
   if(!val) return res.send('something went wrong. please try again, and if the problem persists, contact me.')
   var todo = val.todo
+  todo = todo.filter(task => !task.isDone)
   const date = Date.now()
   var overdue = [], newTodo = []
   for(var i = 0; i < todo.length; i++) {

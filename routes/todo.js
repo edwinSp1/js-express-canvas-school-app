@@ -19,13 +19,27 @@ router.get('/', function(req, res, next) {
   }
   const user = req.session.user;
   db.getSortedDB('users', 'tasks', {priority:-1, dueDate: 1}, {username:user}).then((val) => {
+    val = val.filter(task => !task.isDone)
     for(const task of val) {
      task.dueDate = dates.formatDate(task.dueDate);
     }
     res.render('todo', {tasks: val})
   })
 });
-
+router.get('/done', function(req, res, next) {
+  if(!req.session.loggedin) {
+    res.redirect('/login')
+    return
+  }
+  const user = req.session.user;
+  db.getSortedDB('users', 'tasks', {priority:-1, dueDate: 1}, {username:user}).then((val) => {
+    val = val.filter(task => task.isDone)
+    for(const task of val) {
+     task.dueDate = dates.formatDate(task.dueDate);
+    }
+    res.send(val)
+  })
+})
 router.get('/add', function(req, res, next) {
   if(!req.session.loggedin) {
     res.redirect('/login')
@@ -56,7 +70,7 @@ router.get('/remove/:id', function(req, res, next) {
     return
   }
   try {
-    db.deleteDoc('users', 'tasks', req.params.id).then((val) => 
+    db.updateDoc('users', 'tasks', {_id: new ObjectId(req.params.id)}, {isDone: true}).then((val) => 
     res.redirect('/todo'))
   } catch(e) {
     res.redirect('/todo') //avoid fatal errors keeping user stuck
